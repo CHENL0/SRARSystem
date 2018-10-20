@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class CommonsUtils {
+public class UUIDUtils {
 
 	/**
 	 * @Author Chen
@@ -14,7 +14,7 @@ public class CommonsUtils {
 	 * @Param []
 	 * @return java.lang.String
 	 **/
-	public  String getUUID(){
+	public static String getUUID(){
 		return UUID.randomUUID().toString();
 	}
 	

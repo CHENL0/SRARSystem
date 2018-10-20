@@ -16,6 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     public Object register(String userName,String userPassword){
 
-        return ;
+        return null;
     }
 }

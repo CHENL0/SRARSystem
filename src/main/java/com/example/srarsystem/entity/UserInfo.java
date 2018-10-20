@@ -16,4 +16,11 @@ public class UserInfo {
     private String userPhone;
     private int pjStatus;
     private String pjId;
+
+    public UserInfo(String userId, String userName, String userPassword, String userPhone) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userPhone = userPhone;
+    }
 }

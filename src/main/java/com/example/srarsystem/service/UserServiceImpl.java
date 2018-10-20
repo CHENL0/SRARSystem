@@ -1,8 +1,10 @@
 package com.example.srarsystem.service;
 
-import com.example.srarsystem.commons.CommonsUtils;
+import com.example.srarsystem.commons.UUIDUtils;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.repository.UserRepository;
+import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,21 +15,42 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private  UserRepository userRepository;
-    private CommonsUtils commonsUtils;
+    private  final UserRepository userRepository;
+    private final UUIDUtils UUIDUtils;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, UUIDUtils UUIDUtils) {
+        this.userRepository = userRepository;
+        this.UUIDUtils = UUIDUtils;
+    }
+
+
     @Override
-    public boolean register(String userName, String userPassword) {
-        UserInfo userInfo=new UserInfo();
-        userInfo.setUserName(userName);
-        userInfo.setUserPassword(userPassword);
-        userInfo.setPjId(commonsUtils.getUUID());
-        userRepository.save(userInfo);
-        return true;
+    public boolean userLogin(String userName, String userPassword) {
+        UserInfo userInfo=userRepository.findByUserNameAndUserPassword(userName,userPassword);
+        if(!userInfo.equals("") && userInfo != null){
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public boolean login(String userName, String userPassword) {
+    public String getUserIdByUserName(String userName) {
+        return userRepository.getUserIdByUserName(userName);
 
+    }
+
+    @Override
+    public boolean isPhoneRegister(String registerPhone) {
+        UserInfo userInfo = userRepository.getUserInfoByUserPhone(registerPhone);
+        if(userInfo != null && !userInfo.equals("")){
+            return true;
+        }
         return false;
+    }
+
+    @Override
+    public void registerUser(UserInfo userInfo) {
+        userRepository.save(userInfo);
     }
 }
