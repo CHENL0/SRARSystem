@@ -38,6 +38,13 @@ public class LoginAndRegisterController {
         this.professorService = professorService;
     }
 
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/10/21
+     * @Param
+     * @Return
+     */
     @PostMapping(value = "/login")
     public @ResponseBody
     Object login(String loginName, String loginPassowrd, HttpServletRequest request) {
@@ -81,6 +88,13 @@ public class LoginAndRegisterController {
         return true;
     }
 
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/10/21
+     * @Param
+     * @Return
+     */
     @GetMapping("/verifyCode")
     public @ResponseBody
     Object verifyCode(String code, HttpServletRequest request,
@@ -92,6 +106,13 @@ public class LoginAndRegisterController {
         return false;
     }
 
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/10/21
+     * @Param
+     * @Return
+     */
     @GetMapping("/verifyPhone")
     public @ResponseBody
     Object verifyPhone(String registerPhone) {
@@ -101,12 +122,31 @@ public class LoginAndRegisterController {
         return false;
     }
 
-    public Object register(String registerPhone,String registerPassword) {
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/10/21
+     * @Param
+     * @Return
+     */
+    public Object register(String registerPhone, String registerPassword,
+                           String urSecurityQuestion,String urSecurityAnswer) {
         /*to get The time stamp*/
         String timestamp = DateUtils.getTimestamp();
         String userName = "USER_" + timestamp;
-        UserInfo userInfo = new UserInfo(UUIDUtils.getUUID(),userName,registerPassword,registerPhone);
+        UserInfo userInfo = new UserInfo(UUIDUtils.getUUID(), userName, registerPassword, registerPhone,
+                                         urSecurityQuestion,urSecurityAnswer);
         userService.registerUser(userInfo);
         return true;
+    }
+    @GetMapping(value = "/findUrSecurity")
+    public @ResponseBody
+    Object findUrSecurityQuestion(String userName){
+        return userService.getUrSecurityQuestionByUserName(userName);
+    }
+
+    public Object findPassword(String userName,String urSecurityAnswer,String newUserPassword){
+        userService.updateUserPassowrd(userName,urSecurityAnswer,newUserPassword);
+        return null;
     }
 }

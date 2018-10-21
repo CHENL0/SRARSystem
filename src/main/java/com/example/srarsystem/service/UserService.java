@@ -44,4 +44,8 @@ public interface UserService {
          * @Return
          */
     void registerUser(UserInfo userInfo);
+
+    UserInfo getUrSecurityQuestionByUserName(String userName);
+
+    boolean updateUserPassowrd(String userName,String urSecurityAnswer,String newUserPassword);
 }

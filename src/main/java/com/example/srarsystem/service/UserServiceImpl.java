@@ -53,4 +53,19 @@ public class UserServiceImpl implements UserService {
     public void registerUser(UserInfo userInfo) {
         userRepository.save(userInfo);
     }
+
+    @Override
+    public UserInfo getUrSecurityQuestionByUserName(String userName) {
+        return userRepository.findOneByUserName(userName);
+    }
+
+    @Override
+    public boolean updateUserPassowrd(String userName, String urSecurityAnswer, String newUserPassword) {
+        UserInfo userInfo = userRepository.findOneByUserName(userName);
+        if(userInfo.getUrSecurityAnswer().equals(urSecurityAnswer)){
+            userInfo.setUserPassword(newUserPassword);
+            userRepository.save(userInfo);
+        }
+        return true;
+    }
 }
