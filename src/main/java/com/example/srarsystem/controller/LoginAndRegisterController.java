@@ -80,8 +80,7 @@ public class LoginAndRegisterController {
      */
     @GetMapping(value = "/getCode")
     public @ResponseBody
-    Object getCode(String registerPhone, HttpServletRequest request) {
-
+    Object getCode( String registerPhone,HttpServletRequest request) {
         String rand = SendSmsUtils.createRandNum();
         SendSmsUtils.sendMsgTo(registerPhone, rand);
         request.getSession().setAttribute("code", SendSmsUtils.sigMD5(rand));
@@ -89,7 +88,7 @@ public class LoginAndRegisterController {
     }
 
     /**
-     * @Description //TODO
+     * @Description //TODO verify the phone code
      * @Author Chen
      * @DateTime 2018/10/21
      * @Param
