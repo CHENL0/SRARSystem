@@ -1,11 +1,16 @@
 package com.example.srarsystem.controller;
 
+import com.example.srarsystem.entity.UserInfo;
+import com.example.srarsystem.service.ProjectService;
+import com.example.srarsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,9 +22,20 @@ import java.io.IOException;
 @Slf4j
 @Controller
 public class ProjectController {
+
+    private final ProjectService projectService;
+    private final UserService userService;
+    @Autowired
+    public ProjectController(ProjectService projectService, UserService userService) {
+        this.projectService = projectService;
+        this.userService = userService;
+    }
+
     @PostMapping("/upload")
     @ResponseBody
-    public String upload( MultipartFile file) {
+    public String upload(MultipartFile file,String pjDescription, HttpServletRequest request) {
+        String userId = (String) request.getSession().getAttribute("userId");
+        UserInfo userInfo = userService.getUserInfoByUserId(userId);
         if (file.isEmpty()) {
             return "上传失败，请选择文件";
         }
@@ -34,6 +50,7 @@ public class ProjectController {
         File dest = new File(filePath + fileName);
         try {
             file.transferTo(dest);
+            projectService.uplodaProjectFile(filePath,fileName,userInfo.getUserName(),pjDescription);
         } catch (IOException e) {
             e.printStackTrace();
         }

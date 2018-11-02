@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private  final UserRepository userRepository;
+    private final UserRepository userRepository;
     private final UUIDUtils UUIDUtils;
 
     @Autowired
@@ -23,49 +23,97 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
         this.UUIDUtils = UUIDUtils;
     }
-
-
+    /**
+     * @Description //TODO for userLogin
+     * @Author Chen
+     * @DateTime 2018/11/2
+     * @Param
+     * @Return
+     */
     @Override
     public boolean userLogin(String userName, String userPassword) {
-        UserInfo userInfo=userRepository.findByUserNameAndUserPassword(userName,userPassword);
-        if(!userInfo.equals("") && userInfo != null){
+        UserInfo userInfo = userRepository.findByUserNameAndUserPassword(userName, userPassword);
+        if (!userInfo.equals("") && userInfo != null) {
             return true;
         }
         return false;
     }
-
+    /**
+     * @Description //TODO get UserName By UserId
+     * @Author Chen
+     * @DateTime 2018/11/2
+     * @Param
+     * @Return
+     */
     @Override
     public String getUserIdByUserName(String userName) {
         return userRepository.getUserIdByUserName(userName);
 
     }
-
+    /**
+     * @Description //TODO verify the phone is register
+     * @Author Chen
+     * @DateTime 2018/11/2
+     * @Param
+     * @Return
+     */
     @Override
     public boolean isPhoneRegister(String registerPhone) {
         UserInfo userInfo = userRepository.getUserInfoByUserPhone(registerPhone);
-        if(userInfo != null && !userInfo.equals("")){
+        if (userInfo != null && !userInfo.equals("")) {
             return true;
         }
         return false;
     }
-
+    /**
+     * @Description //TODO save the userInfo
+     * @Author Chen
+     * @DateTime 2018/11/2
+     * @Param
+     * @Return
+     */
     @Override
     public void registerUser(UserInfo userInfo) {
         userRepository.save(userInfo);
     }
 
+    /**
+     * @Description //TODO get user security question by userName
+     * @Author Chen
+     * @DateTime 2018/11/2
+     * @Param
+     * @Return
+     */
     @Override
     public UserInfo getUrSecurityQuestionByUserName(String userName) {
         return userRepository.findOneByUserName(userName);
     }
 
+    /**
+     * @Description //TODO update the user password
+     * @Author Chen
+     * @DateTime 2018/11/2
+     * @Param
+     * @Return
+     */
     @Override
     public boolean updateUserPassowrd(String userName, String urSecurityAnswer, String newUserPassword) {
         UserInfo userInfo = userRepository.findOneByUserName(userName);
-        if(userInfo.getUrSecurityAnswer().equals(urSecurityAnswer)){
+        if (userInfo.getUrSecurityAnswer().equals(urSecurityAnswer)) {
             userInfo.setUserPassword(newUserPassword);
             userRepository.save(userInfo);
         }
         return true;
+    }
+    /**
+     * @Description //TODO get userinfo by userid
+     * @Author Chen
+     * @DateTime 2018/11/2
+     * @Param
+     * @Return
+     */
+    @Override
+    public UserInfo getUserInfoByUserId(String userId) {
+        return userRepository.getUserInfoByUserId(userId);
     }
 }

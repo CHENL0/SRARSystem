@@ -48,4 +48,6 @@ public interface UserService {
     UserInfo getUrSecurityQuestionByUserName(String userName);
 
     boolean updateUserPassowrd(String userName,String urSecurityAnswer,String newUserPassword);
+
+    UserInfo getUserInfoByUserId(String userId);
 }

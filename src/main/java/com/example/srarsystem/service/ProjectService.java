@@ -1,5 +1,6 @@
 package com.example.srarsystem.service;
 
+import com.example.srarsystem.entity.ProjectInfo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,4 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProjectService {
     void  uplodaProjectFile(String FilePath,String FileName,String pjUser,String pjDescription);
+    String getPjNameByPjId(String pjId);
+    ProjectInfo getProjectInfoByPjId(String pjId);
 }

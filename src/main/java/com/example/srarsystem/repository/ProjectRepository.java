@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @description the repository of project
  */
 public interface ProjectRepository extends JpaRepository<ProjectInfo,String> {
+    ProjectInfo getProjectInfoByPjId(String pjId);
 }
