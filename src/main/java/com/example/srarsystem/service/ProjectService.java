@@ -13,4 +13,5 @@ public interface ProjectService {
     void  uplodaProjectFile(String FilePath,String FileName,String pjUser,String pjDescription);
     String getPjNameByPjId(String pjId);
     ProjectInfo getProjectInfoByPjId(String pjId);
+    void saveProject(ProjectInfo projectInfo);
 }

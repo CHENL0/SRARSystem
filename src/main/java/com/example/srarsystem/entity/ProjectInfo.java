@@ -17,7 +17,7 @@ public class ProjectInfo {
     private String pjDescription;
     private String pjCommitDate;
     /**
-     *  status have 1,2 ,3   1 is commit,2 is pass,3 is reject
+     *  status have 1,2 ,3   1 is accept,2 is pass,3 is reject
      */
     private int pjStatus;
 

@@ -37,4 +37,9 @@ public class ProjectServiceImpl implements ProjectService{
     public ProjectInfo getProjectInfoByPjId(String pjId) {
         return projectRepository.getProjectInfoByPjId(pjId);
     }
+
+    @Override
+    public void saveProject(ProjectInfo projectInfo) {
+        projectRepository.save(projectInfo);
+    }
 }

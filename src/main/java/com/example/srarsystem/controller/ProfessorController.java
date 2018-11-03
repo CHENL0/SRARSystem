@@ -22,25 +22,56 @@ public class ProfessorController {
 
     private final ProjectService projectService;
     private final UserService userService;
+
     @Autowired
     public ProfessorController(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
         this.userService = userService;
     }
 
-    public Object rejectProject(HttpServletRequest request,String pjId){
-        String userId = (String) request.getSession().getAttribute("userId");
-        UserInfo userInfo = userService.getUserInfoByUserId(userId);
+    /**
+     * @Description //TODO reject the project
+     * @Author Chen
+     * @DateTime 2018/11/3
+     * @Param
+     * @Return
+     */
+    @PostMapping(value = "/rejectProject")
+    public Object rejectProject(String pjId) {
         ProjectInfo projectInfo = projectService.getProjectInfoByPjId(pjId);
+        projectInfo.setPjStatus(3);
+        projectService.saveProject(projectInfo);
         return null;
     }
 
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/11/3
+     * @Param
+     * @Return
+     */
+    @PostMapping(value = "/acceptProject")
+    public Object acceptProject(String pjId) {
+        ProjectInfo projectInfo = projectService.getProjectInfoByPjId(pjId);
+        projectInfo.setPjStatus(2);
+        projectService.saveProject(projectInfo);
+        return null;
+    }
+
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/11/3
+     * @Param
+     * @Return
+     */
     @PostMapping("/download")
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response,String pjId) {
+    public String downloadFile(HttpServletRequest request, HttpServletResponse response, String pjId) {
         String fileName = projectService.getPjNameByPjId(pjId);// 文件名
         if (fileName != null) {
             //设置文件路径
-            File file = new File("/Users/dalaoyang/Documents/"+fileName);
+            File file = new File("/Users/dalaoyang/Documents/" + fileName);
             //File file = new File(realPath , fileName);
             if (file.exists()) {
                 response.setContentType("application/force-download");// 设置强制下载不打开
