@@ -1,8 +1,9 @@
 package com.example.srarsystem.controller;
 
 import com.example.srarsystem.entity.ProjectInfo;
-import com.example.srarsystem.entity.UserInfo;
+import com.example.srarsystem.entity.TaskInfo;
 import com.example.srarsystem.service.ProjectService;
+import com.example.srarsystem.service.TaskService;
 import com.example.srarsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,11 +23,13 @@ public class ProfessorController {
 
     private final ProjectService projectService;
     private final UserService userService;
+    private final TaskService taskService;
 
     @Autowired
-    public ProfessorController(ProjectService projectService, UserService userService) {
+    public ProfessorController(ProjectService projectService, UserService userService, TaskService taskService) {
         this.projectService = projectService;
         this.userService = userService;
+        this.taskService = taskService;
     }
 
     /**
@@ -66,16 +69,32 @@ public class ProfessorController {
      * @Param
      * @Return
      */
+    @PostMapping(value = "/addTask")
+    public Object addTask(TaskInfo taskInfo){
+        taskService.addTask(taskInfo);
+        return "success";
+    }
+
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/11/3
+     * @Param
+     * @Return
+     */
     @PostMapping("/download")
     public String downloadFile(HttpServletRequest request, HttpServletResponse response, String pjId) {
-        String fileName = projectService.getPjNameByPjId(pjId);// 文件名
+        // 文件名
+        String fileName = projectService.getPjNameByPjId(pjId);
         if (fileName != null) {
             //设置文件路径
             File file = new File("/Users/dalaoyang/Documents/" + fileName);
             //File file = new File(realPath , fileName);
             if (file.exists()) {
-                response.setContentType("application/force-download");// 设置强制下载不打开
-                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
+                // 设置强制下载不打开
+                response.setContentType("application/force-download");
+                // 设置文件名
+                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
                 byte[] buffer = new byte[1024];
                 FileInputStream fis = null;
                 BufferedInputStream bis = null;
