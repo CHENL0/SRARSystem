@@ -25,7 +25,7 @@ public interface UserService {
      * @Param
      * @Return
      */
-    String getUserIdByUserName(String userName);
+    UserInfo findOneByUserName(String userName);
 
     /**
      * @Description //TODO is the phone had register
@@ -45,7 +45,7 @@ public interface UserService {
          */
     void registerUser(UserInfo userInfo);
 
-    UserInfo getUrSecurityQuestionByUserName(String userName);
+    String getUrSecurityQuestionByUserName(String userName);
 
     boolean updateUserPassowrd(String userName,String urSecurityAnswer,String newUserPassword);
 

@@ -1,5 +1,7 @@
 package com.example.srarsystem.service;
 
+import com.example.srarsystem.entity.ProfessorInfo;
+import com.example.srarsystem.entity.ProjectInfo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -7,8 +9,7 @@ import org.springframework.stereotype.Service;
  * @createTime 20181020 11:17
  * @description the interface of professorService
  */
-@Service
 public interface ProfessorService  {
     boolean pfLogin(String pfName,String pfPassword);
-    String getPfIdByPfName(String pfName);
+    ProfessorInfo findOneByPfName(String pfName);
 }

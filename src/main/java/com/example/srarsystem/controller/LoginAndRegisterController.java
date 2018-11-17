@@ -4,6 +4,8 @@ package com.example.srarsystem.controller;
 import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.commons.SendSmsUtils;
 import com.example.srarsystem.commons.UUIDUtils;
+import com.example.srarsystem.entity.AdminInfo;
+import com.example.srarsystem.entity.ProfessorInfo;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.service.AdminService;
 import com.example.srarsystem.service.ProfessorService;
@@ -11,8 +13,8 @@ import com.example.srarsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,28 +49,29 @@ public class LoginAndRegisterController {
      */
     @PostMapping(value = "/login")
     public @ResponseBody
-    Object login(String loginName, String loginPassowrd, HttpServletRequest request) {
+    Object login(@RequestParam(value = "loginName") String loginName,
+                 @RequestParam(value = "loginPassword")String loginPassword, HttpServletRequest request) {
         String trimLoginName = StringUtils.trimWhitespace(loginName);
-        if (StringUtils.substringMatch(loginName, 0, "ADMIN")) {
-            if (adminService.adminLogin(loginName, loginPassowrd)) {
-                String adminId = adminService.getAdminIdByAdminName(loginName);
-                request.getSession().setAttribute("adminId", adminId);
+        if (StringUtils.substringMatch(trimLoginName, 0, "ADMIN")) {
+            if (adminService.adminLogin(trimLoginName, loginPassword)) {
+                AdminInfo adminInfo = adminService.findOneByAdminName(trimLoginName);
+                request.getSession().setAttribute("adminInfo", adminInfo);
             }
-            return false;
-        } else if (StringUtils.substringMatch(loginName, 0, "PROFESSOR")) {
-            if (professorService.pfLogin(loginName, loginPassowrd)) {
-                String pfId = professorService.getPfIdByPfName(loginName);
-                request.getSession().setAttribute("pfId", pfId);
+            return "success";
+        } else if (StringUtils.substringMatch(trimLoginName, 0, "PROFESSOR")) {
+            if (professorService.pfLogin(trimLoginName, loginPassword)) {
+                ProfessorInfo professorInfo = professorService.findOneByPfName(trimLoginName);
+                request.getSession().setAttribute("professorInfo", professorInfo);
             }
-            return false;
-        } else if (StringUtils.substringMatch(loginName, 0, "USER")) {
-            if (userService.userLogin(loginName, loginPassowrd)) {
-                String userId = userService.getUserIdByUserName(loginName);
-                request.getSession().setAttribute("userId", userId);
+            return "success";
+        } else if (StringUtils.substringMatch(trimLoginName, 0, "USER")) {
+            if (userService.userLogin(trimLoginName, loginPassword)) {
+                UserInfo userInfo = userService.findOneByUserName(trimLoginName);
+                request.getSession().setAttribute("userInfo", userInfo);
             }
-            return false;
+            return "success";
         }
-        return false;
+        return "fail";
     }
 
     /**
@@ -78,7 +81,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @GetMapping(value = "/getCode")
+    @PostMapping(value = "/getCode")
     public @ResponseBody
     Object getCode( String registerPhone,HttpServletRequest request) {
         String rand = SendSmsUtils.createRandNum();
@@ -94,7 +97,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @GetMapping("/verifyCode")
+    @PostMapping("/verifyCode")
     public @ResponseBody
     Object verifyCode(String code, HttpServletRequest request,
                       HttpServletResponse response) {
@@ -112,7 +115,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @GetMapping("/verifyPhone")
+    @PostMapping("/verifyPhone")
     public @ResponseBody
     Object verifyPhone(String registerPhone) {
         if (userService.isPhoneRegister(registerPhone)) {
@@ -128,7 +131,9 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    public Object register(String registerPhone, String registerPassword,
+    @PostMapping(value = "/register")
+    public @ResponseBody
+    Object register(String registerPhone, String registerPassword,
                            String urSecurityQuestion,String urSecurityAnswer) {
         /*to get The time stamp*/
         String timestamp = DateUtils.getTimestamp();
@@ -138,14 +143,31 @@ public class LoginAndRegisterController {
         userService.registerUser(userInfo);
         return true;
     }
-    @GetMapping(value = "/findUrSecurity")
+
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/10/21
+     * @Param
+     * @Return
+     */
+    @PostMapping(value = "/findUrSecurity")
     public @ResponseBody
     Object findUrSecurityQuestion(String userName){
         return userService.getUrSecurityQuestionByUserName(userName);
     }
 
-    public Object findPassword(String userName,String urSecurityAnswer,String newUserPassword){
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/10/21
+     * @Param
+     * @Return
+     */
+    @PostMapping(value = "/updatePassword")
+    public @ResponseBody
+    Object findPassword(String userName,String urSecurityAnswer,String newUserPassword){
         userService.updateUserPassowrd(userName,urSecurityAnswer,newUserPassword);
-        return null;
+        return "success";
     }
 }

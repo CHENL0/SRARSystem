@@ -6,8 +6,12 @@ import com.example.srarsystem.service.ProjectService;
 import com.example.srarsystem.service.TaskService;
 import com.example.srarsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +34,14 @@ public class ProfessorController {
         this.projectService = projectService;
         this.userService = userService;
         this.taskService = taskService;
+    }
+
+    @PostMapping(value = "/getProject")
+    public Page<ProjectInfo> getProduct(@RequestParam(name = "pageNumber", defaultValue = "0") int pageNum, @RequestParam(name = "dataCount", defaultValue = "2") int dataCount, @RequestParam(name = "projectType", defaultValue = "短期型") String projectType) {
+        Sort sort = Sort.by("projectType");
+        Page<ProjectInfo> products = projectService.getProjectListByPage(pageNum,projectType,dataCount, sort);
+
+        return products;
     }
 
     /**
@@ -83,12 +95,15 @@ public class ProfessorController {
      * @Return
      */
     @PostMapping("/download")
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response, String pjId) {
+    public @ResponseBody
+    String downloadFile(HttpServletRequest request, HttpServletResponse response, String pjId) {
         // 文件名
-        String fileName = projectService.getPjNameByPjId(pjId);
+        ProjectInfo projectInfo = projectService.findOneByPjId(pjId);
+        String fileName = projectInfo.getPjName();
+        String realPath = projectInfo.getPjPath();
         if (fileName != null) {
             //设置文件路径
-            File file = new File("/Users/dalaoyang/Documents/" + fileName);
+            File file = new File("E:\\f/" + fileName);
             //File file = new File(realPath , fileName);
             if (file.exists()) {
                 // 设置强制下载不打开

@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AdminRepository extends JpaRepository<AdminInfo,String> {
     AdminInfo findByAdminNameAndAdminPassword(String adminName ,String adminPassword);
-    String getAdminIdByAdminName(String adminName);
+    AdminInfo findOneByAdminName(String adminName);
 }
 

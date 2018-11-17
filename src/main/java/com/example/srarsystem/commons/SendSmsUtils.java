@@ -30,7 +30,7 @@ public class SendSmsUtils {
     private static final String AUTH_TOKEN = "afac98a657384705b1dd57f2dcb4a438";
 
     /**
-     * BASE_URL:请求地址
+     * BASE_URL:请求地址 /
      */
     private static final String BASE_URL = "https://api.miaodiyun.com/20150822/industrySMS/sendSMS";
 
@@ -42,7 +42,8 @@ public class SendSmsUtils {
     /**
      * smsContent:短信内容(短信签名+短信内容，注意要和配置的模板一致，否则报错)
      */
-    public static String smsContent = "【科研申报-*秒嘀*】登录验证码：{1}，如非本人操作，请忽略此短信。";
+    public static String smsContent1 = "【SRARS科技】登录验证码：";
+    public static String smsContent2 = "，如非本人操作，请忽略此短信。";
 
     /**
      * @Title：sendMsgTo
@@ -62,9 +63,9 @@ public class SendSmsUtils {
          * 要提交的post数据
          */
         String httpPost = "accountSid=" + ACCOUNT_SID
-                + "&smsContent=" + smsContent + code
                 + "&to=" + to
                 + "&timestamp=" + timestamp
+                + "&smsContent=" + smsContent1 + code +smsContent2
                 + "&sig=" + sig
                 + "&respDataType=" + RESP_DATA_TYPE;
 
@@ -84,7 +85,7 @@ public class SendSmsUtils {
             conn.setDoInput(true);
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(20000);
-
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             /* 提交数据*/
             osw = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
             osw.write(httpPost);

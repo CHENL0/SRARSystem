@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,7 +34,8 @@ public class ProjectController {
 
     @PostMapping("/upload")
     @ResponseBody
-    public String upload(MultipartFile file,String pjDescription, HttpServletRequest request) {
+    public String upload(@RequestParam MultipartFile file,String pjType,
+                         @RequestParam("pjDescription") String pjDescription, HttpServletRequest request) {
         String userId = (String) request.getSession().getAttribute("userId");
         UserInfo userInfo = userService.getUserInfoByUserId(userId);
         if (file.isEmpty()) {
@@ -41,7 +43,8 @@ public class ProjectController {
         }
 
         String fileName = file.getOriginalFilename();
-        String filePath = "D:" + File.separator + "apache-tomcat-8.5.15"+ File.separator + "files" ;
+        String filePath = "E:\\f/";
+//        String filePath = "D:" + File.separator + "apache-tomcat-8.5.15"+ File.separator + "files" ;
 //        String realPath = File.separator + "home" + File.separator + "tomcat" + File.separator + "apache-tomcat-9.0.1" + File.separator + "files"
         File cuFilePath = new File(filePath);
         if(!cuFilePath.isDirectory()){
@@ -50,7 +53,7 @@ public class ProjectController {
         File dest = new File(filePath + fileName);
         try {
             file.transferTo(dest);
-            projectService.uplodaProjectFile(filePath,fileName,userInfo.getUserName(),pjDescription);
+            projectService.uploadProjectFile(filePath,fileName,userInfo.getUserName(),pjType,pjDescription);
         } catch (IOException e) {
             e.printStackTrace();
         }

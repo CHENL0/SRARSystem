@@ -2,13 +2,18 @@ package com.example.srarsystem.entity;
 
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * @author Chen
  * @createTime 15 22:29
  * @description the info of user
  */
 @Data
+@Entity
 public class UserInfo {
+    @Id
     private String userId;
     private String userName;
     private String userPassword;

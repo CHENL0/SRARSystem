@@ -3,7 +3,6 @@ package com.example.srarsystem.service;
 import com.example.srarsystem.commons.UUIDUtils;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.repository.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +37,8 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+
     /**
      * @Description //TODO get UserName By UserId
      * @Author Chen
@@ -46,10 +47,12 @@ public class UserServiceImpl implements UserService {
      * @Return
      */
     @Override
-    public String getUserIdByUserName(String userName) {
-        return userRepository.getUserIdByUserName(userName);
-
+    public UserInfo findOneByUserName(String userName) {
+        return userRepository.findOneByUserName(userName);
     }
+
+
+
     /**
      * @Description //TODO verify the phone is register
      * @Author Chen
@@ -85,8 +88,9 @@ public class UserServiceImpl implements UserService {
      * @Return
      */
     @Override
-    public UserInfo getUrSecurityQuestionByUserName(String userName) {
-        return userRepository.findOneByUserName(userName);
+    public String getUrSecurityQuestionByUserName(String userName) {
+        UserInfo userInfo = userRepository.findOneByUserName(userName);
+        return userInfo.getUrSecurityQusertion();
     }
 
     /**
