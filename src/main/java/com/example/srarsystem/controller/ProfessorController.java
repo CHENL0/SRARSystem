@@ -1,5 +1,6 @@
 package com.example.srarsystem.controller;
 
+import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.TaskInfo;
 import com.example.srarsystem.service.ProjectService;
@@ -8,6 +9,7 @@ import com.example.srarsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Chen
@@ -36,12 +41,15 @@ public class ProfessorController {
         this.taskService = taskService;
     }
 
-    @PostMapping(value = "/getProject")
-    public Page<ProjectInfo> getProduct(@RequestParam(name = "pageNumber", defaultValue = "0") int pageNum, @RequestParam(name = "dataCount", defaultValue = "2") int dataCount, @RequestParam(name = "projectType", defaultValue = "短期型") String projectType) {
-        Sort sort = Sort.by("projectType");
-        Page<ProjectInfo> products = projectService.getProjectListByPage(pageNum,projectType,dataCount, sort);
+    @PostMapping(value = "/getAllProject")
+    public @ResponseBody
+    Page<ProjectInfo> getAllProjectPage(@RequestParam(name = "pageNumber", defaultValue = "0") int pageNum,
+                                        @RequestParam(name = "dataCount", defaultValue = "3") int dataCount,
+                                        @RequestParam(name = "pjType", defaultValue = "基础研究") String pjType) {
+        Sort sort = Sort.by("pjType");
+        Page<ProjectInfo> projectPage = projectService.getProjectListByPage(pageNum,pjType,dataCount, sort);
 
-        return products;
+        return projectPage;
     }
 
     /**
@@ -85,6 +93,30 @@ public class ProfessorController {
     public Object addTask(TaskInfo taskInfo){
         taskService.addTask(taskInfo);
         return "success";
+    }
+
+    /**
+     * @Description //TODO the scheduled what it will run to update the taskStatus every day 0 clock
+     * @Author Chen
+     * @DateTime 2018/11/3
+     * @Param
+     * @Return
+     */
+    @Scheduled (cron = "0 0 0 * * ?")
+    public void changeTaskByTime(){
+        List<TaskInfo> TaskList = taskService.getAllTaskInfo();
+        Iterator iterator = TaskList.iterator();
+        while(iterator.hasNext()){
+            TaskInfo taskInfo= (TaskInfo) iterator.next();
+            if(taskInfo.getTaskStatus() == 1){
+                String deadline = taskInfo.getDeadline();
+                Date getParseDate = DateUtils.parseDateTime(deadline);
+                if (getParseDate.before(new Date())){
+                    taskInfo.setTaskStatus(3);
+                    taskService.addTask(taskInfo);
+                }
+            }
+        }
     }
 
     /**

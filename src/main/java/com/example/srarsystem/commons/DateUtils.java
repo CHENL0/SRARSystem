@@ -1,5 +1,6 @@
 package com.example.srarsystem.commons;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,5 +21,22 @@ public class DateUtils {
         String date = sdf.format(new Date());
         String dateReplace = date.replace("-","");
         return dateReplace;
+    }
+
+    /**
+     * @Title:getTimestamp
+     * @Description: get the current time for the scheduled;
+     * @param:
+     * @return:String
+     */
+    public static Date parseDateTime(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date parseDate = null;
+        try {
+            parseDate = sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return parseDate;
     }
 }

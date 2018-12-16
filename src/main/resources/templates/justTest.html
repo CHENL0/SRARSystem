@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div ng-app="myApp">
+        <div ng-controller="firstController">
+            buy
+            <select ng-model="buy1"
+                    ng-change="buy1Change(buy1)">
+                <option ng-repeat="item in name">{{item}}</option>
+            </select>
+            sell
+            <select ng-model="sell1"
+                    ng-change="sell1Change(sell1)">
+                <option ng-repeat="item in name">{{item}}</option>
+            </select>
+            buy2
+            <select ng-model="moneyAccount2"
+                    ng-change="professionChange2(moneyAccount2)">
+                <option ng-repeat="item2 in name2" >{{item2}}</option>
+            </select>
+            sell2
+            <select ng-model="moneyAccount1"
+                    ng-change="professionChange1(moneyAccount1)">
+                <option ng-repeat="item2 in name2" >{{item2}}</option>
+            </select>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.staticfile.org/angular.js/1.6.3/angular.min.js"></script>
+    <!--<script type="text/javascript" src="../static/service/testServ.js"></script>-->
+    <script type="text/javascript" src="../static/controller/testCtrl.js"></script>
+
+    <!--<script type="text/javascript" src="../static/controller/testCtrl2.js"></script>-->
+</body>
+</html>

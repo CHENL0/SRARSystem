@@ -16,4 +16,8 @@ public class ProjectTypeInfo {
     @Id
     private int pjTypeId;
     private String pjType;
+    private String pjTypeDescription;
+
+    public ProjectTypeInfo() {
+    }
 }

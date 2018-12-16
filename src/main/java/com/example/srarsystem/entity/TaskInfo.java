@@ -17,11 +17,13 @@ public class TaskInfo {
     private String taskId;
     private String userName;
     private String pfName;
+    private String pjId;
     private String taskDate;
     private String deadline;
     private String countTime;
+    private String taskDescription;
     /**
      *  the status of task what 1 is haven't finished and 2 is have finished and 3 is default and 4 is termination
      */
-    private String taskStatus;
+    private int taskStatus;
 }

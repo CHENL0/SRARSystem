@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
-    public Object register(String userName,String userPassword){
 
+    public Object commitTask(){
         return null;
     }
 }

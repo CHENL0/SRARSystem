@@ -5,6 +5,8 @@ import com.example.srarsystem.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Chen
  * @createTime 20181004 16:28
@@ -21,7 +23,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * @Description //TODO
+     * @Description //TODO to add new task
      * @Author Chen
      * @DateTime
      * @Param
@@ -30,5 +32,17 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void addTask(TaskInfo taskInfo) {
         taskRepository.save(taskInfo);
+    }
+
+    /**
+     * @Description //TODO get list of all task
+     * @Author Chen
+     * @DateTime
+     * @Param
+     * @Return
+     */
+    @Override
+    public List<TaskInfo> getAllTaskInfo() {
+        return taskRepository.findAll();
     }
 }
