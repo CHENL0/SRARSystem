@@ -14,7 +14,6 @@
   font-style: normal;
 }
 
-
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   @font-face {
     font-family: LineAwesome;
@@ -118,7 +117,6 @@
   }
 }
 
-
 @keyframes fa-spin {
   0% {
     -webkit-transform: rotate(0);
@@ -130,7 +128,6 @@
     transform: rotate(359deg);
   }
 }
-
 
 .la-rotate-90 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);

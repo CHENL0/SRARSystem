@@ -12,10 +12,13 @@ import com.example.srarsystem.service.ProfessorService;
 import com.example.srarsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  * @description the controller of login and register
  */
 @Controller
+@RequestMapping(value = "/loginSign")
 public class LoginAndRegisterController {
     private final UserService userService;
     private final AdminService adminService;
@@ -40,6 +44,13 @@ public class LoginAndRegisterController {
         this.professorService = professorService;
     }
 
+
+    @RequestMapping("/loginIndex")
+    public ModelAndView index(Model model, HttpServletResponse response) {
+        ModelAndView modelAndView = new ModelAndView("loginSign.html");
+        return modelAndView;
+    }
+
     /**
      * @Description //TODO
      * @Author Chen
@@ -50,7 +61,7 @@ public class LoginAndRegisterController {
     @PostMapping(value = "/login")
     public @ResponseBody
     Object login(@RequestParam(value = "loginName") String loginName,
-                 @RequestParam(value = "loginPassword")String loginPassword, HttpServletRequest request) {
+                 @RequestParam(value = "loginPassword") String loginPassword, HttpServletRequest request) {
         String trimLoginName = StringUtils.trimWhitespace(loginName);
         if (StringUtils.substringMatch(trimLoginName, 0, "ADMIN")) {
             if (adminService.adminLogin(trimLoginName, loginPassword)) {
@@ -83,7 +94,7 @@ public class LoginAndRegisterController {
      */
     @PostMapping(value = "/getCode")
     public @ResponseBody
-    Object getCode( String registerPhone,HttpServletRequest request) {
+    Object getCode(String registerPhone, HttpServletRequest request) {
         String rand = SendSmsUtils.createRandNum();
         SendSmsUtils.sendMsgTo(registerPhone, rand);
         request.getSession().setAttribute("code", SendSmsUtils.sigMD5(rand));
@@ -134,12 +145,12 @@ public class LoginAndRegisterController {
     @PostMapping(value = "/register")
     public @ResponseBody
     Object register(String registerPhone, String registerPassword,
-                           String urSecurityQuestion,String urSecurityAnswer) {
+                    String urSecurityQuestion, String urSecurityAnswer) {
         /*to get The time stamp*/
         String timestamp = DateUtils.getTimestamp();
         String userName = "USER_" + timestamp;
         UserInfo userInfo = new UserInfo(UUIDUtils.getUUID(), userName, registerPassword, registerPhone,
-                                         urSecurityQuestion,urSecurityAnswer);
+                urSecurityQuestion, urSecurityAnswer);
         userService.registerUser(userInfo);
         return true;
     }
@@ -153,7 +164,7 @@ public class LoginAndRegisterController {
      */
     @PostMapping(value = "/findUrSecurity")
     public @ResponseBody
-    Object findUrSecurityQuestion(String userName){
+    Object findUrSecurityQuestion(String userName) {
         return userService.getUrSecurityQuestionByUserName(userName);
     }
 
@@ -166,8 +177,8 @@ public class LoginAndRegisterController {
      */
     @PostMapping(value = "/updatePassword")
     public @ResponseBody
-    Object findPassword(String userName,String urSecurityAnswer,String newUserPassword){
-        userService.updateUserPassowrd(userName,urSecurityAnswer,newUserPassword);
+    Object findPassword(String userName, String urSecurityAnswer, String newUserPassword) {
+        userService.updateUserPassowrd(userName, urSecurityAnswer, newUserPassword);
         return "success";
     }
 }

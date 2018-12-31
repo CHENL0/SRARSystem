@@ -20,11 +20,12 @@ import org.springframework.stereotype.Service;
  * @description the impl of project
  */
 @Service
-public class ProjectServiceImpl implements ProjectService{
+public class ProjectServiceImpl implements ProjectService {
 
     private final ProfessorRepository professorRepository;
     private final ProjectRepository projectRepository;
     private final PageToolUtils pageToolUtils;
+
     @Autowired
     public ProjectServiceImpl(ProfessorRepository professorRepository, ProjectRepository projectRepository, PageToolUtils pageToolUtils) {
         this.professorRepository = professorRepository;
@@ -33,10 +34,10 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void uploadProjectFile(String filePath, String fileName ,String pjUser,
-                                  String pjType,String pjDescription) {
-        ProjectInfo projectInfo = new ProjectInfo(UUIDUtils.getUUID(),fileName,
-                filePath,pjUser,pjType,pjDescription,DateUtils.getTimestamp(),1);
+    public void uploadProjectFile(String filePath, String fileName, String pjUser,
+                                  String pjType, String pjDescription) {
+        ProjectInfo projectInfo = new ProjectInfo(UUIDUtils.getUUID(), fileName,
+                filePath, pjUser, pjType, pjDescription, DateUtils.getTimestamp(), 1);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public Page<ProjectInfo> getProjectListByPage(int page, String productType, int count, Sort sort) {
-        Specification<ProjectInfo> specification=pageToolUtils.specifucation(productType);
+        Specification<ProjectInfo> specification = pageToolUtils.specifucation(productType);
         Pageable pageable = PageRequest.of(page, count, sort);
         return projectRepository.findAll(specification, pageable);
     }

@@ -16,7 +16,7 @@ public class ClassInfo {
     @Id
     private int classId;
     /**
-     *  “基础研究” “应用研究” “开发研究”
+     * “基础研究” “应用研究” “开发研究”
      */
     private String classCategories;
 }

@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
  * @createTime 20181020 11:17
  * @description the interface of professorService
  */
-public interface ProfessorService  {
-    boolean pfLogin(String pfName,String pfPassword);
+public interface ProfessorService {
+    boolean pfLogin(String pfName, String pfPassword);
+
     ProfessorInfo findOneByPfName(String pfName);
 }

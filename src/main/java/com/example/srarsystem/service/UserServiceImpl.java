@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
         this.UUIDUtils = UUIDUtils;
     }
+
     /**
      * @Description //TODO for userLogin
      * @Author Chen
@@ -52,7 +53,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     /**
      * @Description //TODO verify the phone is register
      * @Author Chen
@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
     /**
      * @Description //TODO save the userInfo
      * @Author Chen
@@ -109,6 +110,7 @@ public class UserServiceImpl implements UserService {
         }
         return true;
     }
+
     /**
      * @Description //TODO get userinfo by userid
      * @Author Chen

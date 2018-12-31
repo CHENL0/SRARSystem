@@ -36,18 +36,18 @@ public interface UserService {
      */
     boolean isPhoneRegister(String registerPhone);
 
-        /**
-         * @Description  //TODO
-         * @Author Chen
-         * @DateTime 2018/10/21
-         * @Param
-         * @Return
-         */
+    /**
+     * @Description //TODO
+     * @Author Chen
+     * @DateTime 2018/10/21
+     * @Param
+     * @Return
+     */
     void registerUser(UserInfo userInfo);
 
     String getUrSecurityQuestionByUserName(String userName);
 
-    boolean updateUserPassowrd(String userName,String urSecurityAnswer,String newUserPassword);
+    boolean updateUserPassowrd(String userName, String urSecurityAnswer, String newUserPassword);
 
     UserInfo getUserInfoByUserId(String userId);
 }

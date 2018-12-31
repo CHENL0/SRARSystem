@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
  * @description the interface of adminservice
  */
 public interface AdminService {
-    boolean adminLogin (String adminName,String adminPassword);
-    AdminInfo findOneByAdminName (String adminName);
+    boolean adminLogin(String adminName, String adminPassword);
+
+    AdminInfo findOneByAdminName(String adminName);
 }

@@ -114,12 +114,12 @@
   }
   .scroll-bar {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
-    filter: alpha(opacity = 40);
+    filter: alpha(opacity=40);
     opacity: .4;
   }
   .scroll-element_track {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
-    filter: alpha(opacity = 40);
+    filter: alpha(opacity=40);
     opacity: .4;
     background-color: #e0e0e0;
   }
@@ -245,7 +245,7 @@
       background-color: #6C6E71;
       display: block;
       -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-      filter: alpha(opacity = 0);
+      filter: alpha(opacity=0);
       opacity: 0;
       -webkit-border-radius: 7px;
       -moz-border-radius: 7px;
@@ -259,13 +259,13 @@
   }
   &:hover > .scroll-element .scroll-bar {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-    filter: alpha(opacity = 70);
+    filter: alpha(opacity=70);
     opacity: .7;
   }
   > .scroll-element {
     &.scroll-draggable .scroll-bar {
       -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-      filter: alpha(opacity = 70);
+      filter: alpha(opacity=70);
       opacity: .7;
     }
     &.scroll-x {
@@ -655,7 +655,7 @@
   &.scroll-draggable .scroll-element_outer, &:hover .scroll-element_outer {
     overflow: hidden;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-    filter: alpha(opacity = 70);
+    filter: alpha(opacity=70);
     opacity: .7;
   }
   &.scroll-draggable .scroll-element_outer .scroll-element_size, &:hover .scroll-element_outer .scroll-element_size {

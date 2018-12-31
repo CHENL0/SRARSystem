@@ -11,10 +11,13 @@ import org.springframework.stereotype.Repository;
  * @description the repository of user
  */
 @Repository
-public interface UserRepository extends JpaRepository<UserInfo,String> {
+public interface UserRepository extends JpaRepository<UserInfo, String> {
 
-    UserInfo findByUserNameAndUserPassword(String userName,String userPassword);
+    UserInfo findByUserNameAndUserPassword(String userName, String userPassword);
+
     UserInfo getUserInfoByUserId(String userId);
+
     UserInfo findOneByUserName(String userName);
+
     UserInfo getUserInfoByUserPhone(String userPhone);
 }

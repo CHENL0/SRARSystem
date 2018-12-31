@@ -10,7 +10,7 @@ import java.util.List;
  * @createTime 20181004 16:16
  * @description the repository of task
  */
-public interface TaskRepository extends JpaRepository<TaskInfo,String> {
+public interface TaskRepository extends JpaRepository<TaskInfo, String> {
     @Override
     List<TaskInfo> findAll();
 }

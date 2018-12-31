@@ -47,7 +47,7 @@ public class ProfessorController {
                                         @RequestParam(name = "dataCount", defaultValue = "3") int dataCount,
                                         @RequestParam(name = "pjType", defaultValue = "基础研究") String pjType) {
         Sort sort = Sort.by("pjType");
-        Page<ProjectInfo> projectPage = projectService.getProjectListByPage(pageNum,pjType,dataCount, sort);
+        Page<ProjectInfo> projectPage = projectService.getProjectListByPage(pageNum, pjType, dataCount, sort);
 
         return projectPage;
     }
@@ -90,7 +90,7 @@ public class ProfessorController {
      * @Return
      */
     @PostMapping(value = "/addTask")
-    public Object addTask(TaskInfo taskInfo){
+    public Object addTask(TaskInfo taskInfo) {
         taskService.addTask(taskInfo);
         return "success";
     }
@@ -102,16 +102,16 @@ public class ProfessorController {
      * @Param
      * @Return
      */
-    @Scheduled (cron = "0 0 0 * * ?")
-    public void changeTaskByTime(){
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void changeTaskByTime() {
         List<TaskInfo> TaskList = taskService.getAllTaskInfo();
         Iterator iterator = TaskList.iterator();
-        while(iterator.hasNext()){
-            TaskInfo taskInfo= (TaskInfo) iterator.next();
-            if(taskInfo.getTaskStatus() == 1){
+        while (iterator.hasNext()) {
+            TaskInfo taskInfo = (TaskInfo) iterator.next();
+            if (taskInfo.getTaskStatus() == 1) {
                 String deadline = taskInfo.getDeadline();
                 Date getParseDate = DateUtils.parseDateTime(deadline);
-                if (getParseDate.before(new Date())){
+                if (getParseDate.before(new Date())) {
                     taskInfo.setTaskStatus(3);
                     taskService.addTask(taskInfo);
                 }

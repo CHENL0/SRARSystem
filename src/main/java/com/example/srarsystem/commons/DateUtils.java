@@ -19,7 +19,7 @@ public class DateUtils {
     public static String getTimestamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String date = sdf.format(new Date());
-        String dateReplace = date.replace("-","");
+        String dateReplace = date.replace("-", "");
         return dateReplace;
     }
 

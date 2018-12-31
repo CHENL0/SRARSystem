@@ -1,7 +1,6 @@
 package com.example.srarsystem.commons;
 
 
-
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.BufferedReader;
@@ -65,7 +64,7 @@ public class SendSmsUtils {
         String httpPost = "accountSid=" + ACCOUNT_SID
                 + "&to=" + to
                 + "&timestamp=" + timestamp
-                + "&smsContent=" + smsContent1 + code +smsContent2
+                + "&smsContent=" + smsContent1 + code + smsContent2
                 + "&sig=" + sig
                 + "&respDataType=" + RESP_DATA_TYPE;
 

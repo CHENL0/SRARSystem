@@ -11,8 +11,9 @@ import org.springframework.stereotype.Repository;
  * @description the repository of admin
  */
 @Repository
-public interface AdminRepository extends JpaRepository<AdminInfo,String> {
-    AdminInfo findByAdminNameAndAdminPassword(String adminName ,String adminPassword);
+public interface AdminRepository extends JpaRepository<AdminInfo, String> {
+    AdminInfo findByAdminNameAndAdminPassword(String adminName, String adminPassword);
+
     AdminInfo findOneByAdminName(String adminName);
 }
 

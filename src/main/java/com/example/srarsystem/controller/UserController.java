@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping(value="/user")
+@RequestMapping(value = "/user")
 public class UserController {
 
-    public Object commitTask(){
+    public Object commitTask() {
         return null;
     }
 }

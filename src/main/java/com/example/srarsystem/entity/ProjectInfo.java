@@ -23,14 +23,14 @@ public class ProjectInfo {
     private String pjDescription;
     private String pjCommitDate;
     /**
-     *  status have 1,2 ,3   1 is accept,2 is pass,3 is reject
+     * status have 1,2 ,3   1 is accept,2 is pass,3 is reject
      */
     private int pjStatus;
 
-//    public ProjectInfo() {
+    //    public ProjectInfo() {
 //    }
     public ProjectInfo(String pjId, String pjName, String pjPath, String pjUser, String pjType,
-                       String pjDescription,String pjCommitDate, int pjStatus) {
+                       String pjDescription, String pjCommitDate, int pjStatus) {
         this.pjId = pjId;
         this.pjName = pjName;
         this.pjPath = pjPath;

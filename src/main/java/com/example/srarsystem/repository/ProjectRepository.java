@@ -13,7 +13,8 @@ import java.util.List;
  * @createTime 20181028 11:30
  * @description the repository of project
  */
-public interface ProjectRepository extends JpaRepository<ProjectInfo,String> {
+public interface ProjectRepository extends JpaRepository<ProjectInfo, String> {
     ProjectInfo findOneByPjId(String pjId);
+
     Page<ProjectInfo> findAll(Specification<ProjectInfo> specification, Pageable pageable);
 }
