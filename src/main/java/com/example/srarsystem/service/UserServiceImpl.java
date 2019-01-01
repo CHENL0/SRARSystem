@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean isPhoneRegister(String registerPhone) {
-        UserInfo userInfo = userRepository.getUserInfoByUserPhone(registerPhone);
+        UserInfo userInfo = userRepository.findOneByUserPhone(registerPhone);
         if (userInfo != null && !userInfo.equals("")) {
             return true;
         }
@@ -121,5 +121,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfo getUserInfoByUserId(String userId) {
         return userRepository.getUserInfoByUserId(userId);
+    }
+
+    @Override
+    public boolean validateQuestion(String userName, String urSecurityAnswer) {
+        UserInfo userInfo = userRepository.findOneByUserName(userName);
+        if(userInfo.getUrSecurityAnswer().equals(urSecurityAnswer)){
+            return true;
+        }
+        return false;
     }
 }

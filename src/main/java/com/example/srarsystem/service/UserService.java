@@ -50,4 +50,6 @@ public interface UserService {
     boolean updateUserPassowrd(String userName, String urSecurityAnswer, String newUserPassword);
 
     UserInfo getUserInfoByUserId(String userId);
+
+    boolean validateQuestion(String userName, String urSecurityAnswer);
 }

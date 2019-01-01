@@ -14,14 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -29,8 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  * @createTime 20181020 11:26
  * @description the controller of login and register
  */
-@Controller
-@RequestMapping(value = "/loginSign")
+@RestController
 public class LoginAndRegisterController {
     private final UserService userService;
     private final AdminService adminService;
@@ -68,21 +66,21 @@ public class LoginAndRegisterController {
                 AdminInfo adminInfo = adminService.findOneByAdminName(trimLoginName);
                 request.getSession().setAttribute("adminInfo", adminInfo);
             }
-            return "success";
+            return true;
         } else if (StringUtils.substringMatch(trimLoginName, 0, "PROFESSOR")) {
             if (professorService.pfLogin(trimLoginName, loginPassword)) {
                 ProfessorInfo professorInfo = professorService.findOneByPfName(trimLoginName);
                 request.getSession().setAttribute("professorInfo", professorInfo);
             }
-            return "success";
+            return true;
         } else if (StringUtils.substringMatch(trimLoginName, 0, "USER")) {
             if (userService.userLogin(trimLoginName, loginPassword)) {
                 UserInfo userInfo = userService.findOneByUserName(trimLoginName);
                 request.getSession().setAttribute("userInfo", userInfo);
             }
-            return "success";
+            return true;
         }
-        return "fail";
+        return false;
     }
 
     /**
@@ -152,7 +150,9 @@ public class LoginAndRegisterController {
         UserInfo userInfo = new UserInfo(UUIDUtils.getUUID(), userName, registerPassword, registerPhone,
                 urSecurityQuestion, urSecurityAnswer);
         userService.registerUser(userInfo);
-        return true;
+        Map<String, String> map = new HashMap<>();
+        map.put("userName", userName);
+        return map;
     }
 
     /**
@@ -165,7 +165,10 @@ public class LoginAndRegisterController {
     @PostMapping(value = "/findUrSecurity")
     public @ResponseBody
     Object findUrSecurityQuestion(String userName) {
-        return userService.getUrSecurityQuestionByUserName(userName);
+        String qusetion = userService.getUrSecurityQuestionByUserName(userName);
+        Map<String, String> map = new HashMap<>();
+        map.put("question", qusetion);
+        return map;
     }
 
     /**
@@ -179,6 +182,22 @@ public class LoginAndRegisterController {
     public @ResponseBody
     Object findPassword(String userName, String urSecurityAnswer, String newUserPassword) {
         userService.updateUserPassowrd(userName, urSecurityAnswer, newUserPassword);
-        return "success";
+        return true;
+    }
+
+    /**
+     * @Description  //TODO
+     * @Author Chen
+     * @DateTime 2019/1/1
+     * @Param
+     * @Return
+     */
+    @PostMapping(value = "/validateAnswer")
+    public @ResponseBody
+    Object validateAnswer(String userName, String urSecurityAnswer) {
+        if(userService.validateQuestion(userName,urSecurityAnswer)){
+            return true;
+        }
+        return false;
     }
 }

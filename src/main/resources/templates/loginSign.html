@@ -66,48 +66,55 @@
 
                 <div class="row ">
                     <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
-                        <span class="intro-text-small">Welcome to Splash</span>
-                        <h1>Build website using this template.</h1>
+                        <span class="intro-text-small">Welcome to Scientific research and reporting systems</span>
+                        <h1>Science and technology change life.</h1>
                     </div>
                     <div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
                         <div class="form-wrap">
                             <div class="tab">
                                 <ul class="tab-menu">
-                                    <li class="active gtco-first"><a href="#" data-tab="signup">Sign up</a></li>
+                                    <li class="gtco-first"><a href="#" data-tab="signUp">Sign up</a></li>
                                     <li class="gtco-second"><a href="#" data-tab="login">Login</a></li>
-                                    <li class="gtco-third"><a href="#" data-tab="forget">Forget passage</a></li>
-                                    <li class="gtco-forth"><a href="#" data-tab="how">How to do</a></li>
+                                    <li class="gtco-third"><a href="#" data-tab="forget">Forget password</a></li>
+                                    <li class="gtco-fourth active" ><a href="#" data-tab="how">How to do</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-content-inner active" data-content="signUp">
+                                    <div class="tab-content-inner " data-content="signUp">
                                         <form action="#">
                                             <div class="row form-group">
                                                 <div class="col-md-12">
-                                                    <label for="username">Username</label>
-                                                    <input type="text" class="form-control" id="username" ng-model="username">
-                                                    <span color="red" ng-model="userError"></span>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col-md-12">
                                                     <label for="password">Password</label>
-                                                    <input type="password" class="form-control" id="password" ng-model="password">
+                                                    <input type="password" class="form-control" id="password" ng-blur="validatePw()" ng-model="password">
+                                                    <span color="red" >{{pswError}}</span>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="password2">Repeat Password</label>
-                                                    <input type="password" class="form-control" id="password2" ng-model="password2">
-                                                    <span color="red" ng-model="pswError"></span>
+                                                    <input type="password" class="form-control" id="password2" ng-blur="validateRPw()" ng-model="password2">
+                                                    <span color="red" >{{pswError2}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label >Security Question</label>
+                                                    <input type="text" class="form-control" placeholder = "eg.what is my name?" ng-blur="validateQue()"  ng-model="question">
+                                                    <span color="red" >{{queError}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label >Security Answer</label>
+                                                    <input type="text" class="form-control" placeholder = "eg.CHEN"  ng-blur="validateAns()"  ng-model="answer">
+                                                    <span color="red" >{{ansError}}</span>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="password2">User phone</label>
-                                                    <input type="password" class="form-control" id="userPhone" ng-model="userPhone"><br>
-                                                    <span color="red" ng-model="PhoneError"></span>
-                                                    <input type="text" class="col-xs-3" id="" ng-model="code">&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-default" id="btnSendCode" value="Get Code" ng-click="getCode()"/>
-                                                    <span color="red" ng-model="pswError"></span>
+                                                    <input type="text" class="form-control" id="userPhone" ng-blur="validatePh()" ng-model="userPhone"><span color="red" >{{phoneError}}</span><br>
+                                                    <input type="text" class="col-xs-4" id="" ng-blur="validateCode()" ng-model="code">&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-default" id="btnSendCode" value="Get Code" ng-click="getCode()"/><br>
+                                                    <span color="red" >{{codeError}}</span>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -122,14 +129,16 @@
                                         <form action="#">
                                             <div class="row form-group">
                                                 <div class="col-md-12">
-                                                    <label for="username">Username</label>
-                                                    <input type="text" class="form-control" id="loginName" ng-model="loginName">
+                                                    <label >Username</label>
+                                                    <input type="text" class="form-control"  ng-model="username" ng-blur="getQuestion()">
+                                                    <span>{{usernameError}}</span>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="password">Password</label>
-                                                    <input type="password" class="form-control" id="loginPassword" ng-model="loginPassword">
+                                                    <input type="password" class="form-control"  ng-blur="validatePw()" ng-model="password">
+                                                    <span color="red" >{{pswError}}</span>
                                                 </div>
                                             </div>
 
@@ -145,45 +154,66 @@
                                         <form action="#">
                                             <div class="row form-group">
                                                 <div class="col-md-12">
-                                                    <label for="username">Username</label>
-                                                    <input type="text" class="form-control" id="forgetName">
+                                                    <label >Username</label>
+                                                    <input type="text" class="form-control" id="forgetName" ng-model="username" ng-blur="getQuestion()">
+                                                    <span>{{usernameError}}</span>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
-                                                    <label for="username">Choose your question</label>
-                                                    <select class="combobox" data-style="btn-primary" g-model="question">
-                                                        <option></option>
-                                                        <option value="PA">Pennsylvania1111111111</option>
-                                                        <option value="CT">Connecticut</option>
-                                                        <option value="NY">New York</option>
-                                                        <option value="MD">Maryland</option>
-                                                        <option value="VA">Virginia</option>
-                                                    </select>
+                                                    <label >Your Question:</label><br>
+                                                    <!--<select class="combobox" data-style="btn-primary" g-model="question">-->
+                                                        <!--<option></option>-->
+                                                        <!--<option value="PA">Pennsylvania1111111111</option>-->
+                                                        <!--<option value="CT">Connecticut</option>-->
+                                                        <!--<option value="NY">New York</option>-->
+                                                        <!--<option value="MD">Maryland</option>-->
+                                                        <!--<option value="VA">Virginia</option>-->
+                                                    <!--</select>-->
+                                                    <span >{{forQuestion}}</span>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
-                                                    <label for="username">Answer</label>
-                                                    <input type="text" class="form-control" id="answer" ng-model="answer">
+                                                    <label >Answer</label>
+                                                    <input type="text" class="form-control"  ng-model="forAnswer" ng-blur="validateAnswer()">
+                                                    <span color="red" >{{ansError}}</span>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="password">Password</label>
-                                                    <input type="password" class="form-control" id="newPassword" ng-model="newPassword">
+                                                    <input type="password" class="form-control" id="newPassword" ng-blur="validatePw()" ng-model="password">
+                                                    <span color="red" >{{pswError}}</span>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="password2">Repeat Password</label>
-                                                    <input type="password" class="form-control" id="newPassword2" ng-model="newPassword2">
+                                                    <input type="password" class="form-control" id="newPassword2" ng-blur="validateRPw()" ng-model="password2">
+                                                    <span color="red" >{{pswError2}}</span>
                                                 </div>
                                             </div>
 
                                             <div class="row form-group">
                                                 <div class="col-md-12">
-                                                    <input type="submit" class="btn btn-primary" value="confirm" ng-click="replacePassword()">
+                                                    <input type="submit" class="btn btn-primary" value="confirm" ng-click="updatePassword()">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="tab-content-inner active" data-content="how">
+                                        <form action="#">
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First of all, you should
+                                                    go through the "Sign up" for your personal account, register generates a userName,
+                                                    please do remember it!!!!!!<br><br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using the userName and password
+                                                    you can continue to log in.<br><br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you forget password, you can through setting the
+                                                    encrypted registration problem to reset your password.
                                                 </div>
                                             </div>
                                         </form>
