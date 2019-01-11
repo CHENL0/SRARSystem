@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface TaskService {
     void addTask(TaskInfo taskInfo);
-
+    List<TaskInfo> getAllTaskInfoByUsername(String username);
+    List<TaskInfo> getAllTaskInfoByTaskStatus(int taskStatus);
     List<TaskInfo> getAllTaskInfo();
+    TaskInfo getTaskInfo(String taskId);
 }

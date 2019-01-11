@@ -4,8 +4,10 @@ import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.commons.PageToolUtils;
 import com.example.srarsystem.commons.UUIDUtils;
 import com.example.srarsystem.entity.ProjectInfo;
+import com.example.srarsystem.entity.ProjectTypeInfo;
 import com.example.srarsystem.repository.ProfessorRepository;
 import com.example.srarsystem.repository.ProjectRepository;
+import com.example.srarsystem.repository.ProjectTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Chen
@@ -24,12 +28,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProfessorRepository professorRepository;
     private final ProjectRepository projectRepository;
+    private final ProjectTypeRepository projectTypeRepository;
     private final PageToolUtils pageToolUtils;
 
     @Autowired
-    public ProjectServiceImpl(ProfessorRepository professorRepository, ProjectRepository projectRepository, PageToolUtils pageToolUtils) {
+    public ProjectServiceImpl(ProfessorRepository professorRepository, ProjectRepository projectRepository, ProjectTypeRepository projectTypeRepository, PageToolUtils pageToolUtils) {
         this.professorRepository = professorRepository;
         this.projectRepository = projectRepository;
+        this.projectTypeRepository = projectTypeRepository;
         this.pageToolUtils = pageToolUtils;
     }
 
@@ -38,6 +44,7 @@ public class ProjectServiceImpl implements ProjectService {
                                   String pjType, String pjDescription) {
         ProjectInfo projectInfo = new ProjectInfo(UUIDUtils.getUUID(), fileName,
                 filePath, pjUser, pjType, pjDescription, DateUtils.getTimestamp(), 1);
+        projectRepository.save(projectInfo);
     }
 
     @Override
@@ -57,9 +64,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Page<ProjectInfo> getProjectListByPage(int page, String productType, int count, Sort sort) {
-        Specification<ProjectInfo> specification = pageToolUtils.specifucation(productType);
+        Specification<ProjectInfo> specification = pageToolUtils.pjSpecification(productType);
         Pageable pageable = PageRequest.of(page, count, sort);
         return projectRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    public List<ProjectTypeInfo> getAllPjInfo() {
+        return projectTypeRepository.findAll();
     }
 
 }

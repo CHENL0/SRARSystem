@@ -1,19 +1,21 @@
 package com.example.srarsystem.controller;
 
+import com.example.srarsystem.entity.ProjectTypeInfo;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.service.ProjectService;
 import com.example.srarsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Chen
@@ -22,6 +24,7 @@ import java.io.IOException;
  */
 @Slf4j
 @Controller
+@RequestMapping(value = "/pj")
 public class ProjectController {
 
     private final ProjectService projectService;
@@ -32,10 +35,18 @@ public class ProjectController {
         this.projectService = projectService;
         this.userService = userService;
     }
+    @GetMapping("/getPjInfoList")
+    public @ResponseBody
+    Object getAllPjInfos(){
+        List<ProjectTypeInfo> projectInfoList = projectService.getAllPjInfo();
+        Map<String,List<?>>  pjInfoListMap = new HashMap<>();
+        pjInfoListMap.put("pjInfoList",projectInfoList);
+        return pjInfoListMap;
+    }
 
     @PostMapping("/upload")
-    @ResponseBody
-    public String upload(@RequestParam MultipartFile file, String pjType,
+    public @ResponseBody
+    String upload(@RequestParam MultipartFile file, String pjType,
                          @RequestParam("pjDescription") String pjDescription, HttpServletRequest request) {
         String userId = (String) request.getSession().getAttribute("userId");
         UserInfo userInfo = userService.getUserInfoByUserId(userId);
@@ -59,8 +70,6 @@ public class ProjectController {
             e.printStackTrace();
         }
         return "上传成功";
-
-
     }
 
 }

@@ -42,7 +42,22 @@ public class TaskServiceImpl implements TaskService {
      * @Return
      */
     @Override
+    public List<TaskInfo> getAllTaskInfoByUsername(String username) {
+        return taskRepository.findAllByUserName(username);
+    }
+
+    @Override
+    public List<TaskInfo> getAllTaskInfoByTaskStatus(int taskStatus) {
+        return taskRepository.findAllByTaskStatus(taskStatus);
+    }
+
+    @Override
     public List<TaskInfo> getAllTaskInfo() {
         return taskRepository.findAll();
+    }
+
+    @Override
+    public TaskInfo getTaskInfo(String taskId) {
+        return taskRepository.findOneByTaskId(taskId);
     }
 }

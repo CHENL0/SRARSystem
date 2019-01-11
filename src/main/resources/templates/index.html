@@ -10,8 +10,22 @@
           href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="assets/css/ready.css">
     <link rel="stylesheet" href="assets/css/demo.css">
+
+
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="assets/js/angular-animate.js"></script>
+    <script src="assets/js/date.format.js"></script>
+    <script src="controller/app.module.js"></script>
+    <script src="controller/indexCtrl.js"></script>
+    <script src="service/indexServ.js"></script>
+    <script src="modal/taskInfoModal.js"></script>
 </head>
-<body>
+<body ng-app="IndexApp" ng-controller = "indexController">
+
+
+
+
 <div class="wrapper">
     <div class="main-header">
         <div class="logo-header">
@@ -111,14 +125,14 @@
                     <li class="nav-item dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                             <img src="assets/img/profile.jpg" alt="user-img" width="36"
-                                 class="img-circle"><span>Hizrian</span></span> </a>
+                                 class="img-circle"><span>{{username}}</span></span> </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li>
                                 <div class="user-box">
                                     <div class="u-img"><img src="assets/img/profile.jpg" alt="user"></div>
                                     <div class="u-text">
-                                        <h4>Hizrian</h4>
-                                        <p class="text-muted">hello@themekita.com</p><a href="profile.html"
+                                        <h4>{{userInfo.userName}}</h4>
+                                        <p class="text-muted">call:{{userInfo.userPhone}}</p><a href="profile.html"
                                                                                         class="btn btn-rounded btn-danger btn-sm">View
                                         Profile</a></div>
                                 </div>
@@ -130,7 +144,7 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#"><i class="ti-settings"></i> Account Setting</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="fa fa-power-off"></i> Logout</a>
+                            <a class="dropdown-item" href="#" ng-click="logout()"><i class="fa fa-power-off"></i> Logout</a>
                         </ul>
                         <!-- /.dropdown-user -->
                     </li>
@@ -287,167 +301,112 @@
                     <div class="col-md-6">
                         <div class="card card-tasks">
                             <div class="card-header ">
-                                <h4 class="card-title">Tasks</h4>
-                                <p class="card-category">To Do List</p>
+                                <h4 class="card-title">Tasks</h4><br>
+                                <!--<label class="radio-inline col-md-4">-->
+                                    <!--<input type="button" class="btn btn-success"  value="Finish" ng-click="getOneStatusTask(2)">-->
+                                <!--</label>-->
+                                <!--<label class="radio-inline col-md-4">-->
+                                    <!--<input type="button" class="btn btn-danger " value="Unfinish" ng-click="getOneStatusTask(1)">-->
+                                <!--</label>-->
+                                <!--<label class="radio-inline col-md-3">-->
+                                    <!--<input type="button" class="btn btn-warning " value="timeout" ng-click="getOneStatusTask(3)">-->
+                                <!--</label>-->
+                                <!--<label class="radio-inline">-->
+                                    <!--<img src="assets/img/refresh.jpg" ng-click="getTasksListData()">-->
+                                <!--</label>-->
+                                <p class="demo">
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getOneStatusTask(1)">
+                                        <span class="form-radio-sign">Unfinished</span>
+                                    </label>
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getOneStatusTask(2)">
+                                        <span class="form-radio-sign">Finished</span>
+                                    </label>
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getOneStatusTask(3)">
+                                        <span class="form-radio-sign">Unfinished</span>
+                                    </label>
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getTasksListData()">
+                                        <span class="form-radio-sign">Refresh</span>
+                                    </label>
+                                    <!--<label class="radio-inline">-->
+                                        <!--<img src="assets/img/refresh.jpg" ng-click="getTasksListData()">-->
+                                    <!--</label>-->
+                                </p>
                             </div>
-                            <div class="card-body ">
-                                <div class="table-full-width">
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input  select-all-checkbox"
-                                                               type="checkbox" data-select="checkbox"
-                                                               data-target=".task-select">
-                                                        <span class="form-check-sign"></span>
-                                                    </label>
-                                                </div>
-                                            </th>
-                                            <th>Task</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input task-select" type="checkbox">
-                                                        <span class="form-check-sign"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>Planning new project structure</td>
-                                            <td class="td-actions text-right">
-                                                <div class="form-button-action">
-                                                    <button type="button" data-toggle="tooltip" title="Edit Task"
-                                                            class="btn btn-link <btn-simple-primary">
-                                                        <i class="la la-edit"></i>
-                                                    </button>
-                                                    <button type="button" data-toggle="tooltip" title="Remove"
-                                                            class="btn btn-link btn-simple-danger">
-                                                        <i class="la la-times"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input task-select" type="checkbox">
-                                                        <span class="form-check-sign"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>Update Fonts</td>
-                                            <td class="td-actions text-right">
-                                                <div class="form-button-action">
-                                                    <button type="button" data-toggle="tooltip" title="Edit Task"
-                                                            class="btn btn-link <btn-simple-primary">
-                                                        <i class="la la-edit"></i>
-                                                    </button>
-                                                    <button type="button" data-toggle="tooltip" title="Remove"
-                                                            class="btn btn-link btn-simple-danger">
-                                                        <i class="la la-times"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input task-select" type="checkbox">
-                                                        <span class="form-check-sign"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>Add new Post
-                                            </td>
-                                            <td class="td-actions text-right">
-                                                <div class="form-button-action">
-                                                    <button type="button" data-toggle="tooltip" title="Edit Task"
-                                                            class="btn btn-link <btn-simple-primary">
-                                                        <i class="la la-edit"></i>
-                                                    </button>
-                                                    <button type="button" data-toggle="tooltip" title="Remove"
-                                                            class="btn btn-link btn-simple-danger">
-                                                        <i class="la la-times"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input task-select" type="checkbox">
-                                                        <span class="form-check-sign"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>Finalise the design proposal</td>
-                                            <td class="td-actions text-right">
-                                                <div class="form-button-action">
-                                                    <button type="button" data-toggle="tooltip" title="Edit Task"
-                                                            class="btn btn-link <btn-simple-primary">
-                                                        <i class="la la-edit"></i>
-                                                    </button>
-                                                    <button type="button" data-toggle="tooltip" title="Remove"
-                                                            class="btn btn-link btn-simple-danger">
-                                                        <i class="la la-times"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card-footer ">
-                                <div class="stats">
-                                    <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
+                                    <div class="card-body ">
+                                        <div class="table-full-width">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input  select-all-checkbox"
+                                                                       type="checkbox" data-select="checkbox"
+                                                                       data-target=".task-select">
+                                                                <span class="form-check-sign"></span>
+                                                            </label>
+                                                        </div>
+                                                    </th>
+                                                    <th>TaskId</th>
+                                                    <th>Task</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="tasks in taskInfoList">
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input task-select" type="checkbox">
+                                                                <span class="form-check-sign"></span>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{tasks.taskId}}</td>
+                                                    <td>{{tasks.taskName}}</td>
+                                                    <td class="td-actions text-right">
+                                                        <div class="form-button-action">
+                                                            <button type="button"  title="Edit Task" ng-click = "getTaskDetail(tasks.taskId)"
+                                                                    data-toggle = "modal" data-target = "#modalTask"
+                                                                    class="btn btn-link btn-simple-primary">
+                                                                <i class="la la-edit"></i>
+                                                            </button>
+                                                            <button type="button" data-toggle="tooltip" title="Remove"
+                                                                    class="btn btn-link btn-simple-danger">
+                                                                <i class="la la-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer ">
+                                        <div class="stats">
+                                            <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="copyright ml-auto">
+                            2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">CHEN</a></div>
+                    </div>
+                </footer>
             </div>
         </div>
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                ThemeKita
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Help
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#license/#free-item">
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright ml-auto">
-                    2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">ThemeKita</a> - More
-                    Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a
-                        href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
-            </div>
-        </footer>
-    </div>
-</div>
-</div>
-<!-- Modal -->
+        </div>
+        <!-- Modal -->
 <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -469,19 +428,129 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalTask" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> Task card</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                    <table class="table table-striped">
+                        <tr>
+                            <td><h6>TASKID  :</h6></td>
+                            <td><h6 class="col-md-4">{{taskInfo.taskId}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6>TASKNAME  :</h6></td>
+                            <td><h6 >{{taskInfo.taskName}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6 >PROFESSNAME  :</h6></td>
+                            <td><h6 >{{taskInfo.pfName}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6>TASKDATE  :</h6></td>
+                            <td><h6 >{{taskInfo.taskDate}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6 >DEADLINE  :</h6></td>
+                            <td><h6>{{taskInfo.deadline}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6 >STATUS  :</h6></td>
+                            <td>
+                                <h6>
+                                    <span ng-if="taskInfo.taskStatus === 1">
+                                        <span style="color: #b21f2d">Unfinished</span>
+                                    </span>
+                                    <span ng-if="taskInfo.taskStatus === 2">
+                                        <span style="color: #1e7e34">Finished</span>
+                                    </span>
+                                    <span ng-if="taskInfo.taskStatus === 3">
+                                        <span style="color: yellow">Timeout</span>
+                                    </span>
+                                </h6>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><h6>DESCRIPTION  :</h6></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><h6 >{{taskInfo.taskDescription}}</h6></td>
+                        </tr>
+
+                        <!--<label class="control-label">Email address</label>-->
+                        <!--<input type="email" class="form-control"  placeholder="Email">-->
+
+                        <!--<label class="control-label">Email address</label>-->
+                        <!--<input type="email" class="form-control"  placeholder="Email">-->
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span ng-if = "taskInfo.taskStatus === 1 ||taskInfo.taskStatus === 3">
+                    <h6 class="pull-left">
+                        Countdown :
+                        <span ng-if="countdown > 3">
+                            <span style="color: #2e6da4">{{countdown}}</span> days
+                        </span>
+                        <span ng-if="countdown <= 3 && countdown != 0">
+                            <span style="color: #ffc107">{{countdown}}</span> days
+                        </span>
+                        <span ng-if="countdown === 0">
+                            <span style="color: red">{{countdown}}</span> days
+                        </span>
+                    </h6>
+                </span>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script type="text/ng-template" id="myModalContent.html" class="modal-backdrop" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro">-->
+    <!--<div class="modal fade">-->
+        <!--<div class="modal-header">-->
+            <!--<button type="button" class="close" aria-label="Close"><span aria-show="true"></span></button>-->
+            <!--<h4 class="modal-title">ddd</h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+            <!--<div class="modal-input-group">-->
+                <!--ddd:<input type="text" class="motal-input form-control" ng-model="student.name"/>-->
+            <!--</div>-->
+            <!--<div class="modal-input-group">-->
+                <!--ddd:<input type="text" class="motal-input form-control" ng-model="student.sex"/>-->
+            <!--</div>-->
+            <!--<div class="modal-input-group">-->
+                <!--ddd:<input type="text" class="motal-input form-control" ng-model="student.major"/>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="modal-footer">-->
+            <!--<button type="button" class="btn btn-default" ng-click="cancel()">关闭</button>-->
+            <!--<button type="button" class="btn btn-primary" ng-click="ok()">确认</button>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</script>-->
 </body>
-<script src="resources/static/assets/js/core/jquery.3.2.1.min.js"></script>
-<script src="resources/static/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="resources/static/assets/js/core/popper.min.js"></script>
-<script src="resources/static/assets/js/core/bootstrap.min.js"></script>
-<script src="resources/static/assets/js/plugin/chartist/chartist.min.js"></script>
-<script src="resources/static/assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
-<script src="resources/static/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="resources/static/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-<script src="resources/static/assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="resources/static/assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
-<script src="resources/static/assets/js/plugin/chart-circle/circles.min.js"></script>
-<script src="resources/static/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="resources/static/assets/js/ready.min.js"></script>
-<script src="resources/static/assets/js/demo.js"></script>
+<script src="assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/js/ready.min.js"></script>
+<script src="assets/js/demo.js"></script>
 </html>

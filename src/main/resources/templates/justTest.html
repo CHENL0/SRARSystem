@@ -5,8 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<div ng-app="myApp">
-    <div ng-controller="firstController">
+<div ng-app="IndexApp" ng-controller = "indexController">
+    <div>
         buy
         <select ng-model="buy1"
                 ng-change="buy1Change(buy1)">
@@ -29,10 +29,41 @@
         </select>
 
     </div>
+    <input type="button" ng-click="openTaskModal()">
+
+    <script type="text/ng-template" id="myModalContent.html" >
+        <div>
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close"><span aria-show="true"></span></button>
+                <h4 class="modal-title">ddd</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-group">
+                    ddd:<input type="text" class="motal-input form-control" ng-model="student.name"/>
+                </div>
+                <div class="modal-input-group">
+                    ddd:<input type="text" class="motal-input form-control" ng-model="student.sex"/>
+                </div>
+                <div class="modal-input-group">
+                    ddd:<input type="text" class="motal-input form-control" ng-model="student.major"/>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="cancel()">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="ok()">确认</button>
+            </div>
+        </div>
+    </script>
 </div>
-<script type="text/javascript" src="https://cdn.staticfile.org/angular.js/1.6.3/angular.min.js"></script>
-<!--<script type="text/javascript" src="../static/service/testServ.js"></script>-->
-<script type="text/javascript" src="../static/controller/testCtrl.js"></script>
+<script src="assets/js/angular.min.js"></script>
+<script src="assets/js/ui-bootstrap-tpls-2.5.0.js"></script>
+<script src="assets/js/angular-animate.js"></script>
+<script src="controller/app.module.js"></script>
+<script src="controller/indexCtrl.js"></script>
+<script src="service/indexServ.js"></script>
+<script src="modal/taskInfoModal.js"></script>
+
 
 <!--<script type="text/javascript" src="../static/controller/testCtrl2.js"></script>-->
 </body>

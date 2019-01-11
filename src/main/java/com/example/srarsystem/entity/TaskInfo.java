@@ -21,6 +21,7 @@ public class TaskInfo {
     private String taskDate;
     private String deadline;
     private String countTime;
+    private String taskName;
     private String taskDescription;
     /**
      * the status of task what 1 is haven't finished and 2 is have finished and 3 is default and 4 is termination

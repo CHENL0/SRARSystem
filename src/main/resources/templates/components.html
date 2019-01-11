@@ -10,8 +10,17 @@
           href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="assets/css/ready.css">
     <link rel="stylesheet" href="assets/css/demo.css">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="assets/js/angular-animate.js"></script>
+    <script src="assets/js/date.format.js"></script>
+    <script src="controller/app.module.js"></script>
+    <script src="controller/pjDetailCtrl.js"></script>
+    <script src="service/pjDetailServ.js"></script>
+
 </head>
-<body>
+<body ng-app="PjDetailApp" ng-controller = "pjDetailController">
 <div class="wrapper">
     <div class="main-header">
         <div class="logo-header">
@@ -241,24 +250,12 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Button Original</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
+                                <h4 class="card-title">Project type</h4>
+                                <p class="card-category">Here is a project type for this message</p>
                             </div>
                             <div class="card-body">
-                                <p class="demo">
-                                    <button class="btn btn-default">Default</button>
-
-                                    <button class="btn btn-primary">Primary</button>
-
-                                    <button class="btn btn-info">Info</button>
-
-                                    <button class="btn btn-success">Success</button>
-
-                                    <button class="btn btn-warning">Warning</button>
-
-                                    <button class="btn btn-danger">Danger</button>
-
-                                    <button class="btn btn-link">Link</button>
+                                <p class="demo" ng-repeat="pjInfo in pjInfoList">
+                                    <button class="btn btn-info" data-toggle="tooltip" data-placement="right" title="{{pjInfo.pjTypeDescription}}">{{pjInfo.pjType}}</button><br>
                                 </p>
                             </div>
                         </div>
@@ -266,124 +263,60 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Disabled Button</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
+                                <h4 class="card-title">Professor</h4>
+                                <p class="card-category">Here are some Professors,and you can understand</p>
                             </div>
                             <div class="card-body">
                                 <p class="demo">
-                                    <button class="btn btn-default" disabled="disabled">Default</button>
-
-                                    <button class="btn btn-primary" disabled="disabled">Primary</button>
-
-                                    <button class="btn btn-info" disabled="disabled">Info</button>
-
-                                    <button class="btn btn-success" disabled="disabled">Success</button>
-
-                                    <button class="btn btn-warning" disabled="disabled">Warning</button>
-
-                                    <button class="btn btn-danger" disabled="disabled">Danger</button>
-
-                                    <button class="btn btn-link" disabled>Link</button>
+                                    <span ng-repeat="pjInfo in pjInfoList">
+                                        <label class="form-radio-label">
+                                            <input class="form-radio-input" type="radio" name="optionsRadios" value="">
+                                            <span class="form-radio-sign">Unchecked</span>
+                                        </label>
+                                    </span>
                                 </p>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Button Size</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <p class="demo">
-                                    <button class="btn btn-primary btn-lg">Large</button>
-
-                                    <button class="btn btn-primary">Normal</button>
-
-                                    <button class="btn btn-primary btn-sm">Small</button>
-
-                                    <button class="btn btn-primary btn-xs">Extra Small</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Button Type</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <p class="demo">
-                                    <button class="btn btn-primary">Normal</button>
-                                    <button class="btn btn-primary btn-border">Border</button>
-
-                                    <button class="btn btn-primary btn-round">Round</button>
-
-                                    <button class="btn btn-primary btn-border btn-round">Round</button>
-
-                                    <button class="btn btn-primary btn-link">Link</button>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Checkbox</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <p class="demo">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" value="">
-                                        <span class="form-check-sign">Unchecked</span>
-                                    </label>
-
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" value="" checked>
-                                        <span class="form-check-sign">Checked</span>
-                                    </label>
-
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" value="" disabled>
-                                        <span class="form-check-sign">Disabled</span>
-                                    </label>
-
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" value="" checked disabled>
-                                        <span class="form-check-sign">Checked Disabled</span>
-                                    </label>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Radio</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <p class="demo">
-                                    <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" name="optionsRadios" value="">
-                                        <span class="form-radio-sign">Unchecked</span>
-                                    </label>
-                                    <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" name="optionsRadios" value=""
-                                               checked>
-                                        <span class="form-radio-sign">Checked</span>
-                                    </label>
-                                    <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" value="" disabled>
-                                        <span class="form-radio-sign">Disabled</span>
-                                    </label>
-                                    <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" value="" checked disabled>
-                                        <span class="form-radio-sign">Checked Disabled</span>
-                                    </label>
-                                </p>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-4">
+                                            <div class="thumbnail">
+                                                <img src="assets/images/img_1.jpg" height="200" width="242" alt="...">
+                                                <div class="caption">
+                                                    <h3>Thumbnail label</h3>
+                                                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                                    <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <div class="col-sm-6 col-md-4">
+                                            <div class="thumbnail">
+                                                <img src="assets/images/img_1.jpg" height="200" width="242" alt="...">
+                                                <div class="caption">
+                                                    <h3>Thumbnail label</h3>
+                                                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                                    <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="thumbnail">
+                                        <img src="assets/images/img_1.jpg" height="200" width="242" alt="...">
+                                        <div class="caption">
+                                            <h3>Thumbnail label</h3>
+                                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="thumbnail">
+                                        <img src="assets/images/img_1.jpg" height="200" width="242" alt="...">
+                                        <div class="caption">
+                                            <h3>Thumbnail label</h3>
+                                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -453,121 +386,6 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Progress Bar</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p class="demo">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
-                                                 aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        </p>
-                                        <p class="demo">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
-                                                 aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        </p>
-                                        <p class="demo">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"
-                                                 aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        </p>
-                                        <p class="demo">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
-                                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Bootstrap Input</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <p class="demo">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-
-                                            <input type="text" value="" placeholder="Input" class="form-control"/>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group has-success">
-
-                                            <input type="text" value="Success" class="form-control"/>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group has-error has-feedback">
-
-                                            <input type="text" value="Error" class="form-control"/>
-
-                                            <span class="la la-times form-control-feedback"></span>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <div class="input-group has-icon">
-
-                                                <input type="text" value="Group Addon" class="form-control">
-
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text input-group-icon"><i
-                                                            class="la la-keyboard-o"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Nav Pills</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <ul class="nav nav-pills nav-primary">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#">Active</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Link</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Link</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link disabled" href="#">Disabled</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
                                 <h4 class="card-title">Pagination</h4>
                                 <p class="card-category">Here is a subtitle for this table</p>
                             </div>
@@ -594,70 +412,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Slider</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <div class="demo">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div id="slider" class="slider-primary"></div>
 
-                                            <div id="slider-range" class="slider-success"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Badge</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <span class="badge badge-count">Count</span>
-                                <span class="badge badge-default">Default</span>
-                                <span class="badge badge-primary">Primary</span>
-                                <span class="badge badge-info">Info</span>
-                                <span class="badge badge-success">Success</span>
-                                <span class="badge badge-warning">Warning</span>
-                                <span class="badge badge-danger">Danger</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <footer class="footer">
             <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                ThemeKita
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Help
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#license/#free-item">
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
                 <div class="copyright ml-auto">
-                    2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">ThemeKita</a> - More
-                    Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a
-                        href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
+                    2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">Chen</a></div>
             </div>
         </footer>
     </div>
@@ -713,5 +475,6 @@
             values: [75, 300]
         });
     });
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
 </script>
 </html>

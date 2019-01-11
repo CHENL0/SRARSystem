@@ -14,6 +14,81 @@
     <select ng-model="selected2" ng-options="m.roleName for m in classification2">
         <option value="">-- 请选择 --</option>
     </select>
+
+
+
+    <div class="col-md-6">
+        <div class="card card-tasks">
+            <div class="card-header ">
+                <h4 class="card-title">Tasks</h4>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
+                </label>
+            </div>
+            <div class="card-body ">
+                <div class="table-full-width">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input  select-all-checkbox"
+                                               type="checkbox" data-select="checkbox"
+                                               data-target=".task-select">
+                                        <span class="form-check-sign"></span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th>TaskId</th>
+                            <th>Task</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="tasks in taskInfoList">
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input task-select" type="checkbox">
+                                        <span class="form-check-sign"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>{{tasks.taskId}}</td>
+                            <td>{{tasks.taskName}}</td>
+                            <td class="td-actions text-right">
+                                <div class="form-button-action">
+                                    <button type="button"  title="Edit Task" ng-click = "getTaskDetail(tasks.taskId)"
+                                            data-toggle = "modal" data-target = "#modalTask"
+                                            class="btn btn-link btn-simple-primary">
+                                        <i class="la la-edit"></i>
+                                    </button>
+                                    <button type="button" data-toggle="tooltip" title="Remove"
+                                            class="btn btn-link btn-simple-danger">
+                                        <i class="la la-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-footer ">
+                <div class="stats">
+                    <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script>

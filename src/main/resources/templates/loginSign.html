@@ -47,7 +47,7 @@
     <script src="assets/js/respond.min.js"></script>
     <!--angularjs-->
     <!--<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>-->
-    <script src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
+    <script src="assets/js/angular.min.js"></script>
     <script src="controller/app.module.js"></script>
     <script src="controller/loginCtrl.js"></script>
     <![endif]-->
@@ -130,7 +130,7 @@
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label >Username</label>
-                                                    <input type="text" class="form-control"  ng-model="username" ng-blur="getQuestion()">
+                                                    <input type="text" class="form-control"  ng-model="username" ng-blur="validateUsername()">
                                                     <span>{{usernameError}}</span>
                                                 </div>
                                             </div>

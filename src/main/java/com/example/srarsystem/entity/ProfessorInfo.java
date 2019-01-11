@@ -16,6 +16,10 @@ public class ProfessorInfo {
     @Id
     private String pfId;
     private String pfName;
+    private String pfNickname;
+    private String pfType;
     private String pfPassword;
     private String pfPhone;
+    private String pfIntroduce;
+    private String pfPicture;
 }

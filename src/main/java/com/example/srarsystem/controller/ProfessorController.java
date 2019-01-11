@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,6 +29,7 @@ import java.util.List;
  * @description the controller of professor
  */
 @Controller
+@RequestMapping(value = "/pf")
 public class ProfessorController {
 
     private final ProjectService projectService;

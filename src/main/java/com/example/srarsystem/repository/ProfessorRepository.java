@@ -1,8 +1,9 @@
 package com.example.srarsystem.repository;
 
 import com.example.srarsystem.entity.ProfessorInfo;
-import com.example.srarsystem.entity.ProjectInfo;
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -14,6 +15,6 @@ import java.util.List;
  */
 public interface ProfessorRepository extends JpaRepository<ProfessorInfo, String> {
     ProfessorInfo findByPfNameAndPfPassword(String pfName, String pfPassword);
-
     ProfessorInfo findOneByPfName(String PfName);
+    Page<ProfessorInfo> findAll (Specification<ProfessorInfo> specification, Pageable pageable);
 }

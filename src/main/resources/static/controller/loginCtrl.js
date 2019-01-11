@@ -47,7 +47,6 @@ loginSignApp
                            return str.join("&");
                        }
                    }).then(function successCallback(response) {
-                       alert("success");
                    }, function errorCallback(response) {
                        // 请求失败执行代码
                    });
@@ -66,6 +65,7 @@ loginSignApp
                $("#btnSendCode").val("    "+curCount + "秒后重新获取    ");
            }
        };
+
         $scope.validatePw = function () {
             var firstPassword = $scope.password;
             if(!firstPassword){
@@ -228,7 +228,16 @@ loginSignApp
             $scope.username= "";
             $scope.forAnswer= "";
             $scope.forQuestion= "";
-        }
+        };
+
+        $scope.validateUsername = function (){
+            var username = $scope.username;
+            if(!username){
+                $scope.usernameError = "the username should no be null";
+            }else {
+                $scope.usernameError = "√";
+            }
+        };
 
         $scope.getQuestion = function () {
             var username = $scope.username;
@@ -326,15 +335,23 @@ loginSignApp
             }
         };
 
+        $scope.validataPassword = function (){
+            var password = $scope.password;
+            if(!password){
+                $scope.pswError = "the password should not be null";
+            }else {
+                $scope.pswError = "√";
+            }
+        };
+
         $scope.login = function () {
             if($scope.usernameError === "√" && $scope.pswError === "√" ){
                 var callhttp = $http({
                     method: 'POST',
-                    url: 'http://localhost:8080/updatePassword',
+                    url: 'http://localhost:8080/login',
                     data: {
-                        userName : $scope.username,
-                        urSecurityAnswer : $scope.forAnswer,
-                        newUserPassword : $scope.password
+                        loginName : $scope.username,
+                        loginPassword : $scope.password
                     },
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     transformRequest: function(obj) {
@@ -347,8 +364,11 @@ loginSignApp
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     if(response.data){
-                        alert("Your password Has been updated,and you should be remember it");
+                        localStorage.setItem("data",$scope.username);
+                        window.location.href = "index.html";
                         $scope.cleanAllMsg();
+                    }else {
+                        alert("Your username or password is wrong");
                     }
                 }, function errorCallback(response) {
                     // 请求失败执行代码

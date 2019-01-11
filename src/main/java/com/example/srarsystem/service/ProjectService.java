@@ -1,6 +1,7 @@
 package com.example.srarsystem.service;
 
 import com.example.srarsystem.entity.ProjectInfo;
+import com.example.srarsystem.entity.ProjectTypeInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -57,4 +58,6 @@ public interface ProjectService {
      * @Return
      */
     Page<ProjectInfo> getProjectListByPage(int page, String projectType, int count, Sort sort);
+
+    List<ProjectTypeInfo> getAllPjInfo();
 }
