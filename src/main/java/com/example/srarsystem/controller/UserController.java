@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -36,10 +37,6 @@ public class UserController {
         this.taskService = taskService;
         this.userService = userService;
         this.professorService = professorService;
-    }
-
-    public Object commitTask() {
-        return null;
     }
 
     @RequestMapping(value = "/getTasks")
@@ -80,11 +77,20 @@ public class UserController {
 
     @RequestMapping(value = "/getPFInfoListPage")
     public @ResponseBody
-    Object getPFInfoListPage (String pfType,int page){
-        Sort sort = new Sort(Sort.Direction.DESC, "pfId");
+    Object getPFInfoListPage (@RequestParam(name = "pfType", defaultValue = "基础研究")String pfType,@RequestParam(name = "page", defaultValue = "0") int page){
+        Sort sort =Sort.by("pfId");
         Page<ProfessorInfo> pfInfoListPage = professorService.getPfInfoListByPage(page,pfType,6,sort);
         Map<String , Page<ProfessorInfo>> pfInfoListPageMap = new HashMap<>();
         pfInfoListPageMap.put("pfInfoListPage",pfInfoListPage);
         return pfInfoListPageMap;
+    }
+
+    @RequestMapping(value = "/getOneTypePFInfoList")
+    public  @ResponseBody
+    Object getOneTypePFInfoList(@RequestParam(name = "pfType", defaultValue = "基础研究")String pfType){
+        List<ProfessorInfo> OneTypePfInfoList = professorService.getPfInfoListByType(pfType);
+        Map<String, List<ProfessorInfo>> OneTypePfInfoListMap = new HashMap<>();
+        OneTypePfInfoListMap.put("OneTypePfInfoList",OneTypePfInfoList);
+        return OneTypePfInfoListMap;
     }
 }

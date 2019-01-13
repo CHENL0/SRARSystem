@@ -63,6 +63,12 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
+        <!--&lt;!&ndash;Hot deployment&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--<optional>true</optional>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
@@ -70,6 +76,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--<configuration>-->
+                    <!--&lt;!&ndash;fork :  如果没有该项配置devtools不会起作用，即应用不会restart &ndash;&gt;-->
+                    <!--<fork>true</fork>-->
+                    <!--<addResources>true</addResources>&lt;!&ndash;支持静态文件热部署&ndash;&gt;-->
+                <!--</configuration>-->
             </plugin>
         </plugins>
     </build>

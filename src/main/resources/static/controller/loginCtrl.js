@@ -36,7 +36,7 @@ loginSignApp
                        method: 'POST',
                        url: 'http://localhost:8080/getCode',
                        data: {
-                           registerPhone : "13244822126"
+                           registerPhone : jbPhone
                        },
                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                        transformRequest: function(obj) {

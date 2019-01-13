@@ -17,4 +17,5 @@ public interface ProfessorRepository extends JpaRepository<ProfessorInfo, String
     ProfessorInfo findByPfNameAndPfPassword(String pfName, String pfPassword);
     ProfessorInfo findOneByPfName(String PfName);
     Page<ProfessorInfo> findAll (Specification<ProfessorInfo> specification, Pageable pageable);
+    List<ProfessorInfo> findAllByPfType(String pfType);
 }

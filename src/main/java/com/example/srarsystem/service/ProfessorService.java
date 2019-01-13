@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Chen
  * @createTime 20181020 11:17
@@ -17,4 +19,6 @@ public interface ProfessorService {
     ProfessorInfo findOneByPfName(String pfName);
 
     Page<ProfessorInfo> getPfInfoListByPage (int page, String pfType, int count, Sort sort);
+
+    List<ProfessorInfo> getPfInfoListByType (String pfType);
 }

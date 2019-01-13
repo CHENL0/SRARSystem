@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Chen
  * @createTime 20181020 11:18
@@ -47,5 +49,11 @@ public class ProfessorServiceImpl implements ProfessorService {
         Specification<ProfessorInfo> specification = pageToolUtils.pfSpecification(pfType);
         Pageable pageable = PageRequest.of(page, count, sort);
         return professorRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    public List<ProfessorInfo> getPfInfoListByType(String pfType) {
+        List<ProfessorInfo> OneTypePfInfoList = professorRepository.findAllByPfType(pfType);
+        return OneTypePfInfoList;
     }
 }
