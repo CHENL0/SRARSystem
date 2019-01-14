@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean userLogin(String userName, String userPassword) {
         UserInfo userInfo = userRepository.findByUserNameAndUserPassword(userName, userPassword);
-        if (!userInfo.equals("") && userInfo != null) {
+        if (userInfo != null) {
             return true;
         }
         return false;

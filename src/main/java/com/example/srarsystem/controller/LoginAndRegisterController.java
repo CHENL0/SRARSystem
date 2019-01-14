@@ -65,20 +65,23 @@ public class LoginAndRegisterController {
             if (adminService.adminLogin(trimLoginName, loginPassword)) {
                 AdminInfo adminInfo = adminService.findOneByAdminName(trimLoginName);
                 request.getSession().setAttribute("adminInfo", adminInfo);
+                return true;
             }
-            return true;
+            return false;
         } else if (StringUtils.substringMatch(trimLoginName, 0, "PROFESSOR")) {
             if (professorService.pfLogin(trimLoginName, loginPassword)) {
                 ProfessorInfo professorInfo = professorService.findOneByPfName(trimLoginName);
                 request.getSession().setAttribute("professorInfo", professorInfo);
+                return true;
             }
-            return true;
+            return false;
         } else if (StringUtils.substringMatch(trimLoginName, 0, "USER")) {
             if (userService.userLogin(trimLoginName, loginPassword)) {
                 UserInfo userInfo = userService.findOneByUserName(trimLoginName);
                 request.getSession().setAttribute("userInfo", userInfo);
+                return true;
             }
-            return true;
+            return false;
         }
         return false;
     }

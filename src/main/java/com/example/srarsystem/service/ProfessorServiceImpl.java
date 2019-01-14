@@ -33,7 +33,7 @@ public class ProfessorServiceImpl implements ProfessorService {
     @Override
     public boolean pfLogin(String pfName, String pfPassword) {
         ProfessorInfo professorInfo = professorRepository.findByPfNameAndPfPassword(pfName, pfPassword);
-        if (!professorInfo.equals("") && professorInfo != null) {
+        if (professorInfo != null) {
             return true;
         }
         return false;

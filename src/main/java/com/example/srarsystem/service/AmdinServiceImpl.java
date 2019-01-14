@@ -23,7 +23,7 @@ public class AmdinServiceImpl implements AdminService {
     @Override
     public boolean adminLogin(String adminName, String adminPassword) {
         AdminInfo adminInfo = adminRepository.findByAdminNameAndAdminPassword(adminName, adminPassword);
-        if (!adminInfo.equals("") && adminInfo != null) {
+        if (adminInfo != null) {
             return true;
         }
         return false;
