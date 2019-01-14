@@ -72,7 +72,7 @@ PjDetailApp
                     }
                 });
                 promise.then(function successCallback(response) {
-                    var count = response.data.OneTypePfInfoList.length();
+                    var count = response.data.OneTypePfInfoList.length;
                     deferred.resolve(count);
                 },function errorCallback(response) {
                     // 请求失败执行代码

@@ -285,7 +285,7 @@
                                 </p>
                                 <br>
                                 <div class="row">
-                                    <div class="col-sm-6 col-md-4" ng-repeat="pf in pfInfoListPage">
+                                    <div class="col-sm-6 col-md-4" ng-repeat="pf in pfInfoListPage" id="pageAddress">
                                         <div class="thumbnail">
                                             <img ng-src="assets/icon/{{pf.pfPicture}}" height="200" width="242" alt="...">
                                             <div class="caption ">
@@ -389,35 +389,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Pagination</h4>
-                                <p class="card-category">Here is a subtitle for this table</p>
-                            </div>
-                            <div class="card-body">
-                                <p class="demo">
-                                <ul class="pagination pg-primary">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+
 
                 </div>
             </div>
@@ -468,6 +440,7 @@
 <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="assets/js/ready.min.js"></script>
 <script>
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
     $(function () {
         $("#slider").slider({
             range: "min",
@@ -481,6 +454,5 @@
             values: [75, 300]
         });
     });
-    $(function () { $("[data-toggle='tooltip']").tooltip(); });
 </script>
 </html>
