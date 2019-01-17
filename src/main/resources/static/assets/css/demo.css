@@ -12,6 +12,13 @@
     border: 0;
     cursor: pointer;
 }
+.selectA{
+    width: 600px;
+    height: 30px;
+    position: absolute;
+    background: #ffffff;
+}
+
 
 .update-pro button:hover {
     background: #4d7cfe !important;

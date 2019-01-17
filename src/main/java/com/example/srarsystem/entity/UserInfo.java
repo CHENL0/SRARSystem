@@ -16,21 +16,25 @@ public class UserInfo {
     @Id
     private String userId;
     private String userName;
+    private String userNickname;
     private String userPassword;
     private String userAddress;
     private String userPhone;
-    private String urSecurityQusertion;
+    private String userGender;
+    private String userIntroduce;
+    private String userIconName;
+    private String urSecurityQuestion;
     private String urSecurityAnswer;
     private int pjStatus;
     private String pjId;
 
     public UserInfo(String userId, String userName, String userPassword, String userPhone,
-                    String urSecurityQusertion, String urSecurityAnswer) {
+                    String urSecurityQuestion, String urSecurityAnswer) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userPhone = userPhone;
-        this.urSecurityQusertion = urSecurityQusertion;
+        this.urSecurityQuestion = urSecurityQuestion;
         this.urSecurityAnswer = urSecurityAnswer;
     }
 }

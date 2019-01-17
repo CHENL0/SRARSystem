@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getUrSecurityQuestionByUserName(String userName) {
         UserInfo userInfo = userRepository.findOneByUserName(userName);
-        return userInfo.getUrSecurityQusertion();
+        return userInfo.getUrSecurityQuestion();
     }
 
     /**
@@ -130,5 +130,20 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public UserInfo finishUserInfoData(UserInfo userInfo,UserInfo userInfoMapper,String fileName) {
+        userInfo.setUserNickname(userInfoMapper.getUserNickname());
+        userInfo.setUserAddress(userInfoMapper.getUserAddress());
+        userInfo.setUserIntroduce(userInfoMapper.getUserIntroduce());
+        userInfo.setUserGender(userInfoMapper.getUserGender());
+        userInfo.setUserIconName(fileName);
+        return userInfo;
+    }
+
+    @Override
+    public void updateUserInfo(UserInfo userInfo) {
+        userRepository.save(userInfo);
     }
 }

@@ -27,8 +27,7 @@ public class ProjectInfo {
      */
     private int pjStatus;
 
-    //    public ProjectInfo() {
-//    }
+
     public ProjectInfo(String pjId, String pjName, String pjPath, String pjUser, String pjType,
                        String pjDescription, String pjCommitDate, int pjStatus) {
         this.pjId = pjId;

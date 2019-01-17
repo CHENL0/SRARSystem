@@ -60,4 +60,6 @@ public interface ProjectService {
     Page<ProjectInfo> getProjectListByPage(int page, String projectType, int count, Sort sort);
 
     List<ProjectTypeInfo> getAllPjInfo();
+
+    List<ProjectInfo> getPjInfoListByUsername(String username);
 }

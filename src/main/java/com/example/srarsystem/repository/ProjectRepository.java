@@ -17,4 +17,6 @@ public interface ProjectRepository extends JpaRepository<ProjectInfo, String> {
     ProjectInfo findOneByPjId(String pjId);
 
     Page<ProjectInfo> findAll(Specification<ProjectInfo> specification, Pageable pageable);
+
+    List<ProjectInfo> findProjectInfosByPjUser(String pjUser);
 }

@@ -1,5 +1,7 @@
 package com.example.srarsystem.controller;
 
+import com.example.srarsystem.commons.AccessUtils;
+import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.ProjectTypeInfo;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.service.ProjectService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -35,27 +38,30 @@ public class ProjectController {
         this.projectService = projectService;
         this.userService = userService;
     }
+
     @GetMapping("/getPjInfoList")
     public @ResponseBody
-    Object getAllPjInfos(){
+    Object getAllPjInfos(HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         List<ProjectTypeInfo> projectInfoList = projectService.getAllPjInfo();
-        Map<String,List<?>>  pjInfoListMap = new HashMap<>();
-        pjInfoListMap.put("pjInfoList",projectInfoList);
+        Map<String, List<?>> pjInfoListMap = new HashMap<>();
+        pjInfoListMap.put("pjInfoList", projectInfoList);
         return pjInfoListMap;
     }
 
     @PostMapping("/upload")
     public @ResponseBody
     String upload(@RequestParam MultipartFile file, String pjType,
-                         @RequestParam("pjDescription") String pjDescription, HttpServletRequest request) {
+                  @RequestParam("pjDescription") String pjDescription,
+                  HttpServletRequest request,HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         String userId = (String) request.getSession().getAttribute("userId");
         UserInfo userInfo = userService.getUserInfoByUserId(userId);
         if (file.isEmpty()) {
             return "上传失败，请选择文件";
         }
-
         String fileName = file.getOriginalFilename();
-        String filePath = "E:\\f/";
+        String filePath = "E:/f/";
 //        String filePath = "D:" + File.separator + "apache-tomcat-8.5.15"+ File.separator + "files" ;
 //        String realPath = File.separator + "home" + File.separator + "tomcat" + File.separator + "apache-tomcat-9.0.1" + File.separator + "files"
         File cuFilePath = new File(filePath);
@@ -72,4 +78,20 @@ public class ProjectController {
         return "上传成功";
     }
 
+    /**
+     * @Description  //TODO userProfiles show oneself pjInfos
+     * @Author Chen
+     * @DateTime 2019/1/15
+     * @Param
+     * @Return
+     */
+    @PostMapping(value = "/getPjInfoListByUsername")
+    public @ResponseBody
+    Object getPjInfoListByUser(String username,HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
+        List<ProjectInfo> oneUserPjInfoList = projectService.getPjInfoListByUsername(username);
+        Map<String, List<ProjectInfo>> oneUserPjInfoListMap = new HashMap<>();
+        oneUserPjInfoListMap.put("oneUserPjInfoList", oneUserPjInfoList);
+        return oneUserPjInfoListMap;
+    }
 }

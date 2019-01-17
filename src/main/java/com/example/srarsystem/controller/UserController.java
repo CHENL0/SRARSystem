@@ -6,12 +6,15 @@ package com.example.srarsystem.controller;
  * @description the controller of user
  */
 
+import com.example.srarsystem.commons.AccessUtils;
+import com.example.srarsystem.commons.FileUtils;
 import com.example.srarsystem.entity.ProfessorInfo;
 import com.example.srarsystem.entity.TaskInfo;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.service.ProfessorService;
 import com.example.srarsystem.service.TaskService;
 import com.example.srarsystem.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -19,7 +22,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +48,8 @@ public class UserController {
 
     @RequestMapping(value = "/getTasks")
     public @ResponseBody
-    Object getAllTasks(String username){
+    Object getAllTasks(String username, HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
         List<TaskInfo> taskInfoList = taskService.getAllTaskInfoByUsername(username);
         Map<String,List<?>> tasksListMap = new HashMap<>();
         tasksListMap.put("taskInfoList", taskInfoList);
@@ -50,7 +58,8 @@ public class UserController {
 
     @RequestMapping(value = "/getUserInfo")
     public @ResponseBody
-    Object getUserInfo (String username){
+    Object getUserInfo (String username, HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
         UserInfo userInfo = userService.findOneByUserName(username);
         Map<String,UserInfo> userInfoMap = new HashMap<>();
         userInfoMap.put("userInfo", userInfo);
@@ -59,7 +68,8 @@ public class UserController {
 
     @RequestMapping(value = "/getTaskInfo")
     public  @ResponseBody
-    Object getTaskInfo(String taskId){
+    Object getTaskInfo(String taskId, HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
         TaskInfo taskInfo = taskService.getTaskInfo(taskId);
         Map<String, TaskInfo> taskInfoMap = new HashMap<>();
         taskInfoMap.put("taskInfo", taskInfo);
@@ -68,7 +78,8 @@ public class UserController {
 
     @RequestMapping(value = "/getOneStatusTaskList")
     public  @ResponseBody
-    Object getOneStatusTaskList(int taskStatus){
+    Object getOneStatusTaskList(int taskStatus, HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
         List<TaskInfo> oneStatusTaskList = taskService.getAllTaskInfoByTaskStatus(taskStatus);
         Map<String, List<?>> taskInfoMap = new HashMap<>();
         taskInfoMap.put("oneStatusTaskList", oneStatusTaskList);
@@ -77,7 +88,10 @@ public class UserController {
 
     @RequestMapping(value = "/getPFInfoListPage")
     public @ResponseBody
-    Object getPFInfoListPage (@RequestParam(name = "pfType", defaultValue = "基础研究")String pfType,@RequestParam(name = "page", defaultValue = "0") int page){
+    Object getPFInfoListPage (@RequestParam(name = "pfType", defaultValue = "基础研究")String pfType,
+                              @RequestParam(name = "page", defaultValue = "0") int page,
+                              HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
         Sort sort =Sort.by("pfId");
         Page<ProfessorInfo> pfInfoListPage = professorService.getPfInfoListByPage(page,pfType,6,sort);
         Map<String , Page<ProfessorInfo>> pfInfoListPageMap = new HashMap<>();
@@ -87,10 +101,36 @@ public class UserController {
 
     @RequestMapping(value = "/getOneTypePFInfoList")
     public  @ResponseBody
-    Object getOneTypePFInfoList(@RequestParam(name = "pfType", defaultValue = "基础研究")String pfType){
+    Object getOneTypePFInfoList(@RequestParam(name = "pfType", defaultValue = "基础研究")String pfType,
+                                HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
         List<ProfessorInfo> OneTypePfInfoList = professorService.getPfInfoListByType(pfType);
         Map<String, List<ProfessorInfo>> OneTypePfInfoListMap = new HashMap<>();
         OneTypePfInfoListMap.put("OneTypePfInfoList",OneTypePfInfoList);
         return OneTypePfInfoListMap;
+    }
+
+    @RequestMapping(value = "/userProfileSubmit")
+    public  @ResponseBody
+    Object userProfileSubmit(MultipartFile file,String userProfileData,HttpServletResponse response) throws IOException {
+        AccessUtils.getAccessAllow(response);
+
+        Map<Object,Object> finishDataRequestMap = new HashMap<>();
+
+        String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/images";
+        if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
+            //success
+            ObjectMapper objectMapper = new ObjectMapper();
+            UserInfo userInfoMapper = objectMapper.readValue(userProfileData,UserInfo.class);
+            String userName = userInfoMapper.getUserName();
+            UserInfo userInfo = userService.findOneByUserName(userName);
+            UserInfo updataUserInfo = userService.finishUserInfoData(userInfo, userInfoMapper, file.getOriginalFilename());
+            userService.updateUserInfo(updataUserInfo);
+            finishDataRequestMap.put("responseType","SUCCESS");
+        }else {
+            //error
+            finishDataRequestMap.put("responseType","ERROR");
+        }
+        return finishDataRequestMap;
     }
 }

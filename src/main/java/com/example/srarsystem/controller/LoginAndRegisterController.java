@@ -1,6 +1,7 @@
 package com.example.srarsystem.controller;
 
 
+import com.example.srarsystem.commons.AccessUtils;
 import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.commons.SendSmsUtils;
 import com.example.srarsystem.commons.UUIDUtils;
@@ -11,7 +12,6 @@ import com.example.srarsystem.service.AdminService;
 import com.example.srarsystem.service.ProfessorService;
 import com.example.srarsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +33,6 @@ public class LoginAndRegisterController {
     private final UserService userService;
     private final AdminService adminService;
     private final ProfessorService professorService;
-
     @Autowired
     public LoginAndRegisterController(UserService userService, AdminService adminService,
                                       ProfessorService professorService) {
@@ -59,7 +58,9 @@ public class LoginAndRegisterController {
     @PostMapping(value = "/login")
     public @ResponseBody
     Object login(@RequestParam(value = "loginName") String loginName,
-                 @RequestParam(value = "loginPassword") String loginPassword, HttpServletRequest request) {
+                 @RequestParam(value = "loginPassword") String loginPassword,
+                 HttpServletResponse response, HttpServletRequest request) {
+        AccessUtils.getAccessAllow(response);
         String trimLoginName = StringUtils.trimWhitespace(loginName);
         if (StringUtils.substringMatch(trimLoginName, 0, "ADMIN")) {
             if (adminService.adminLogin(trimLoginName, loginPassword)) {
@@ -95,7 +96,8 @@ public class LoginAndRegisterController {
      */
     @PostMapping(value = "/getCode")
     public @ResponseBody
-    Object getCode(String registerPhone, HttpServletRequest request) {
+    Object getCode(String registerPhone,HttpServletResponse response, HttpServletRequest request) {
+        AccessUtils.getAccessAllow(response);
         String rand = SendSmsUtils.createRandNum();
         SendSmsUtils.sendMsgTo(registerPhone, rand);
         request.getSession().setAttribute("code", SendSmsUtils.sigMD5(rand));
@@ -113,6 +115,7 @@ public class LoginAndRegisterController {
     public @ResponseBody
     Object verifyCode(String code, HttpServletRequest request,
                       HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         String codes = (String) request.getSession().getAttribute("code");
         if (codes != null && SendSmsUtils.sigMD5(code).equals(codes)) {
             return true;
@@ -129,7 +132,8 @@ public class LoginAndRegisterController {
      */
     @PostMapping("/verifyPhone")
     public @ResponseBody
-    Object verifyPhone(String registerPhone) {
+    Object verifyPhone(String registerPhone, HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         if (userService.isPhoneRegister(registerPhone)) {
             return true;
         }
@@ -146,7 +150,8 @@ public class LoginAndRegisterController {
     @PostMapping(value = "/register")
     public @ResponseBody
     Object register(String registerPhone, String registerPassword,
-                    String urSecurityQuestion, String urSecurityAnswer) {
+                    String urSecurityQuestion, String urSecurityAnswer, HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         /*to get The time stamp*/
         String timestamp = DateUtils.getTimestamp();
         String userName = "USER_" + timestamp;
@@ -167,7 +172,8 @@ public class LoginAndRegisterController {
      */
     @PostMapping(value = "/findUrSecurity")
     public @ResponseBody
-    Object findUrSecurityQuestion(String userName) {
+    Object findUrSecurityQuestion(String userName, HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         String qusetion = userService.getUrSecurityQuestionByUserName(userName);
         Map<String, String> map = new HashMap<>();
         map.put("question", qusetion);
@@ -183,7 +189,9 @@ public class LoginAndRegisterController {
      */
     @PostMapping(value = "/updatePassword")
     public @ResponseBody
-    Object findPassword(String userName, String urSecurityAnswer, String newUserPassword) {
+    Object findPassword(String userName, String urSecurityAnswer,
+                        String newUserPassword, HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         userService.updateUserPassowrd(userName, urSecurityAnswer, newUserPassword);
         return true;
     }
@@ -197,7 +205,8 @@ public class LoginAndRegisterController {
      */
     @PostMapping(value = "/validateAnswer")
     public @ResponseBody
-    Object validateAnswer(String userName, String urSecurityAnswer) {
+    Object validateAnswer(String userName, String urSecurityAnswer, HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         if(userService.validateQuestion(userName,urSecurityAnswer)){
             return true;
         }

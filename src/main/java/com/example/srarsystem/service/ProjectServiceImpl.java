@@ -74,4 +74,9 @@ public class ProjectServiceImpl implements ProjectService {
         return projectTypeRepository.findAll();
     }
 
+    @Override
+    public List<ProjectInfo> getPjInfoListByUsername(String username) {
+        return projectRepository.findProjectInfosByPjUser(username);
+    }
+
 }

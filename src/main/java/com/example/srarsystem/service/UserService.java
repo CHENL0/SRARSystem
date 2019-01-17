@@ -52,4 +52,8 @@ public interface UserService {
     UserInfo getUserInfoByUserId(String userId);
 
     boolean validateQuestion(String userName, String urSecurityAnswer);
+
+    UserInfo finishUserInfoData(UserInfo userInfo,UserInfo userInfoMapper,String fileName);
+
+    void  updateUserInfo (UserInfo userInfo);
 }

@@ -1,5 +1,6 @@
 package com.example.srarsystem.controller;
 
+import com.example.srarsystem.commons.AccessUtils;
 import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.TaskInfo;
@@ -47,7 +48,9 @@ public class ProfessorController {
     public @ResponseBody
     Page<ProjectInfo> getAllProjectPage(@RequestParam(name = "pageNumber", defaultValue = "0") int pageNum,
                                         @RequestParam(name = "dataCount", defaultValue = "3") int dataCount,
-                                        @RequestParam(name = "pjType", defaultValue = "基础研究") String pjType) {
+                                        @RequestParam(name = "pjType", defaultValue = "基础研究") String pjType,
+                                        HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         Sort sort = Sort.by("pjType");
         Page<ProjectInfo> projectPage = projectService.getProjectListByPage(pageNum, pjType, dataCount, sort);
 
@@ -62,7 +65,8 @@ public class ProfessorController {
      * @Return
      */
     @PostMapping(value = "/rejectProject")
-    public Object rejectProject(String pjId) {
+    public Object rejectProject(String pjId, HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         ProjectInfo projectInfo = projectService.getProjectInfoByPjId(pjId);
         projectInfo.setPjStatus(3);
         projectService.saveProject(projectInfo);
@@ -77,7 +81,8 @@ public class ProfessorController {
      * @Return
      */
     @PostMapping(value = "/acceptProject")
-    public Object acceptProject(String pjId) {
+    public Object acceptProject(String pjId, HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         ProjectInfo projectInfo = projectService.getProjectInfoByPjId(pjId);
         projectInfo.setPjStatus(2);
         projectService.saveProject(projectInfo);
@@ -92,7 +97,8 @@ public class ProfessorController {
      * @Return
      */
     @PostMapping(value = "/addTask")
-    public Object addTask(TaskInfo taskInfo) {
+    public Object addTask(TaskInfo taskInfo, HttpServletResponse response) {
+        AccessUtils.getAccessAllow(response);
         taskService.addTask(taskInfo);
         return "success";
     }
@@ -131,6 +137,7 @@ public class ProfessorController {
     @PostMapping("/download")
     public @ResponseBody
     String downloadFile(HttpServletRequest request, HttpServletResponse response, String pjId) {
+        AccessUtils.getAccessAllow(response);
         // 文件名
         ProjectInfo projectInfo = projectService.findOneByPjId(pjId);
         String fileName = projectInfo.getPjName();
