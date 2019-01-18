@@ -1,6 +1,7 @@
-UserProfileApp
+MyApp
     .controller('userProfileController',['$scope', '$interval', 'userProfileService', function ($scope,$interval, userProfileService) {
         //get username from localStorage
+        $scope.pageClass = 'userProfile';
         $scope.username = localStorage.getItem("data");
         $scope.disabledInput = true;
         $scope.disabledSubmit = true;

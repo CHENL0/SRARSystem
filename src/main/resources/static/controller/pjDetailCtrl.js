@@ -1,6 +1,7 @@
-PjDetailApp
+MyApp
     .controller('pjDetailController',['$scope', '$interval', 'pjDetailService', function ($scope,$interval, pjDetailService) {
         //get username from localStorage
+        $scope.pageClass = 'pjDetail';
         $scope.index = 0;
         $scope.username = localStorage.getItem("data");
         $scope.activeCode = 1;

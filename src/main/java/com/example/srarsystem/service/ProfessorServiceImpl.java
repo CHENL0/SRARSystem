@@ -56,4 +56,9 @@ public class ProfessorServiceImpl implements ProfessorService {
         List<ProfessorInfo> OneTypePfInfoList = professorRepository.findAllByPfType(pfType);
         return OneTypePfInfoList;
     }
+
+    @Override
+    public List<ProfessorInfo> getAllPfInfoList() {
+        return professorRepository.findAll();
+    }
 }

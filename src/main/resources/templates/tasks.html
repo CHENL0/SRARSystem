@@ -1,0 +1,322 @@
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/css/ready.css">
+    <link rel="stylesheet" href="assets/css/demo.css">
+
+
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="assets/js/angular-animate.js"></script>
+    <script src="assets/js/date.format.js"></script>
+    <script src="controller/app.module.js"></script>
+    <script src="controller/taskCtrl.js"></script>
+    <script src="service/taskServ.js"></script>
+
+
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+
+
+                <div class="row">
+                    <!--<div class="col-md-4">-->
+                    <!---->
+                    <!--</div>-->
+                    <!--<div class="col-md-8">-->
+                    <!---->
+                    <!--</div>-->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header ">
+                                <h4 class="card-title">Table</h4>
+                                <p class="card-category">Users Table</p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-head-bg-success table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First</th>
+                                        <th scope="col">Last</th>
+                                        <th scope="col">Handle</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td colspan="2">Larry the Bird</td>
+                                        <td>@twitter</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-tasks">
+                            <div class="card-header ">
+                                <h4 class="card-title">Tasks</h4><br>
+                                <!--<label class="radio-inline col-md-4">-->
+                                    <!--<input type="button" class="btn btn-success"  value="Finish" ng-click="getOneStatusTask(2)">-->
+                                <!--</label>-->
+                                <!--<label class="radio-inline col-md-4">-->
+                                    <!--<input type="button" class="btn btn-danger " value="Unfinish" ng-click="getOneStatusTask(1)">-->
+                                <!--</label>-->
+                                <!--<label class="radio-inline col-md-3">-->
+                                    <!--<input type="button" class="btn btn-warning " value="timeout" ng-click="getOneStatusTask(3)">-->
+                                <!--</label>-->
+                                <!--<label class="radio-inline">-->
+                                    <!--<img src="assets/img/refresh.jpg" ng-click="getTasksListData()">-->
+                                <!--</label>-->
+                                <p class="demo">
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getOneStatusTask(1)">
+                                        <span class="form-radio-sign">Unfinished</span>
+                                    </label>
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getOneStatusTask(2)">
+                                        <span class="form-radio-sign">Finished</span>
+                                    </label>
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getOneStatusTask(3)">
+                                        <span class="form-radio-sign">Unfinished</span>
+                                    </label>
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getTasksListData()">
+                                        <span class="form-radio-sign">Refresh</span>
+                                    </label>
+                                    <!--<label class="radio-inline">-->
+                                        <!--<img src="assets/img/refresh.jpg" ng-click="getTasksListData()">-->
+                                    <!--</label>-->
+                                </p>
+                            </div>
+                                    <div class="card-body ">
+                                        <div class="table-full-width">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input  select-all-checkbox"
+                                                                       type="checkbox" data-select="checkbox"
+                                                                       data-target=".task-select">
+                                                                <span class="form-check-sign"></span>
+                                                            </label>
+                                                        </div>
+                                                    </th>
+                                                    <th>TaskId</th>
+                                                    <th>Task</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="tasks in taskInfoList">
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input task-select" type="checkbox">
+                                                                <span class="form-check-sign"></span>
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{tasks.taskId}}</td>
+                                                    <td>{{tasks.taskName}}</td>
+                                                    <td class="td-actions text-right">
+                                                        <div class="form-button-action">
+                                                            <button type="button"  title="Edit Task" ng-click = "getTaskDetail(tasks.taskId)"
+                                                                    data-toggle = "modal" data-target = "#modalTask"
+                                                                    class="btn btn-link btn-simple-primary">
+                                                                <i class="la la-edit"></i>
+                                                            </button>
+                                                            <button type="button" data-toggle="tooltip" title="Remove"
+                                                                    class="btn btn-link btn-simple-danger">
+                                                                <i class="la la-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer ">
+                                        <div class="stats">
+                                            <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="copyright ml-auto">
+                            2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">CHEN</a></div>
+                    </div>
+                </footer>
+            </div>
+        <!-- Modal -->
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> Under Development</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
+                <p>
+                    <b>We'll let you know when it's done</b></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalTask" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> Task card</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                    <table class="table table-striped">
+                        <tr>
+                            <td><h6>TASKID  :</h6></td>
+                            <td><h6 class="col-md-4">{{taskInfo.taskId}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6>TASKNAME  :</h6></td>
+                            <td><h6 >{{taskInfo.taskName}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6 >PROFESSNAME  :</h6></td>
+                            <td><h6 >{{taskInfo.pfName}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6>TASKDATE  :</h6></td>
+                            <td><h6 >{{taskInfo.taskDate}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6 >DEADLINE  :</h6></td>
+                            <td><h6>{{taskInfo.deadline}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6 >STATUS  :</h6></td>
+                            <td>
+                                <h6>
+                                    <span ng-if="taskInfo.taskStatus === 1">
+                                        <span style="color: #b21f2d">Unfinished</span>
+                                    </span>
+                                    <span ng-if="taskInfo.taskStatus === 2">
+                                        <span style="color: #1e7e34">Finished</span>
+                                    </span>
+                                    <span ng-if="taskInfo.taskStatus === 3">
+                                        <span style="color: yellow">Timeout</span>
+                                    </span>
+                                </h6>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><h6>DESCRIPTION  :</h6></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><h6 >{{taskInfo.taskDescription}}</h6></td>
+                        </tr>
+
+                        <!--<label class="control-label">Email address</label>-->
+                        <!--<input type="email" class="form-control"  placeholder="Email">-->
+
+                        <!--<label class="control-label">Email address</label>-->
+                        <!--<input type="email" class="form-control"  placeholder="Email">-->
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span ng-if = "taskInfo.taskStatus === 1 ||taskInfo.taskStatus === 3">
+                    <h6 class="pull-left">
+                        Countdown :
+                        <span ng-if="countdown > 3">
+                            <span style="color: #2e6da4">{{countdown}}</span> days
+                        </span>
+                        <span ng-if="countdown <= 3 && countdown != 0">
+                            <span style="color: #ffc107">{{countdown}}</span> days
+                        </span>
+                        <span ng-if="countdown === 0">
+                            <span style="color: red">{{countdown}}</span> days
+                        </span>
+                    </h6>
+                </span>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script type="text/ng-template" id="myModalContent.html" class="modal-backdrop" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro">-->
+    <!--<div class="modal fade">-->
+        <!--<div class="modal-header">-->
+            <!--<button type="button" class="close" aria-label="Close"><span aria-show="true"></span></button>-->
+            <!--<h4 class="modal-title">ddd</h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+            <!--<div class="modal-input-group">-->
+                <!--ddd:<input type="text" class="motal-input form-control" ng-model="student.name"/>-->
+            <!--</div>-->
+            <!--<div class="modal-input-group">-->
+                <!--ddd:<input type="text" class="motal-input form-control" ng-model="student.sex"/>-->
+            <!--</div>-->
+            <!--<div class="modal-input-group">-->
+                <!--ddd:<input type="text" class="motal-input form-control" ng-model="student.major"/>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="modal-footer">-->
+            <!--<button type="button" class="btn btn-default" ng-click="cancel()">关闭</button>-->
+            <!--<button type="button" class="btn btn-primary" ng-click="ok()">确认</button>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</script>-->
+</body>
+<script src="assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/js/ready.min.js"></script>
+<script src="assets/js/demo.js"></script>
+</html>

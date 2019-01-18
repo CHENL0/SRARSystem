@@ -1,4 +1,37 @@
-var loginSignApp =angular.module('loginSignApp', []);
-var IndexApp =angular.module('IndexApp', ['ngAnimate','ui.bootstrap']);
-var PjDetailApp = angular.module('PjDetailApp', []);
-var UserProfileApp = angular.module('UserProfileApp', []);
+var LoginApp = angular.module('LoginApp', []);
+var MyApp = angular.module('MyApp', ['ngRoute','ngAnimate','ui.bootstrap']);
+MyApp.config(function ($routeProvider) {
+
+    $routeProvider
+
+        // pjDetail page
+        .when('/', {
+            templateUrl: 'pjDetail.html',
+            controller: 'pjDetailController'
+        })
+
+        // // pjDetail page
+        // .when('/pjDetail', {
+        //     templateUrl: 'pjDetail.html',
+        //     controller: 'pjDetailController'
+        // })
+
+        // userProfile page
+        .when('/userProfile', {
+            templateUrl: 'userProfile.html',
+            controller: 'userProfileController'
+        })
+
+
+        // tasks page
+        .when('/tasks', {
+                templateUrl: 'tasks.html',
+                controller: 'taskController'
+        })
+
+    // tasks page
+        .when('/submit', {
+                templateUrl: 'submit.html',
+                controller: 'submitController'
+        });
+});

@@ -1,5 +1,5 @@
-IndexApp
-    .service('indexService',['$http', '$q',function ($http, $q) {
+MyApp
+    .service('taskService',['$http', '$q',function ($http, $q) {
         return {
             getTasksListData : function(requestData) {
                 var deferred = $q.defer();

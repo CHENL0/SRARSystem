@@ -21,4 +21,6 @@ public interface ProfessorService {
     Page<ProfessorInfo> getPfInfoListByPage (int page, String pfType, int count, Sort sort);
 
     List<ProfessorInfo> getPfInfoListByType (String pfType);
+
+    List<ProfessorInfo> getAllPfInfoList ();
 }

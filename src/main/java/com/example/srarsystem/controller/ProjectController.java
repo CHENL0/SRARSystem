@@ -1,11 +1,13 @@
 package com.example.srarsystem.controller;
 
 import com.example.srarsystem.commons.AccessUtils;
+import com.example.srarsystem.commons.FileUtils;
 import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.ProjectTypeInfo;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.service.ProjectService;
 import com.example.srarsystem.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,34 +51,34 @@ public class ProjectController {
         return pjInfoListMap;
     }
 
-    @PostMapping("/upload")
-    public @ResponseBody
-    String upload(@RequestParam MultipartFile file, String pjType,
-                  @RequestParam("pjDescription") String pjDescription,
-                  HttpServletRequest request,HttpServletResponse response) {
-        AccessUtils.getAccessAllow(response);
-        String userId = (String) request.getSession().getAttribute("userId");
-        UserInfo userInfo = userService.getUserInfoByUserId(userId);
-        if (file.isEmpty()) {
-            return "上传失败，请选择文件";
-        }
-        String fileName = file.getOriginalFilename();
-        String filePath = "E:/f/";
-//        String filePath = "D:" + File.separator + "apache-tomcat-8.5.15"+ File.separator + "files" ;
-//        String realPath = File.separator + "home" + File.separator + "tomcat" + File.separator + "apache-tomcat-9.0.1" + File.separator + "files"
-        File cuFilePath = new File(filePath);
-        if (!cuFilePath.isDirectory()) {
-            cuFilePath.mkdir();
-        }
-        File dest = new File(filePath + fileName);
-        try {
-            file.transferTo(dest);
-            projectService.uploadProjectFile(filePath, fileName, userInfo.getUserName(), pjType, pjDescription);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "上传成功";
-    }
+//    @PostMapping("/upload")
+//    public @ResponseBody
+//    String upload(@RequestParam MultipartFile file, String pjType,
+//                  @RequestParam("pjDescription") String pjDescription,
+//                  HttpServletRequest request,HttpServletResponse response) {
+//        AccessUtils.getAccessAllow(response);
+//        String userId = (String) request.getSession().getAttribute("userId");
+//        UserInfo userInfo = userService.getUserInfoByUserId(userId);
+//        if (file.isEmpty()) {
+//            return "上传失败，请选择文件";
+//        }
+//        String fileName = file.getOriginalFilename();
+//        String filePath = "E:/f/";
+////        String filePath = "D:" + File.separator + "apache-tomcat-8.5.15"+ File.separator + "files" ;
+////        String realPath = File.separator + "home" + File.separator + "tomcat" + File.separator + "apache-tomcat-9.0.1" + File.separator + "files"
+//        File cuFilePath = new File(filePath);
+//        if (!cuFilePath.isDirectory()) {
+//            cuFilePath.mkdir();
+//        }
+//        File dest = new File(filePath + fileName);
+//        try {
+//            file.transferTo(dest);
+//            projectService.uploadProjectFile(filePath, fileName, userInfo.getUserName(), pjType, pjDescription);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return "上传成功";
+//    }
 
     /**
      * @Description  //TODO userProfiles show oneself pjInfos
@@ -93,5 +95,28 @@ public class ProjectController {
         Map<String, List<ProjectInfo>> oneUserPjInfoListMap = new HashMap<>();
         oneUserPjInfoListMap.put("oneUserPjInfoList", oneUserPjInfoList);
         return oneUserPjInfoListMap;
+    }
+
+    @RequestMapping(value = "/commitPjInfoData")
+    public @ResponseBody
+    Object commitPjInfoData(MultipartFile file,String projectInfoData
+            ,HttpServletResponse response) throws IOException {
+        AccessUtils.getAccessAllow(response);
+        Map<Object,Object> finishDataRequestMap = new HashMap<>();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProjectInfo projectInfoMapper = objectMapper.readValue(projectInfoData,ProjectInfo.class);
+        String userName = projectInfoMapper.getPjUser();
+        String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/file/"+userName;
+        if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
+            //success
+            ProjectInfo projectInfo =projectService.setPjInfoData(projectInfoMapper,file.getOriginalFilename(),localPath);
+            projectService.saveProject(projectInfo);
+            finishDataRequestMap.put("responseType","SUCCESS");
+        }else {
+            //error
+            finishDataRequestMap.put("responseType","ERROR");
+        }
+        return finishDataRequestMap;
     }
 }

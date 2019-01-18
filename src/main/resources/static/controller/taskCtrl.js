@@ -1,21 +1,22 @@
-IndexApp
-    .controller('indexController',['$scope', '$uibModal', '$interval', 'indexService', function ($scope, $uibModal,$interval, indexService) {
+MyApp
+    .controller('taskController',['$scope', '$uibModal', '$interval', 'taskService', function ($scope, $uibModal,$interval, taskService) {
         //get username from localStorage
+        $scope.pageClass = 'tasks';
         $scope.username = localStorage.getItem("data");
 
-        indexService.getTasksListData($scope.username).then(
+        taskService.getTasksListData($scope.username).then(
             function (response) {
                 $scope.taskInfoList = response.taskInfoList;
             });
 
-        indexService.getUserInfoData($scope.username).then(
+        taskService.getUserInfoData($scope.username).then(
             function (response) {
                 $scope.userInfo = response.userInfo;
             }
         );
 
         $scope.getTasksListData = function(){
-            indexService.getTasksListData($scope.username).then(
+            taskService.getTasksListData($scope.username).then(
                 function (response) {
                     $scope.taskInfoList = response.taskInfoList;
                 });
@@ -26,11 +27,11 @@ IndexApp
             window.location.href = "loginSign.html";
         }
         $scope.getTaskDetail = function (taskId) {
-            indexService.getTaskInfoData(taskId).then(
+            taskService.getTaskInfoData(taskId).then(
                 function (response) {
                     $scope.taskInfo = response.taskInfo;
                     var currentDate = dateFormat(new Date(), "yyyy-mm-dd");
-                    $scope.countdown = indexService.getCountdownDate(currentDate,$scope.taskInfo.deadline);
+                    $scope.countdown = taskService.getCountdownDate(currentDate,$scope.taskInfo.deadline);
                     // var countdown  = $interval(function () {
                     //     getCountdownDate($scope.deadlineDate , $scope.deadlineDate);
                     // },3000)
@@ -40,7 +41,7 @@ IndexApp
         };
 
         $scope.getOneStatusTask = function (statusData) {
-            indexService.getOneStatusTaskList(statusData).then(
+            taskService.getOneStatusTaskList(statusData).then(
                 function (response) {
                     $scope.taskInfoList = response.oneStatusTaskList;
                 }

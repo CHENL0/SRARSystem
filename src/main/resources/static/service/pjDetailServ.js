@@ -1,4 +1,4 @@
-PjDetailApp
+MyApp
     .service('pjDetailService',['$http', '$q',function ($http, $q) {
         return {
             getPjInfoListData : function() {

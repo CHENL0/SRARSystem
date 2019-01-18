@@ -133,4 +133,16 @@ public class UserController {
         }
         return finishDataRequestMap;
     }
+
+
+    @RequestMapping(value = "/getAllPFInfoList")
+    public @ResponseBody
+    Object getAllPFInfoList (){
+        List<ProfessorInfo> professorInfoList = professorService.getAllPfInfoList();
+        Map<String,List<ProfessorInfo>> pfInfoListMap = new HashMap<>();
+        pfInfoListMap.put("professorInfoList",professorInfoList);
+        return pfInfoListMap;
+    }
+
+
 }

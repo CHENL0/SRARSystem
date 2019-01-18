@@ -62,4 +62,8 @@ public interface ProjectService {
     List<ProjectTypeInfo> getAllPjInfo();
 
     List<ProjectInfo> getPjInfoListByUsername(String username);
+
+    void commitPjInfoData (ProjectInfo projectInfo);
+
+    ProjectInfo setPjInfoData (ProjectInfo projectInfo, String file, String localPath);
 }

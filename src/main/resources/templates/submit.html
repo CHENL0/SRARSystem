@@ -1,0 +1,165 @@
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<!--<link rel="stylesheet" href="assets/css/bootstrap.css">-->
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+<link rel="stylesheet" href="assets/css/ready.css">
+<link rel="stylesheet" href="assets/css/demo.css">
+<script src="assets/js/jquery.min.js" ></script>
+<script src="assets/js/angular.min.js" ></script>
+<script src="assets/js/ui-bootstrap-tpls-2.5.0.js" ></script>
+<script src="assets/js/angular-animate.js" ></script>
+<script src="assets/js/date.format.js" ></script>
+<script src="controller/app.module.js" ></script>
+<script src="controller/submitCtrl.js" ></script>
+<script src="service/submitServ.js" ></script>
+<style>
+    body{background:#ddd;font:14px/1.7 tahoma,'\5fae\8f6f\96c5\9ed1',sans-serif;}
+    h1,h2,h3{font-size:36px;line-height:1;}
+    h2{font-size:24px;}
+    h3{font-size:18px;}
+    fieldset{margin:2em 0;}
+    fieldset legend{font-weight:bold;font-size:16px;line-height:2;}
+    a{color:#06f;text-decoration:none;}
+    a:hover{color:#00f;}
+
+    .wrap{width:800px;margin:0 auto;padding:20px 40px;border-radius:8px;background:#fff;box-shadow:0 0 10px rgba(0,0,0,0.5);}
+</style>
+
+<div class="main-panel">
+    <div class="content">
+        <div class="container-fluid">
+            <h4 class="page-title">Submit your project</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Submit your project</h4>
+                            <p class="card-category">Here is a form for submiting your project</p>
+                        </div>
+                        <div ng-show="isOverCount">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                                <span style="color: #bd2130">
+                                                    ps: sorry , Your project has been more than three
+                                                </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="!isOverCount">
+                            <div class="card-body">
+
+
+                                <div class="form-group">
+                                    <legend>Name:</legend>
+                                    <p class="form-control-static">{{userInfo.userName}}</p>
+                                    <legend>Nickname:</legend>
+                                    <p class="form-control-static">{{userInfo.userNickname}}</p>
+                                    <legend>Phone:</legend>
+                                    <p class="form-control-static">{{userInfo.userPhone}}</p>
+                                </div>
+                                <div class="form-check">
+                                    <legend>Select your professor</legend><br/>
+                                    <label class="form-radio-label" ng-repeat="pjType in pjTypeList">
+                                        <input class="form-radio-input" type="radio" name="types"  ng-checked="checkPfType === pjType.pjType" ng-click="changePfType(pjType.pjType)">
+                                        <span class="form-radio-sign">{{pjType.pjType}}</span>
+                                    </label>
+
+                                    <input type = 'test'  ng-change="changeKeyValue(projectData.pjReviewer)" ng-model="projectData.pjReviewer" style = 'display:block;width:200px' ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
+                                    <!--<span style="color: #bd2130" ng-show = "pfError">sorry,the professor is not correct</span>-->
+                                    <div  ng-hide="hidden">
+                                        <select style = 'width:200px' ng-change="change(x)" ng-model="x" multiple>
+                                            <option ng-repeat="data in datas track by $index" >{{data}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <legend>File input</legend>
+                                    <span style="color:#1e7e34;">ps: please upload .zip or .rar file</span><br>
+                                    <!--form-control-file-->
+                                    <input type="file" class=" a-upload" id="fileUpload"  onchange="angular.element(this).scope().validateFiles()">
+                                    <div style="color: #dc3545" ng-if="fileFromatError">Sorry,your  file type is not correct</div>
+                                    <div style="color: #dc3545" ng-if="fileSizeError">Sorry,your  file size is too big</div>
+                                </div>
+                                <div class="form-group">
+                                    <legend>Project description</legend>
+                                    <textarea class="form-control" id="comment" rows="5" ng-model="projectData.pjDescription" ng-disabled="disabledInput">
+                                        </textarea>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" ng-model="checkAgree" ng-click="changeDisabledForSubmit()" ng-disabled="disabledInput">
+                                        <span class="form-check-sign">Agree with terms and conditions</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                            <input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledSubmit" ng-click="submit()">
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> Under Development</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
+                <p>
+                    <b>We'll let you know when it's done</b></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/js/ready.min.js"></script>
+<script src="assets/js/jquery.cxselect.js"></script>
+<script>
+
+    $(function () {
+        $("#slider").slider({
+            range: "min",
+            max: 100,
+            value: 40,
+        });
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 500,
+            values: [75, 300]
+        });
+    });
+</script>
+</html>

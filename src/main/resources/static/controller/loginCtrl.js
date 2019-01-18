@@ -1,4 +1,4 @@
-loginSignApp
+LoginApp
     .controller('loginSignController',['$scope','$interval','$http', function ($scope,$interval,$http) {
         var InterValObj; //timer变量，控制时间
         var count = 60; //间隔函数，1秒执行

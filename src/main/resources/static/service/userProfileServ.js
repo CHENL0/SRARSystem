@@ -1,4 +1,4 @@
-UserProfileApp
+MyApp
     .service('userProfileService',['$http', '$q',function ($http, $q) {
         return {
             getUserInfoData : function(username) {

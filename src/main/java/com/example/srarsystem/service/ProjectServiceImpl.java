@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -78,5 +80,22 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectInfo> getPjInfoListByUsername(String username) {
         return projectRepository.findProjectInfosByPjUser(username);
     }
+
+    @Override
+    public void commitPjInfoData(ProjectInfo projectInfo) {
+        projectRepository.save(projectInfo);
+    }
+
+    @Override
+    public ProjectInfo setPjInfoData(ProjectInfo projectInfo, String file, String localPath) {
+        String pjCommitDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        projectInfo.setPjId(UUIDUtils.getUUID());
+        projectInfo.setPjStatus(1);
+        projectInfo.setPjCommitDate(pjCommitDate);
+        projectInfo.setPjName(file);
+        projectInfo.setPjPath(localPath);
+        return projectInfo;
+    }
+
 
 }
