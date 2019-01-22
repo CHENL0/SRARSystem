@@ -1,15 +1,12 @@
 MyApp
-    .service('taskService',['$http', '$q',function ($http, $q) {
+    .service('checkService',['$http', '$q',function ($http, $q) {
         return {
-            getTasksListData : function(requestData) {
+            getPfInfoListData :function () {
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
-                    method: 'POST',
-                    url: 'http://localhost:8080/user/getTasks',
-                    data: {
-                        username : requestData
-                    },
+                    method: 'GET',
+                    url: 'http://localhost:8080/user/getAllPFInfoList',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     transformRequest: function(obj) {
                         var str = [];
@@ -28,12 +25,93 @@ MyApp
                 return deferred.promise;
             },
 
-            getOneUserPjInfoListData : function(username) {
+            getPjTypeListData: function () {
+                var deferred = $q.defer();
+                // 向后台发送处理数据
+                var promise = $http({
+                    method: 'Get',
+                    url: 'http://localhost:8080/pj/getPjInfoList',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function(obj) {
+                        var str = [];
+                        for (var s in obj) {
+                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                        }
+                        return str.join("&");
+                    }
+                });
+                promise.then(function successCallback(response) {
+                    deferred.resolve(response.data);
+                },function errorCallback(response) {
+                    // 请求失败执行代码
+                    deferred.reject(response);
+                });
+                return deferred.promise;
+            },
+
+
+            getOnePfPjInfoListData : function(pfName) {
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
                     method: 'POST',
-                    url: 'http://localhost:8080/pj/getPjInfoListByUsername',
+                    url: 'http://localhost:8080/pf/getPjInfoListByPfName',
+                    data:{
+                        pfName : pfName
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function(obj) {
+                        var str = [];
+                        for (var s in obj) {
+                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                        }
+                        return str.join("&");
+                    }
+                });
+                promise.then(function successCallback(response) {
+                    deferred.resolve(response.data);
+                },function errorCallback(response) {
+                    // 请求失败执行代码
+                    deferred.reject(response);
+                });
+                return deferred.promise;
+            },
+
+            downloadPj : function (pjId) {
+                var deferred = $q.defer();
+                // 向后台发送处理数据
+                var promise = $http({
+                    method: 'POST',
+                    url: 'http://localhost:8080/pf/download',
+                    data:{
+                        pjId : pjId
+                    },
+                    // responseType: "arraybuffer",
+                    responseType: "blob",
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function(obj) {
+                        var str = [];
+                        for (var s in obj) {
+                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                        }
+                        return str.join("&");
+                    }
+                });
+                promise.then(function successCallback(response) {
+                    deferred.resolve(response.data);
+                },function errorCallback(response) {
+                    // 请求失败执行代码
+                    deferred.reject(response);
+                });
+                return deferred.promise;
+            },
+
+            getUserInfoData : function(username) {
+                var deferred = $q.defer();
+                // 向后台发送处理数据
+                var promise = $http({
+                    method: 'POST',
+                    url: 'http://localhost:8080/user/getUserInfo',
                     data:{
                         username : username
                     },
@@ -55,85 +133,22 @@ MyApp
                 return deferred.promise;
             },
 
-            getUserInfoData : function(requestData) {
+            getStatusData : function () {
+                return [
+                    {code : 1, status : "Review"},
+                    {code : 2, status : "Pass"},
+                    {code : 3, status : "Reject"}
+                ];
+            },
+
+            getOnePjInfoData : function (pjId) {
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
                     method: 'POST',
-                    url: 'http://localhost:8080/user/getUserInfo',
-                    data: {
-                        username : requestData
-                    },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    transformRequest: function(obj) {
-                        var str = [];
-                        for (var s in obj) {
-                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
-                        }
-                        return str.join("&");
-                    }
-                })
-                promise.then(function successCallback(response) {
-                    deferred.resolve(response.data);
-                },function errorCallback(response) {
-                    // 请求失败执行代码
-                    deferred.reject(response);
-                });
-                return deferred.promise;
-            },
-
-            getIndexData : function () {
-                return {
-                    "status" : "000"
-                };
-            },
-
-            getTaskInfoData : function (requestData) {
-                var deferred = $q.defer();
-                // 向后台发送处理数据
-                var promise = $http({
-                    method: 'POST',
-                    url: 'http://localhost:8080/user/getTaskInfo',
-                    data: {
-                        taskId : requestData
-                    },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    transformRequest: function(obj) {
-                        var str = [];
-                        for (var s in obj) {
-                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
-                        }
-                        return str.join("&");
-                    }
-                })
-                promise.then(function successCallback(response) {
-                    deferred.resolve(response.data);
-                },function errorCallback(response) {
-                    // 请求失败执行代码
-                    deferred.reject(response);
-                });
-                return deferred.promise;
-            },
-
-            getCountdownDate : function (currentDate , deadlineDate) {
-                var currentDateMS = new Date(Date.parse(currentDate.replace(/-/g, "/"))).getTime();
-                var deadlineDateMS = new Date(Date.parse(deadlineDate.replace(/-/g, "/"))).getTime();
-                if(deadlineDateMS >= currentDateMS) {
-                    var countdownDate = parseInt(Math.abs(deadlineDateMS - currentDateMS) / 1000 / 60 / 60 / 24);
-                    return countdownDate;
-                }else {
-                    return 0;
-                }
-            },
-
-            getOneStatusTaskList: function (requestData) {
-                var deferred = $q.defer();
-                // 向后台发送处理数据
-                var promise = $http({
-                    method: 'POST',
-                    url: 'http://localhost:8080/user/getOneStatusTaskList',
-                    data: {
-                        taskStatus : requestData
+                    url: 'http://localhost:8080/pj/getOnePjInfoData',
+                    data:{
+                        pjId : pjId
                     },
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     transformRequest: function(obj) {
@@ -151,7 +166,43 @@ MyApp
                     deferred.reject(response);
                 });
                 return deferred.promise;
+            },
+
+            changeProjectStatus : function (pjId,pjStatus) {
+                var deferred = $q.defer();
+                // 向后台发送处理数据
+                var promise = $http({
+                    method: 'POST',
+                    url: 'http://localhost:8080/pf/changeProjectStatus',
+                    data:{
+                        pjId : pjId,
+                        pjStatus : pjStatus
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    transformRequest: function(obj) {
+                        var str = [];
+                        for (var s in obj) {
+                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                        }
+                        return str.join("&");
+                    }
+                });
+                promise.then(function successCallback(response) {
+                    deferred.resolve(response.data);
+                },function errorCallback(response) {
+                    // 请求失败执行代码
+                    deferred.reject(response);
+                });
+                return deferred.promise;
+            },
+
+            compare : function(property){
+            return function(obj1,obj2){
+                var value1 = obj1[property];
+                var value2 = obj2[property];
+                return value1 - value2;     // 升序
             }
+        }
 
-    };}]);
+        };}]);
 

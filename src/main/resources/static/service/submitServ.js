@@ -76,7 +76,7 @@ MyApp
                 return deferred.promise;
             },
 
-            submitData : function (file,pjInfoData) {
+            submitDataForPj : function (file,pjInfoData) {
                 var pjInfoData =JSON.stringify(pjInfoData);
                 var form = new FormData();
                 form.append('file', file);
@@ -100,12 +100,42 @@ MyApp
                 return deferred.promise;
             },
 
+            submitDataForTask : function (file,taskInfoData) {
+                var taskInfoData =JSON.stringify(taskInfoData);
+                var form = new FormData();
+                form.append('file', file);
+                form.append('taskInfoData', taskInfoData);
+
+                var deferred = $q.defer();
+                // 向后台发送处理数据
+                var promise = $http({
+                    method: 'POST',
+                    url: 'http://localhost:8080/user/commitTaskInfoData',
+                    data: form ,
+                    headers: {'Content-Type': undefined},
+                    transformRequest: angular.identity
+                });
+                promise.then(function successCallback(response) {
+                    deferred.resolve(response.data);
+                },function errorCallback(response) {
+                    // 请求失败执行代码
+                    deferred.reject(response);
+                });
+                return deferred.promise;
+            },
+
             setPjInfoData : function () {
                 return {
                     "pjDescription": "",
                     "pjReviewer": "",
                     "pjUser": "",
                     "pjType": ""
+                }
+            },
+            setTaskInfoData : function () {
+                return {
+                    "taskMessage": "",
+                    "taskName": ""
                 }
             },
 

@@ -1,5 +1,5 @@
 MyApp
-    .controller('userProfileController',['$scope', '$interval', 'userProfileService', function ($scope,$interval, userProfileService) {
+    .controller('userProfileController',['$scope', '$interval', 'userProfileService','checkService', function ($scope,$interval, userProfileService,checkService) {
         //get username from localStorage
         $scope.pageClass = 'userProfile';
         $scope.username = localStorage.getItem("data");
@@ -24,11 +24,11 @@ MyApp
             }
         );
 
-        userProfileService.getOneUserPjInfoListData($scope.username).then(
-            function (response) {
-                $scope.pjInfoList = response.oneUserPjInfoList;
-            }
-        );
+        // userProfileService.getOneUserPjInfoListData($scope.username).then(
+        //     function (response) {
+        //         $scope.pjInfoList = response.oneUserPjInfoList.sort(checkService.compare("pjStatus"));
+        //     }
+        // );
         
         $scope.validateIcon = function () {
             var file = document.getElementById("fileUpload").files[0];

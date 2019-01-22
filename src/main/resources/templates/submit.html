@@ -29,15 +29,24 @@
 <div class="main-panel">
     <div class="content">
         <div class="container-fluid">
-            <h4 class="page-title">Submit your project</h4>
+            <h4 class="page-title">Submit your project or task</h4>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Submit your project</h4>
-                            <p class="card-category">Here is a form for submiting your project</p>
+                            <h4 class="card-title">Submit your project or task</h4>
+                            <p class="card-category">Here is a form for submitting your project or task</p>
+
+                            <label class="form-radio-label">
+                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getChangeSubmitType('submitProject')" checked>
+                                <span class="form-radio-sign">submit project</span>
+                            </label>
+                            <label class="form-radio-label">
+                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getChangeSubmitType('submitTask')">
+                                <span class="form-radio-sign">submit task</span>
+                            </label>
                         </div>
-                        <div ng-show="isOverCount">
+                        <div ng-show="isOverCount && submitType === 'submitProject'">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="control-label">
@@ -48,10 +57,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-show="!isOverCount">
+                        <div ng-if="!isOverCount || submitType === 'submitTask'">
                             <div class="card-body">
-
-
                                 <div class="form-group">
                                     <legend>Name:</legend>
                                     <p class="form-control-static">{{userInfo.userName}}</p>
@@ -60,18 +67,31 @@
                                     <legend>Phone:</legend>
                                     <p class="form-control-static">{{userInfo.userPhone}}</p>
                                 </div>
-                                <div class="form-check">
+
+                                <div class="form-check" ng-if="submitType === 'submitProject'">
                                     <legend>Select your professor</legend><br/>
                                     <label class="form-radio-label" ng-repeat="pjType in pjTypeList">
                                         <input class="form-radio-input" type="radio" name="types"  ng-checked="checkPfType === pjType.pjType" ng-click="changePfType(pjType.pjType)">
                                         <span class="form-radio-sign">{{pjType.pjType}}</span>
                                     </label>
 
-                                    <input type = 'test'  ng-change="changeKeyValue(projectData.pjReviewer)" ng-model="projectData.pjReviewer" style = 'display:block;width:200px' ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
+                                    <input type = 'test'  ng-change="changeKeyValueForPj(projectData.pjReviewer)" ng-model="projectData.pjReviewer" style = 'display:block;width:200px' ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
                                     <!--<span style="color: #bd2130" ng-show = "pfError">sorry,the professor is not correct</span>-->
                                     <div  ng-hide="hidden">
-                                        <select style = 'width:200px' ng-change="change(x)" ng-model="x" multiple>
-                                            <option ng-repeat="data in datas track by $index" >{{data}}</option>
+                                        <select style = 'width:200px' ng-change="changeForPj(x)" ng-model="x" multiple>
+                                            <option ng-repeat="data in datasForPj track by $index" >{{data}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-check" ng-if="submitType === 'submitTask'">
+                                    <legend>Select your task</legend><br/>
+                                    <input type = 'test'  ng-change="changeKeyValueForTask(taskData.taskName)" ng-model="taskData.taskName" style = 'display:block;width:200px' ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
+                                    <!--<span style="color: #bd2130" ng-show = "pfError">sorry,the professor is not correct</span>-->
+                                    <div  ng-hide="hidden">
+                                        <select style = 'width:200px' ng-change="changeForTask(x)" ng-model="x" multiple>
+                                            <option ng-repeat="data in datasForTask track by $index" >{{data}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -84,14 +104,19 @@
                                     <div style="color: #dc3545" ng-if="fileFromatError">Sorry,your  file type is not correct</div>
                                     <div style="color: #dc3545" ng-if="fileSizeError">Sorry,your  file size is too big</div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" ng-if="submitType === 'submitProject'">
                                     <legend>Project description</legend>
                                     <textarea class="form-control" id="comment" rows="5" ng-model="projectData.pjDescription" ng-disabled="disabledInput">
                                         </textarea>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-group" ng-if="submitType === 'submitTask'">
+                                    <legend>Commit task message</legend>
+                                    <textarea class="form-control" id="comment2" rows="5" ng-model="taskData.taskMessage" ng-disabled="disabledInput">
+                                        </textarea>
+                                </div>
+                                <div class="form-check" >
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" ng-model="checkAgree" ng-click="changeDisabledForSubmit()" ng-disabled="disabledInput">
+                                        <input class="form-check-input" type="checkbox" ng-model="checkAgree" ng-click="changeDisabledForSubmit(checkAgree)" ng-disabled="disabledInput">
                                         <span class="form-check-sign">Agree with terms and conditions</span>
                                     </label>
                                 </div>

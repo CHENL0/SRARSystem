@@ -60,4 +60,22 @@ public class TaskServiceImpl implements TaskService {
     public TaskInfo getTaskInfo(String taskId) {
         return taskRepository.findOneByTaskId(taskId);
     }
+
+    @Override
+    public TaskInfo setTaskInfoData(TaskInfo taskInfo, String file, String localPath) {
+        taskInfo.setTaskFileName(file);
+        taskInfo.setTaskPath(localPath);
+        taskInfo.setTaskStatus(5);
+        return taskInfo;
+    }
+
+    @Override
+    public void updateTaskInfoData(TaskInfo taskInfo) {
+        taskRepository.save(taskInfo);
+    }
+
+    @Override
+    public TaskInfo getTaskInfoByTaskName(String taskName) {
+        return taskRepository.findOneByTaskName(taskName);
+    }
 }

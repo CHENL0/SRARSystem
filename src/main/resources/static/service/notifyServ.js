@@ -1,43 +1,20 @@
 MyApp
-    .service('taskService',['$http', '$q',function ($http, $q) {
+    .service('notifyService',['$http', '$q',function ($http, $q) {
         return {
-            getTasksListData : function(requestData) {
+            setNotify : function (pfName,userName,type,status,pjName) {
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
                     method: 'POST',
-                    url: 'http://localhost:8080/user/getTasks',
-                    data: {
-                        username : requestData
-                    },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    transformRequest: function(obj) {
-                        var str = [];
-                        for (var s in obj) {
-                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
-                        }
-                        return str.join("&");
-                    }
-                });
-                promise.then(function successCallback(response) {
-                    deferred.resolve(response.data);
-                },function errorCallback(response) {
-                    // 请求失败执行代码
-                    deferred.reject(response);
-                });
-                return deferred.promise;
-            },
-
-            getOneUserPjInfoListData : function(username) {
-                var deferred = $q.defer();
-                // 向后台发送处理数据
-                var promise = $http({
-                    method: 'POST',
-                    url: 'http://localhost:8080/pj/getPjInfoListByUsername',
+                    url: 'http://localhost:8080/notify/setNotifyData',
                     data:{
-                        username : username
+                        notifyBy : pfName,
+                        notifyFor : userName,
+                        notifyType : type,
+                        notifyStatus : status,
+                        notifyMain : pjName
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -55,16 +32,16 @@ MyApp
                 return deferred.promise;
             },
 
-            getUserInfoData : function(requestData) {
+            getNotifyData : function (name) {
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
                     method: 'POST',
-                    url: 'http://localhost:8080/user/getUserInfo',
-                    data: {
-                        username : requestData
+                    url: 'http://localhost:8080/notify/getNotifyData',
+                    data:{
+                        userName : name
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -72,7 +49,7 @@ MyApp
                         }
                         return str.join("&");
                     }
-                })
+                });
                 promise.then(function successCallback(response) {
                     deferred.resolve(response.data);
                 },function errorCallback(response) {
@@ -82,22 +59,17 @@ MyApp
                 return deferred.promise;
             },
 
-            getIndexData : function () {
-                return {
-                    "status" : "000"
-                };
-            },
-
-            getTaskInfoData : function (requestData) {
+            changeNotifyData : function (notifyId,notifyStatus) {
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
                     method: 'POST',
-                    url: 'http://localhost:8080/user/getTaskInfo',
-                    data: {
-                        taskId : requestData
+                    url: 'http://localhost:8080/notify/changeNotifyInfo',
+                    data:{
+                        notifyId : notifyId,
+                        notifyStatus : notifyStatus,
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -105,7 +77,7 @@ MyApp
                         }
                         return str.join("&");
                     }
-                })
+                });
                 promise.then(function successCallback(response) {
                     deferred.resolve(response.data);
                 },function errorCallback(response) {
@@ -115,27 +87,16 @@ MyApp
                 return deferred.promise;
             },
 
-            getCountdownDate : function (currentDate , deadlineDate) {
-                var currentDateMS = new Date(Date.parse(currentDate.replace(/-/g, "/"))).getTime();
-                var deadlineDateMS = new Date(Date.parse(deadlineDate.replace(/-/g, "/"))).getTime();
-                if(deadlineDateMS >= currentDateMS) {
-                    var countdownDate = parseInt(Math.abs(deadlineDateMS - currentDateMS) / 1000 / 60 / 60 / 24);
-                    return countdownDate;
-                }else {
-                    return 0;
-                }
-            },
-
-            getOneStatusTaskList: function (requestData) {
+            getOneNotifyData : function (notifyId) {
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
                     method: 'POST',
-                    url: 'http://localhost:8080/user/getOneStatusTaskList',
-                    data: {
-                        taskStatus : requestData
+                    url: 'http://localhost:8080/notify/getOneNotifyData',
+                    data:{
+                        notifyId : notifyId
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -153,5 +114,6 @@ MyApp
                 return deferred.promise;
             }
 
-    };}]);
+
+        };}]);
 

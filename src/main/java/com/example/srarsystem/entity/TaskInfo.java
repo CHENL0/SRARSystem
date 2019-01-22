@@ -23,8 +23,12 @@ public class TaskInfo {
     private String countTime;
     private String taskName;
     private String taskDescription;
+    private String taskFileName;
+    private String taskPath;
+    private String taskMessage;
     /**
-     * the status of task what 1 is haven't finished and 2 is have finished and 3 is default and 4 is termination
+     * the status of task what 1 is haven't finished and 2 is have finished
+     * and 3 is default and 4 is termination and 5 is commit
      */
     private int taskStatus;
 }

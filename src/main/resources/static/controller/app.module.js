@@ -33,5 +33,15 @@ MyApp.config(function ($routeProvider) {
         .when('/submit', {
                 templateUrl: 'submit.html',
                 controller: 'submitController'
+        })
+
+        .when('/check', {
+            templateUrl: 'check.html',
+            controller: 'checkController'
+        })
+
+        .when('/notify', {
+            templateUrl: 'notifications.html',
+            controller: 'notifyController'
         });
 });

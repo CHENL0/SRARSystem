@@ -16,4 +16,7 @@ public interface TaskService {
     List<TaskInfo> getAllTaskInfoByTaskStatus(int taskStatus);
     List<TaskInfo> getAllTaskInfo();
     TaskInfo getTaskInfo(String taskId);
+    TaskInfo setTaskInfoData (TaskInfo taskInfo, String file, String localPath);
+    void updateTaskInfoData (TaskInfo taskInfo);
+    TaskInfo getTaskInfoByTaskName (String taskName);
 }

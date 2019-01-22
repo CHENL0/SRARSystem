@@ -18,4 +18,5 @@ public interface TaskRepository extends JpaRepository<TaskInfo, String> {
     List<TaskInfo> findAll();
     TaskInfo findOneByTaskId(String taskId);
     List<TaskInfo> findAllByTaskStatus(int taskStatus);
+    TaskInfo findOneByTaskName (String taskName);
 }

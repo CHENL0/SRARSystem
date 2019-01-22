@@ -2,8 +2,10 @@ package com.example.srarsystem.controller;
 
 import com.example.srarsystem.commons.AccessUtils;
 import com.example.srarsystem.commons.DateUtils;
+import com.example.srarsystem.entity.ProfessorInfo;
 import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.TaskInfo;
+import com.example.srarsystem.service.ProfessorService;
 import com.example.srarsystem.service.ProjectService;
 import com.example.srarsystem.service.TaskService;
 import com.example.srarsystem.service.UserService;
@@ -17,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Chen
@@ -34,12 +35,14 @@ import java.util.List;
 public class ProfessorController {
 
     private final ProjectService projectService;
+    private final ProfessorService professorService;
     private final UserService userService;
     private final TaskService taskService;
 
     @Autowired
-    public ProfessorController(ProjectService projectService, UserService userService, TaskService taskService) {
+    public ProfessorController(ProjectService projectService, ProfessorService professorService, UserService userService, TaskService taskService) {
         this.projectService = projectService;
+        this.professorService = professorService;
         this.userService = userService;
         this.taskService = taskService;
     }
@@ -58,33 +61,17 @@ public class ProfessorController {
     }
 
     /**
-     * @Description //TODO reject the project
+     * @Description //TODO change the projectStatus
      * @Author Chen
      * @DateTime 2018/11/3
      * @Param
      * @Return
      */
-    @PostMapping(value = "/rejectProject")
-    public Object rejectProject(String pjId, HttpServletResponse response) {
+    @PostMapping(value = "/changeProjectStatus")
+    public Object rejectProject(String pjId, HttpServletResponse response,int pjStatus) {
         AccessUtils.getAccessAllow(response);
         ProjectInfo projectInfo = projectService.getProjectInfoByPjId(pjId);
-        projectInfo.setPjStatus(3);
-        projectService.saveProject(projectInfo);
-        return null;
-    }
-
-    /**
-     * @Description //TODO
-     * @Author Chen
-     * @DateTime 2018/11/3
-     * @Param
-     * @Return
-     */
-    @PostMapping(value = "/acceptProject")
-    public Object acceptProject(String pjId, HttpServletResponse response) {
-        AccessUtils.getAccessAllow(response);
-        ProjectInfo projectInfo = projectService.getProjectInfoByPjId(pjId);
-        projectInfo.setPjStatus(2);
+        projectInfo.setPjStatus(pjStatus);
         projectService.saveProject(projectInfo);
         return null;
     }
@@ -144,8 +131,8 @@ public class ProfessorController {
         String realPath = projectInfo.getPjPath();
         if (fileName != null) {
             //设置文件路径
-            File file = new File("E:\\f/" + fileName);
-            //File file = new File(realPath , fileName);
+//            File file = new File("E:\\f/" + fileName);
+            File file = new File(realPath , fileName);
             if (file.exists()) {
                 // 设置强制下载不打开
                 response.setContentType("application/force-download");
@@ -185,5 +172,32 @@ public class ProfessorController {
             }
         }
         return "下载失败";
+    }
+
+
+    @RequestMapping(value = "/getPfInfoData")
+    public @ResponseBody
+    Object getPfInfoData(String pfName) {
+        ProfessorInfo professorInfo = professorService.findOneByPfName(pfName);
+        Map<String, ProfessorInfo> professorInfoMap = new HashMap<>();
+        professorInfoMap.put("professorInfo", professorInfo);
+        return professorInfoMap;
+    }
+
+    /**
+     * @Description  //TODO get pj by professorName for check pj
+     * @Author Chen
+     * @DateTime 2019/1/19
+     * @Param
+     * @Return
+     */
+    @RequestMapping(value = "/getPjInfoListByPfName")
+    public @ResponseBody
+    Object getPjInfoListByPfName (String pfName,HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        List<ProjectInfo> onePfPjInfoList = projectService.getPjInfoListByPfname(pfName);
+        Map<String, List<ProjectInfo>> onePfPjInfoListMap = new HashMap<>();
+        onePfPjInfoListMap.put("onePfPjInfoList", onePfPjInfoList);
+        return onePfPjInfoListMap;
     }
 }

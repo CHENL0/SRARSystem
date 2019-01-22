@@ -1,19 +1,67 @@
 MyApp
-    .controller('taskController',['$scope', '$uibModal', '$interval', 'taskService', function ($scope, $uibModal,$interval, taskService) {
+    .controller('taskController',['$scope', '$uibModal', '$interval', 'taskService','checkService','commonService', function ($scope, $uibModal,$interval, taskService, checkService, commonService) {
         //get username from localStorage
         $scope.pageClass = 'tasks';
         $scope.username = localStorage.getItem("data");
+        $scope.taskPageCount = 0;
+        $scope.pjPageCount =0;
 
         taskService.getTasksListData($scope.username).then(
             function (response) {
-                $scope.taskInfoList = response.taskInfoList;
+                $scope.taskInfoSliceList = commonService.sliceArr(response.taskInfoList,6)
+                $scope.taskInfoList = $scope.taskInfoSliceList[$scope.taskPageCount];
             });
+
+        $scope.taskNextPage = function(){
+            if($scope.taskPageCount >= $scope.taskInfoSliceList.length -1){
+                alert("this is the last page");
+            }else {
+                $scope.taskPageCount +=1;
+                $scope.taskInfoList = $scope.taskInfoSliceList[$scope.taskPageCount];
+            }
+        };
+        $scope.taskPrePage = function(){
+            if($scope.taskPageCount === 0){
+                alert("this is the first page");
+            }else {
+                $scope.taskPageCount -=1;
+                $scope.taskInfoList = $scope.taskInfoSliceList[$scope.taskPageCount];
+            }
+        };
+
 
         taskService.getUserInfoData($scope.username).then(
             function (response) {
                 $scope.userInfo = response.userInfo;
             }
         );
+
+        taskService.getOneUserPjInfoListData($scope.username).then(
+            function (response) {
+                $scope.pjInfoListSort = response.oneUserPjInfoList.sort(checkService.compare("pjStatus"));
+                $scope.pjInfoSliceList = commonService.sliceArr($scope.pjInfoListSort,6)
+                $scope.pjInfoList = $scope.pjInfoSliceList[$scope.pjPageCount];
+            }
+        );
+
+        $scope.pjNextPage = function(){
+            if($scope.pjPageCount >= $scope.pjInfoSliceList.length-1){
+                alert("this is the last page");
+            }else {
+                $scope.pjPageCount +=1;
+                $scope.pjInfoList = $scope.pjInfoSliceList[$scope.pjPageCount];
+            }
+        };
+        $scope.pjPrePage = function(){
+            if($scope.pjPageCount === 0){
+                alert("this is the first page");
+            }else {
+                $scope.pjPageCount -=1;
+                $scope.pjInfoList = $scope.pjInfoSliceList[$scope.pjPageCount];
+            }
+        };
+
+
 
         $scope.getTasksListData = function(){
             taskService.getTasksListData($scope.username).then(
@@ -22,10 +70,6 @@ MyApp
                 });
         }
 
-        $scope.logout = function () {
-            localStorage.clear();
-            window.location.href = "loginSign.html";
-        }
         $scope.getTaskDetail = function (taskId) {
             taskService.getTaskInfoData(taskId).then(
                 function (response) {

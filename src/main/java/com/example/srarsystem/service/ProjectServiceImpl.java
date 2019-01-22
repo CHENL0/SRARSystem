@@ -82,6 +82,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<ProjectInfo> getPjInfoListByPfname(String pfname) {
+        return projectRepository.findProjectInfosByPjReviewer(pfname);
+    }
+
+    @Override
     public void commitPjInfoData(ProjectInfo projectInfo) {
         projectRepository.save(projectInfo);
     }

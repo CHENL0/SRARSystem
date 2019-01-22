@@ -1,9 +1,11 @@
 MyApp
-    .controller('pjDetailController',['$scope', '$interval', 'pjDetailService', function ($scope,$interval, pjDetailService) {
+    .controller('pjDetailController',['$scope', '$interval', 'pjDetailService','checkService','notifyService', function ($scope,$interval, pjDetailService,checkService,notifyService) {
         //get username from localStorage
         $scope.pageClass = 'pjDetail';
         $scope.index = 0;
-        $scope.username = localStorage.getItem("data");
+        $scope.name = localStorage.getItem("data");
+        $scope.prefixName = $scope.name.split("_")[0];
+
         $scope.activeCode = 1;
         $scope.onePfTypeAllCount = 0;
         $scope.pageMap=[1,2,3,4,5];
@@ -20,6 +22,23 @@ MyApp
                 $scope.pfInfoListPage = response.pfInfoListPage.content;
             }
         );
+
+        $scope.getPersonageInfoData = function(){
+            if($scope.prefixName === "USER"){
+                pjDetailService.getUserInfoData($scope.name).then(
+                    function (response) {
+                        $scope.userInfo =  response.userInfo;
+                    }
+                )
+            }else if($scope.prefixName === "PROFESSOR") {
+                pjDetailService.getPfInfoData($scope.name).then(
+                    function (response) {
+                        $scope.pfInfo = response.professorInfo;
+                    }
+                )
+            }
+        };
+        $scope.getPersonageInfoData();
         //
         var pfType = "基础研究"
         pjDetailService.getOnePfTypeCount(pfType).then(
@@ -126,7 +145,35 @@ MyApp
 
         };
 
+        $scope.logout = function () {
+            localStorage.clear();
+            window.location.href = "loginSign.html";
+        };
 
+
+
+
+        $scope.clickCheck = function () {
+            
+        };
+        var timer = $interval(function(){
+            var $ctrl = this;
+            $scope.getCheckCount();
+        },10000);
+
+        $scope.getCheckCount = function () {
+            checkService.getOnePfPjInfoListData($scope.name).then(
+                function (value) {
+                    var onePfPjInfoList = value.onePfPjInfoList;
+                    $scope.checkCount = 0;
+                    for(var i =0;i<onePfPjInfoList.length;i++){
+                        if(onePfPjInfoList[i].pjStatus === 1){
+                            $scope.checkCount =$scope.checkCount +1;
+                        }
+                    }
+                }
+            )
+        }
     }
     ]);
 

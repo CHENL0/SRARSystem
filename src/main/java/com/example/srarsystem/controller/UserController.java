@@ -144,5 +144,30 @@ public class UserController {
         return pfInfoListMap;
     }
 
+    @RequestMapping(value = "/commitTaskInfoData")
+    public @ResponseBody
+    Object commitTaskInfoData(MultipartFile file,String taskInfoData
+            ,HttpServletResponse response) throws IOException {
+        AccessUtils.getAccessAllow(response);
+        Map<Object,Object> finishDataRequestMap = new HashMap<>();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        TaskInfo taskInfoMapper = objectMapper.readValue(taskInfoData,TaskInfo.class);
+        String userName = taskInfoMapper.getUserName();
+        String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/taskFile/"+userName;
+        if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
+            //success
+            String taskName = taskInfoMapper.getTaskName();
+            TaskInfo taskInfoByTaskName= taskService.getTaskInfoByTaskName(taskName);
+            taskInfoByTaskName.setTaskMessage(taskInfoMapper.getTaskMessage());
+            TaskInfo taskInfo =taskService.setTaskInfoData(taskInfoByTaskName,file.getOriginalFilename(),localPath);
+            taskService.updateTaskInfoData(taskInfo);
+            finishDataRequestMap.put("responseType","SUCCESS");
+        }else {
+            //error
+            finishDataRequestMap.put("responseType","ERROR");
+        }
+        return finishDataRequestMap;
+    }
 
 }

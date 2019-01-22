@@ -1,12 +1,13 @@
 MyApp
-    .controller('submitController',['$scope', '$interval', 'submitService', function ($scope,$interval, submitService) {
+    .controller('submitController',['$scope', '$interval', 'submitService','taskService', function ($scope,$interval, submitService,taskService) {
         //get username from localStorage
         $scope.pageClass = 'submit';
         $scope.username = localStorage.getItem("data");
         $scope.checkPfType = "基础研究";
         $scope.disabledSubmit = true;
+        $scope.submitType = 'submitProject';
         $scope.count = 0;
-        $scope.datas=[];
+        $scope.datasForPj=[];
 
         $scope.hidden=true;//选择框是否隐藏
         // $scope.searchField='';//文本框数据
@@ -32,8 +33,13 @@ MyApp
 
 
         //将下拉选的数据值赋值给文本框
-        $scope.change=function(x){;
+        $scope.changeForPj=function(x){;
             $scope.projectData.pjReviewer=x;
+            $scope.hidden=true;
+        };
+        //将下拉选的数据值赋值给文本框
+        $scope.changeForTask=function(x){;
+            $scope.taskData.taskName=x;
             $scope.hidden=true;
         }
 
@@ -45,19 +51,19 @@ MyApp
             });
 
         $scope.setOneTypePfInfoListData = function(){
-            $scope.datas = [];
+            $scope.datasForPj = [];
             for(var i = 0;i<$scope.respPfInfoListData.length;i++){
                 if($scope.checkPfType === $scope.respPfInfoListData[i].pfType ){
                     $scope.projectData.pjType = $scope.checkPfType;
-                    $scope.datas.push($scope.respPfInfoListData[i].pfName);
+                    $scope.datasForPj.push($scope.respPfInfoListData[i].pfName);
                 }else if($scope.checkPfType === $scope.respPfInfoListData[i].pfType){
                     $scope.projectData.pjType = $scope.checkPfType;
-                    $scope.datas.push($scope.respPfInfoListData[i].pfName);
+                    $scope.datasForPj.push($scope.respPfInfoListData[i].pfName);
                 }else if($scope.checkPfType === $scope.respPfInfoListData[i].pfType){
                     $scope.projectData.pjType = $scope.checkPfType;
-                    $scope.datas.push($scope.respPfInfoListData[i].pfName);
+                    $scope.datasForPj.push($scope.respPfInfoListData[i].pfName);
                 }
-                $scope.tempdatas = $scope.datas; //下拉框选项副本
+                $scope.tempdatasForPj = $scope.datasForPj; //下拉框选项副本
             }
         };
 
@@ -71,26 +77,40 @@ MyApp
 
 
         //获取的数据值与下拉选逐个比较，如果包含则放在临时变量副本，并用临时变量副本替换下拉选原先的数值，如果数据为空或找不到，就用初始下拉选项副本替换
-        $scope.changeKeyValue=function(v){
+        $scope.changeKeyValueForPj=function(v){
             var newDate=[];  //临时下拉选副本
             //如果包含就添加
-            angular.forEach($scope.datas ,function(data,index,array){
+            angular.forEach($scope.datasForPj ,function(data,index,array){
                 if(data.indexOf(v)>=0){
                     newDate.unshift(data);
                 }
             });
             //用下拉选副本替换原来的数据
-            $scope.datas=newDate;
-            // $scope.projectData.pjReviewer = v;
-            // if($scope.datas.length ===0){
-            //     $scope.pfError = true;
-            //     $scope.hidden=true;
-            // }
+            $scope.datasForPj=newDate;
             //下拉选展示
             $scope.hidden=false;
             //如果不包含或者输入的是空字符串则用初始变量副本做替换
-            if($scope.datas.length==0 || ''==v){
-                $scope.datas=$scope.tempdatas;
+            if($scope.datasForPj.length==0 || ''==v){
+                $scope.datasForPj=$scope.tempdatasForPj;
+            }
+
+        };
+
+        $scope.changeKeyValueForTask=function(v){
+            var newDate=[];  //临时下拉选副本
+            //如果包含就添加
+            angular.forEach($scope.datasForTask ,function(data,index,array){
+                if(data.indexOf(v)>=0){
+                    newDate.unshift(data);
+                }
+            });
+            //用下拉选副本替换原来的数据
+            $scope.datasForTask=newDate;
+            //下拉选展示
+            $scope.hidden=false;
+            //如果不包含或者输入的是空字符串则用初始变量副本做替换
+            if($scope.datasForTask.length==0 || ''==v){
+                $scope.datasForTask=$scope.tempdatasForTask;
             }
 
         };
@@ -132,8 +152,8 @@ MyApp
             $scope.$apply();
         }
 
-        $scope.changeDisabledForSubmit = function () {
-            if($scope.checkAgree){
+        $scope.changeDisabledForSubmit = function (checkAgree){
+            if(checkAgree){
                 $scope.disabledSubmit = false;
             }else {
                 $scope.disabledSubmit = true;
@@ -142,27 +162,64 @@ MyApp
         };
         
         $scope.submit = function () {
-            if($scope.validateAllData()){
-                alert("ok ,the message have finished");
-                $scope.projectData.pjReviewer = $scope.projectData.pjReviewer[0]
-                submitService.submitData($scope.file,$scope.projectData).then(
-                    function (response) {
-                        if(response.responseType === "SUCCESS"){
-                            alert("Congratulations, and your information submitted to success");
-                            window.location.href = "index.html#/userProfile";
-                        }else {
-                            alert("sorry,your information submitted to error")
+            if($scope.submitType === 'submitProject'){
+                if($scope.validateAllDataForPj()){
+                    alert("ok ,the message have finished");
+                    $scope.projectData.pjReviewer = $scope.projectData.pjReviewer[0];
+                    $scope.projectData.pjUser = $scope.username;
+                    submitService.submitDataForPj($scope.file,$scope.projectData).then(
+                        function (response) {
+                            if(response.responseType === "SUCCESS"){
+                                alert("Congratulations, and your information submitted to success");
+                                window.location.href = "index.html#/userProfile";
+                            }else {
+                                alert("sorry,your information submitted to error")
+                            }
                         }
-                    }
-                )
+                    )
+                }
+            }else if($scope.submitType === 'submitTask'){
+                if($scope.validateAllDataForTask()){
+                    alert("ok ,the message have finished");
+                    $scope.taskData.taskName = $scope.taskData.taskName[0];
+                    submitService.submitDataForTask($scope.file,$scope.taskData).then(
+                        function (response) {
+                            if(response.responseType === "SUCCESS"){
+                                alert("Congratulations, and your information submitted to success");
+                                window.location.href = "index.html#/userProfile";
+                            }else {
+                                alert("sorry,your information submitted to error")
+                            }
+                        }
+                    )
+                }
             }
+
+        };
+        $scope.validateAllDataForTask = function (){
+            if(!$scope.taskData.taskName){
+                alert("task have not selected");
+                return false;
+            }else if(!$scope.datasForTask.includes($scope.taskData.taskName[0])){
+                alert("sorry,the task is not correct");
+                return false;
+            }
+            if(!$scope.file){
+                alert("file message have not uploaded");
+                return false;
+            }
+            if(!($scope.taskData.taskMessage.trim())){
+                alert("commit message have not finish");
+                return false;
+            }
+            return true;
         };
 
-        $scope.validateAllData = function () {
+        $scope.validateAllDataForPj = function () {
             if(!$scope.projectData.pjReviewer){
                 alert("professor have not selected");
                 return false;
-            }else if(!$scope.datas.includes($scope.projectData.pjReviewer[0])){
+            }else if(!$scope.datasForPj.includes($scope.projectData.pjReviewer[0])){
                 alert("sorry,the professor is not correct");
                 return false;
             }
@@ -176,6 +233,33 @@ MyApp
             }
             return true;
         };
+
+        $scope.initTaskInfo = function (){
+            taskService.getTasksListData($scope.username).then(
+                function (response) {
+                    $scope.taskInfoList = response.taskInfoList;
+                    $scope.datasForTask =[];
+                    for(var i = 0;i<$scope.taskInfoList.length; i++){
+                        $scope.datasForTask.push($scope.taskInfoList[i].taskName)
+                    }
+                    $scope.tempdatasForTask = $scope.datasForTask;
+                }
+            );
+        };
+
+        $scope.getChangeSubmitType = function (type) {
+            if(type === "submitProject"){
+                $scope.projectData = submitService.setPjInfoData();
+                $scope.setOneTypePfInfoListData();
+            }else if(type === "submitTask"){
+                $scope.projectData = submitService.setPjInfoData();
+                $scope.taskData = submitService.setTaskInfoData();
+                $scope.initTaskInfo();
+
+            }
+            $scope.submitType = type;
+
+        }
 
     }
     ]);

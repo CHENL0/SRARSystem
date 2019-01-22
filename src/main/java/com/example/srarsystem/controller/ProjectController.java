@@ -119,4 +119,14 @@ public class ProjectController {
         }
         return finishDataRequestMap;
     }
+
+    @RequestMapping(value = "/getOnePjInfoData")
+    public @ResponseBody
+    Object getOnePjInfoData(String pjId,HttpServletResponse response) throws IOException {
+        AccessUtils.getAccessAllow(response);
+        ProjectInfo projectInfo = projectService.findOneByPjId(pjId);
+        Map<String, ProjectInfo> projectInfoMap = new HashMap<>();
+        projectInfoMap.put("projectInfo", projectInfo);
+        return projectInfoMap;
+    }
 }
