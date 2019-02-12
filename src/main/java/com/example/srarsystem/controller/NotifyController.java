@@ -27,9 +27,9 @@ public class NotifyController {
         this.notifyService = notifyService;
     }
 
-    @RequestMapping(value = "/setNotifyData")
+    @RequestMapping(value = "/setNotifyDataForUser")
     public @ResponseBody
-    Object setNotifyData (String notifyBy,String notifyFor,String notifyType,
+    Object setNotifyDataForUser (String notifyBy,String notifyFor,String notifyType,
                           int notifyStatus,String notifyMain,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
         String message = "";
@@ -42,22 +42,70 @@ public class NotifyController {
                 message = "   Hi, "+ notifyFor + ", i sorry to tell you that your project '"+ notifyMain+"' was rejected by "+ notifyBy
                         +", best regard !!";
             }
-            notifyService.setNotifyData(notifyBy,notifyFor,notifyType,message, notifyMain);
-        }
+        }else if(notifyType.equals("Task")){
+            if(notifyStatus == 2){
+                message = "   Hi, "+ notifyFor + ", you have a new task by "+ notifyBy
+                        +", best regard !!";
+            }else if(notifyStatus == 3){
+                message = "   Hi, "+ notifyFor + ", i sorry to tell you that your task  was unfinished "
+                        +", best regard !!";
+            }else if(notifyStatus == 4){
+                message = "   Hi, "+ notifyFor + ", i sorry to tell you that your task  was timeout "
+                        +", best regard !!";
+            }
 
+        }
+        notifyService.setNotifyDataForUser(notifyBy,notifyFor,notifyType,message, notifyMain);
         return null;
     }
 
-    @RequestMapping(value = "/getNotifyData")
+    @RequestMapping(value = "/setNotifyDataForAudit")
     public @ResponseBody
-    Object getNotifyData (String userName,HttpServletResponse response){
+    Object setNotifyDataForAudit (String notifyBy,String notifyFor,String notifyType,
+                                 int notifyStatus,String notifyMain,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
-        List<NotifyInfo> notifyInfoList = notifyService.getNotifyDataByUserName(userName);
+        String message = "";
+        if(notifyType.equals("Project")){
+            if(notifyStatus == 2){
+                message = "   Hi, "+ notifyFor + ", you have a new project '"+ notifyMain+"'  was applied for "+ notifyBy
+                        +", best regard !!";
+
+            }
+        }else if(notifyType.equals("Task")){
+            if(notifyStatus == 2){
+                message = "   Hi, "+ notifyFor + ", you have a task "+ notifyMain +" was committed by "+ notifyBy
+                        +", best regard !!";
+            }else if(notifyStatus == 3){
+                message = "   Hi, "+ notifyFor + ", i sorry to tell you that your task "+ notifyMain +" was unfinished by "+ notifyBy
+                        +", best regard !!";
+            }else if(notifyStatus == 4){
+                message = "   Hi, "+ notifyFor + ", i sorry to tell you that your task "+ notifyMain +" was timeout by "+ notifyBy
+                        +", best regard !!";
+            }
+            notifyService.setNotifyDataForUser(notifyBy,notifyFor,notifyType,message, notifyMain);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/getNotifyDataForUser")
+    public @ResponseBody
+    Object getNotifyDataForUser (String userName,HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        List<NotifyInfo> notifyInfoList = notifyService.getNotifyDataByUserNameAndDelFlag(userName);
         Map<String,List<NotifyInfo>> notifyInfoListMap= new HashMap<>();
         notifyInfoListMap.put("notifyInfoList",notifyInfoList);
         return notifyInfoListMap;
     }
 
+    @RequestMapping(value = "/getNotifyDataForAudit")
+    public @ResponseBody
+    Object getNotifyDataForAudit (String userName,HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        List<NotifyInfo> notifyInfoList = notifyService.getNotifyDataByUserNameAndDelFlagAudit(userName);
+        Map<String,List<NotifyInfo>> notifyInfoListMap= new HashMap<>();
+        notifyInfoListMap.put("notifyInfoList",notifyInfoList);
+        return notifyInfoListMap;
+    }
 //    @RequestMapping(value = "/getNotifyListByStatus")
 //    public @ResponseBody
 //    Object getNotifyListByStatus (String userName,String notifyStatus, HttpServletResponse response){
@@ -88,4 +136,13 @@ public class NotifyController {
         return notifyInfoMap;
     }
 
+//    @RequestMapping(value = "/deleteNotifyForUser")
+//    public @ResponseBody
+//    Object deleteNotifyForUser (String notifyId, HttpServletResponse response){
+//        AccessUtils.getAccessAllow(response);
+//        notifyService.deleteNotifyDataByTaskIdForUser(notifyId);
+//        Map<String,String> responseMap = new HashMap<>();
+//        responseMap.put("responseType","SUCCESS");
+//        return responseMap;
+//    }
 }

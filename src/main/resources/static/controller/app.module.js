@@ -10,12 +10,6 @@ MyApp.config(function ($routeProvider) {
             controller: 'pjDetailController'
         })
 
-        // // pjDetail page
-        // .when('/pjDetail', {
-        //     templateUrl: 'pjDetail.html',
-        //     controller: 'pjDetailController'
-        // })
-
         // userProfile page
         .when('/userProfile', {
             templateUrl: 'userProfile.html',
@@ -38,6 +32,11 @@ MyApp.config(function ($routeProvider) {
         .when('/check', {
             templateUrl: 'check.html',
             controller: 'checkController'
+        })
+
+        .when('/apply', {
+            templateUrl: 'applyFor.html',
+            controller: 'applyController'
         })
 
         .when('/notify', {

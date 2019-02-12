@@ -137,7 +137,9 @@ MyApp
                 return [
                     {code : 1, status : "Review"},
                     {code : 2, status : "Pass"},
-                    {code : 3, status : "Reject"}
+                    {code : 3, status : "Reject"},
+                    {code : 4, status : "Finished"},
+                    {code : 5, status : "Break"},
                 ];
             },
 

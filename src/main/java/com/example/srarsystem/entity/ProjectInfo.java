@@ -12,7 +12,7 @@ import javax.persistence.Id;
  */
 @Data
 @Entity
-public class ProjectInfo {
+public class ProjectInfo{
     @Id
     private String pjId;
     private String pjName;
@@ -22,6 +22,8 @@ public class ProjectInfo {
     private String pjReviewer;
     private String pjDescription;
     private String pjCommitDate;
+    private int delFlag;
+    private int delFlagAudit;
     /**
      * status have 1,2 ,3   1 is accept,2 is pass,3 is reject
      */

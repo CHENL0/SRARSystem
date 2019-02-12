@@ -42,13 +42,13 @@ public class TaskServiceImpl implements TaskService {
      * @Return
      */
     @Override
-    public List<TaskInfo> getAllTaskInfoByUsername(String username) {
-        return taskRepository.findAllByUserName(username);
+    public List<TaskInfo> findAllByUserNameAndDelFlag(String username) {
+        return taskRepository.findAllByUserNameAndDelFlag(username,0);
     }
 
     @Override
-    public List<TaskInfo> getAllTaskInfoByTaskStatus(int taskStatus) {
-        return taskRepository.findAllByTaskStatus(taskStatus);
+    public List<TaskInfo> getAllTaskInfoByTaskStatusAndDelFlag(int taskStatus,String username) {
+        return taskRepository.findAllByTaskStatusAndDelFlagAndUserName(taskStatus,0,username);
     }
 
     @Override
@@ -77,5 +77,19 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskInfo getTaskInfoByTaskName(String taskName) {
         return taskRepository.findOneByTaskName(taskName);
+    }
+
+    @Override
+    public void deleteTaskInfoDataByTaskIdForUser(String taskId) {
+        TaskInfo taskInfo = taskRepository.findOneByTaskId(taskId);
+        taskInfo.setDelFlag(1);
+        taskRepository.save(taskInfo);
+    }
+
+    @Override
+    public void deleteTaskInfoDataByTaskIdForAudit(String taskId) {
+        TaskInfo taskInfo = taskRepository.findOneByTaskId(taskId);
+        taskInfo.setDelFlagAudit(1);
+        taskRepository.save(taskInfo);
     }
 }

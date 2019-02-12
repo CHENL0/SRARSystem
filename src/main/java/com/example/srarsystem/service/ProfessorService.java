@@ -23,4 +23,8 @@ public interface ProfessorService {
     List<ProfessorInfo> getPfInfoListByType (String pfType);
 
     List<ProfessorInfo> getAllPfInfoList ();
+
+    void changePfSubmitCount (String pfName);
+
+    void changePfSuccessCount (String pfName);
 }

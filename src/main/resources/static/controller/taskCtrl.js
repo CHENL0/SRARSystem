@@ -5,6 +5,7 @@ MyApp
         $scope.username = localStorage.getItem("data");
         $scope.taskPageCount = 0;
         $scope.pjPageCount =0;
+        $scope.taskStatus = 0;
 
         taskService.getTasksListData($scope.username).then(
             function (response) {
@@ -85,35 +86,28 @@ MyApp
         };
 
         $scope.getOneStatusTask = function (statusData) {
-            taskService.getOneStatusTaskList(statusData).then(
+            $scope.taskStatus = statusData;
+            taskService.getOneStatusTaskList(statusData,$scope.username).then(
                 function (response) {
-                    $scope.taskInfoList = response.oneStatusTaskList;
+                    $scope.taskInfoSliceList = commonService.sliceArr(response.oneStatusTaskList,6)
+                    $scope.taskInfoList = $scope.taskInfoSliceList[$scope.taskPageCount];
                 }
             )
         }
         
+        $scope.removeTaskInfoData = function (taskId) {
+            taskService.removeTaskInfoData(taskId).then(
+                function (response) {
+                    alert("remove success");
+                    if($scope.taskStatus ===1 ||$scope.taskStatus ===2 ||$scope.taskStatus ===3){
+                        $scope.getOneStatusTask($scope.taskStatus);
+                    }else {
+                        $scope.getTasksListData();
+                    }
 
-        // $scope.openTaskModal = function () {
-        //     $scope.items = "111";
-        //     var modalInstance = $uibModal.open({
-        //         animation: false,//打开时的动画开关
-        //         templateUrl: 'myModalContent.html',//模态框的页面内容,这里的url是可以自己定义的,也就意味着什么都可以写
-        //         controller: 'ModalInstanceCtrl',//这是模态框的控制器,是用来控制模态框的
-        //         size: 'md',//模态框的大小尺寸 sm, md, lg
-        //         resolve: {//这是一个入参,这个很重要,它可以把主控制器中的参数传到模态框控制器中
-        //             items: function () {//items是一个回调函数
-        //                 return $scope.items;//这个值会被模态框的控制器获取到
-        //             }
-        //         }
-        //     });
-            // modalInstance.result.then(function (selectedItem) {//这是一个接收模态框返回值的函数
-            //     $scope.selected = selectedItem;//模态框的返回值
-            // }, function () {
-            //     alert("11111");
-            // });
-        // };
-
-
+                }
+            )
+        }
     }
     ]);
 

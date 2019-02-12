@@ -101,10 +101,10 @@
                                                 </label>
                                                 <label class="form-radio-label">
                                                     <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getOneStatusTask(3)">
-                                                    <span class="form-radio-sign">Unfinished</span>
+                                                    <span class="form-radio-sign">Timeout</span>
                                                 </label>
                                                 <label class="form-radio-label">
-                                                    <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getTasksListData()">
+                                                    <input class="form-radio-input" type="radio" checked name="optionsRadios" ng-click="getTasksListData()">
                                                     <span class="form-radio-sign">Refresh</span>
                                                 </label>
                                                 <!--<label class="radio-inline">-->
@@ -127,7 +127,7 @@
                                                                 </label>
                                                             </div>
                                                         </th>
-                                                        <th>TaskId</th>
+                                                        <th>Status</th>
                                                         <th>Task</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -142,19 +142,31 @@
                                                                 </label>
                                                             </div>
                                                         </td>
-                                                        <td>{{tasks.taskId}}</td>
+                                                        <td>
+                                                            <span ng-if="tasks.taskStatus === 1">
+                                                                <span style="color: #b21f2d">Unfinished</span>
+                                                            </span>
+                                                            <span ng-if="tasks.taskStatus === 2">
+                                                                <span style="color: #1e7e34">Finished</span>
+                                                            </span>
+                                                            <span ng-if="tasks.taskStatus === 3">
+                                                                <span style="color: yellow">Timeout</span>
+                                                            </span>
+                                                        </td>
                                                         <td>{{tasks.taskName}}</td>
-                                                        <td class="td-actions text-right">
+                                                        <td class="td-actions">
                                                             <div class="form-button-action">
                                                                 <button type="button"  title="Edit Task" ng-click = "getTaskDetail(tasks.taskId)"
                                                                         data-toggle = "modal" data-target = "#modalTask"
                                                                         class="btn btn-link btn-simple-primary">
                                                                     <i class="la la-edit"></i>
                                                                 </button>
-                                                                <button type="button" data-toggle="tooltip" title="Remove"
-                                                                        class="btn btn-link btn-simple-danger">
-                                                                    <i class="la la-times"></i>
-                                                                </button>
+                                                                <span ng-if="tasks.taskStatus != 1">
+                                                                    <button type="button" data-toggle="tooltip" title="Remove"
+                                                                            class="btn btn-link btn-simple-danger" ng-click="removeTaskInfoData(tasks.taskId)">
+                                                                        <i class="la la-times"></i>
+                                                                    </button>
+                                                                </span>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -188,16 +200,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" ng-model="checkAgree" ng-click="changeDisabledForSubmit()" ng-disabled="disabledInput">
-                                        <span class="form-check-sign">Agree with terms and conditions</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="card-action">
-                                <input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledSubmit" ng-click="submit()">
-                                <input type="button"  class="btn btn-danger" value="{{buttonValue}}" ng-click="modify()">
                             </div>
                         </div>
                     </div>

@@ -12,11 +12,13 @@ import java.util.List;
  */
 public interface TaskService {
     void addTask(TaskInfo taskInfo);
-    List<TaskInfo> getAllTaskInfoByUsername(String username);
-    List<TaskInfo> getAllTaskInfoByTaskStatus(int taskStatus);
+    List<TaskInfo> findAllByUserNameAndDelFlag(String username);
+    List<TaskInfo> getAllTaskInfoByTaskStatusAndDelFlag(int taskStatus,String username);
     List<TaskInfo> getAllTaskInfo();
     TaskInfo getTaskInfo(String taskId);
     TaskInfo setTaskInfoData (TaskInfo taskInfo, String file, String localPath);
     void updateTaskInfoData (TaskInfo taskInfo);
     TaskInfo getTaskInfoByTaskName (String taskName);
+    void deleteTaskInfoDataByTaskIdForUser(String taskId);
+    void deleteTaskInfoDataByTaskIdForAudit(String taskId);
 }

@@ -22,4 +22,6 @@ public class ProfessorInfo {
     private String pfPhone;
     private String pfIntroduce;
     private String pfPicture;
+    private int pfSubmitCount;
+    private int pfSuccessCount;
 }

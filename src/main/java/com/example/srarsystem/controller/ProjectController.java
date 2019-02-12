@@ -4,7 +4,7 @@ import com.example.srarsystem.commons.AccessUtils;
 import com.example.srarsystem.commons.FileUtils;
 import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.ProjectTypeInfo;
-import com.example.srarsystem.entity.UserInfo;
+import com.example.srarsystem.service.ProfessorService;
 import com.example.srarsystem.service.ProjectService;
 import com.example.srarsystem.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,9 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +32,13 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final UserService userService;
+    private final ProfessorService professorService;
 
     @Autowired
-    public ProjectController(ProjectService projectService, UserService userService) {
+    public ProjectController(ProjectService projectService, UserService userService, ProfessorService professorService) {
         this.projectService = projectService;
         this.userService = userService;
+        this.professorService = professorService;
     }
 
     @GetMapping("/getPjInfoList")
@@ -112,6 +112,7 @@ public class ProjectController {
             //success
             ProjectInfo projectInfo =projectService.setPjInfoData(projectInfoMapper,file.getOriginalFilename(),localPath);
             projectService.saveProject(projectInfo);
+            professorService.changePfSubmitCount(projectInfo.getPjReviewer());
             finishDataRequestMap.put("responseType","SUCCESS");
         }else {
             //error

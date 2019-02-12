@@ -24,7 +24,7 @@ public class NotifyServiceImpl implements NotifyService{
     }
 
     @Override
-    public void setNotifyData(String notifyBy, String notifyFor, String notifyType,
+    public void setNotifyDataForUser(String notifyBy, String notifyFor, String notifyType,
                                String message,String notifyMain) {
         NotifyInfo notifyInfo = new NotifyInfo();
         String notifyDate = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
@@ -40,8 +40,14 @@ public class NotifyServiceImpl implements NotifyService{
     }
 
     @Override
-    public List<NotifyInfo> getNotifyDataByUserName(String userName) {
-        List<NotifyInfo> notifyInfoList = notifyRepository.findByNotifyFor(userName);
+    public List<NotifyInfo> getNotifyDataByUserNameAndDelFlag(String userName) {
+        List<NotifyInfo> notifyInfoList = notifyRepository.findByNotifyForAndDelFlag(userName);
+        return notifyInfoList;
+    }
+
+    @Override
+    public List<NotifyInfo> getNotifyDataByUserNameAndDelFlagAudit(String userName) {
+        List<NotifyInfo> notifyInfoList = notifyRepository.findByNotifyForAndDelFlagAudit(userName,0);
         return notifyInfoList;
     }
 
@@ -59,4 +65,11 @@ public class NotifyServiceImpl implements NotifyService{
     public List<NotifyInfo> getNotifyListByUserNameAndNotifyId(String userName, String notifyId) {
         return notifyRepository.findAllByNotifyForAndNotifyStatus(userName, notifyId);
     }
+
+//    @Override
+//    public void deleteNotifyDataByTaskIdForUser(String notifyId) {
+//        NotifyInfo notifyInfo = notifyRepository.getOne(notifyId);
+//        notifyInfo.setDelFlag(1);
+//        notifyRepository.save(notifyInfo);
+//    }
 }

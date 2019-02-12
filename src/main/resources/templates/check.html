@@ -68,6 +68,8 @@
                                                 <td ng-if="pj.pjStatus == 1"><span style="color: #2e6da4">Review</span></td>
                                                 <td ng-if="pj.pjStatus == 2"><span style="color: #1e7e34">Pass</span></td>
                                                 <td ng-if="pj.pjStatus == 3"><span style="color: red">Reject</span></td>
+                                                <td ng-if="pj.pjStatus == 4"><span style="color: #1e7e34">Finished</span></td>
+                                                <td ng-if="pj.pjStatus == 5"><span style="color: red">Break</span></td>
                                                 <td><a href="javascript:void(0)" ng-click="download(pj.pjId,pj.pjName)">{{pj.pjName}}</a></td>
                                                 <td>{{pj.pjType}}</td>
                                                 <td>

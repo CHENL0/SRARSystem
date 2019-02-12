@@ -50,7 +50,7 @@ public class UserController {
     public @ResponseBody
     Object getAllTasks(String username, HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
-        List<TaskInfo> taskInfoList = taskService.getAllTaskInfoByUsername(username);
+        List<TaskInfo> taskInfoList = taskService.findAllByUserNameAndDelFlag(username);
         Map<String,List<?>> tasksListMap = new HashMap<>();
         tasksListMap.put("taskInfoList", taskInfoList);
         return tasksListMap;
@@ -78,10 +78,10 @@ public class UserController {
 
     @RequestMapping(value = "/getOneStatusTaskList")
     public  @ResponseBody
-    Object getOneStatusTaskList(int taskStatus, HttpServletResponse response){
+    Object getOneStatusTaskList(int taskStatus,String username, HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
-        List<TaskInfo> oneStatusTaskList = taskService.getAllTaskInfoByTaskStatus(taskStatus);
-        Map<String, List<?>> taskInfoMap = new HashMap<>();
+        List<TaskInfo> oneStatusTaskList = taskService.getAllTaskInfoByTaskStatusAndDelFlag(taskStatus,username);
+        Map<String, List<TaskInfo>> taskInfoMap = new HashMap<>();
         taskInfoMap.put("oneStatusTaskList", oneStatusTaskList);
         return taskInfoMap;
     }
@@ -169,5 +169,6 @@ public class UserController {
         }
         return finishDataRequestMap;
     }
+
 
 }

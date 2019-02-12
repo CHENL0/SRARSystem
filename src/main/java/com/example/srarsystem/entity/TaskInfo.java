@@ -12,7 +12,7 @@ import javax.persistence.Id;
  */
 @Data
 @Entity
-public class TaskInfo {
+public class TaskInfo{
     @Id
     private String taskId;
     private String userName;
@@ -26,6 +26,8 @@ public class TaskInfo {
     private String taskFileName;
     private String taskPath;
     private String taskMessage;
+    private int delFlag;
+    private int delFlagAudit;
     /**
      * the status of task what 1 is haven't finished and 2 is have finished
      * and 3 is default and 4 is termination and 5 is commit

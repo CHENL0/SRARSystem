@@ -36,14 +36,12 @@ public class ProfessorController {
 
     private final ProjectService projectService;
     private final ProfessorService professorService;
-    private final UserService userService;
     private final TaskService taskService;
 
     @Autowired
-    public ProfessorController(ProjectService projectService, ProfessorService professorService, UserService userService, TaskService taskService) {
+    public ProfessorController(ProjectService projectService, ProfessorService professorService, TaskService taskService) {
         this.projectService = projectService;
         this.professorService = professorService;
-        this.userService = userService;
         this.taskService = taskService;
     }
 
@@ -71,6 +69,9 @@ public class ProfessorController {
     public Object rejectProject(String pjId, HttpServletResponse response,int pjStatus) {
         AccessUtils.getAccessAllow(response);
         ProjectInfo projectInfo = projectService.getProjectInfoByPjId(pjId);
+        if(pjStatus == 4){
+            professorService.changePfSuccessCount(projectInfo.getPjReviewer());
+        }
         projectInfo.setPjStatus(pjStatus);
         projectService.saveProject(projectInfo);
         return null;

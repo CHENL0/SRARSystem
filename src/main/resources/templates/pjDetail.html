@@ -61,7 +61,7 @@
                                             <div class="caption ">
                                                 <h3>{{pf.pfNickname}}</h3><p>{{pf.pfType}}</p>
                                                 <p>{{pf.pfIntroduce}}</p>
-                                                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                                <p><a href="#/submit" class="btn btn-primary" role="button">Submission</a> <a ng-click="clickDetailOfPf(pf.pfName)" data-toggle = "modal" data-target = "#modalDetail" class="btn btn-default" role="button">Detail</a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -116,6 +116,45 @@
                 <p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
                 <p>
                     <b>We'll let you know when it's done</b></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> User profiles</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                    <table class="table table-striped">
+                        <tr>
+                            <td><h6>ProfessorName  :</h6></td>
+                            <td><h6 >{{pfInfoModel.pfName}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6>Phone  :</h6></td>
+                            <td><h6 >{{pfInfoModel.pfPhone}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6>SubmitCount  :</h6></td>
+                            <td><h6 >{{pfInfoModel.pfSubmitCount}}</h6></td>
+                        </tr>
+                        <tr>
+                            <td><h6>SuccessCount  :</h6></td>
+                            <td><h6 >{{pfInfoModel.pfSuccessCount}}</h6></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

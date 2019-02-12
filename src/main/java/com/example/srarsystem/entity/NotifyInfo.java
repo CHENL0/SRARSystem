@@ -25,5 +25,7 @@ public class NotifyInfo {
     private String notifyMain;
     private String notifyDate;
     private int notifyStatus;
+    private int delFlag;
+    private int delFlagAudit;
 
 }

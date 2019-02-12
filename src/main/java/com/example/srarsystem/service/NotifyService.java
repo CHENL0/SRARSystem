@@ -10,15 +10,19 @@ import java.util.List;
  * @description the service of notify
  */
 public interface NotifyService {
-    void setNotifyData (String notifyBy,String notifyFor,String notifyType,
+    void setNotifyDataForUser (String notifyBy,String notifyFor,String notifyType,
                          String message,String notifyMain);
 
-    List<NotifyInfo> getNotifyDataByUserName (String userName);
+    List<NotifyInfo> getNotifyDataByUserNameAndDelFlag (String userName);
+
+    List<NotifyInfo> getNotifyDataByUserNameAndDelFlagAudit (String userName);
 
     NotifyInfo getNotifyInfoByNotifyId (String notifyId);
 
     void updateNotifyInfo (NotifyInfo notifyInfo);
 
     List<NotifyInfo> getNotifyListByUserNameAndNotifyId (String userName, String notifyId);
+
+//    void deleteNotifyDataByTaskIdForUser (String notifyId);
 
 }

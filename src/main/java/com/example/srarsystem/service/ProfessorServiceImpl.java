@@ -61,4 +61,18 @@ public class ProfessorServiceImpl implements ProfessorService {
     public List<ProfessorInfo> getAllPfInfoList() {
         return professorRepository.findAll();
     }
+
+    @Override
+    public void changePfSubmitCount(String pfName) {
+        ProfessorInfo professorInfo = findOneByPfName(pfName);
+        professorInfo.setPfSubmitCount(professorInfo.getPfSubmitCount()+1);
+        professorRepository.save(professorInfo);
+    }
+
+    @Override
+    public void changePfSuccessCount(String pfName) {
+        ProfessorInfo professorInfo = findOneByPfName(pfName);
+        professorInfo.setPfSuccessCount(professorInfo.getPfSuccessCount()+1);
+        professorRepository.save(professorInfo);
+    }
 }

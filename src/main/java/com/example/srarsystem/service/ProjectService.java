@@ -68,4 +68,5 @@ public interface ProjectService {
     void commitPjInfoData (ProjectInfo projectInfo);
 
     ProjectInfo setPjInfoData (ProjectInfo projectInfo, String file, String localPath);
+
 }

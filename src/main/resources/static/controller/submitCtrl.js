@@ -1,5 +1,5 @@
 MyApp
-    .controller('submitController',['$scope', '$interval', 'submitService','taskService', function ($scope,$interval, submitService,taskService) {
+    .controller('submitController',['$scope', '$interval', 'submitService','taskService','notifyService', function ($scope,$interval, submitService,taskService,notifyService) {
         //get username from localStorage
         $scope.pageClass = 'submit';
         $scope.username = localStorage.getItem("data");
@@ -19,7 +19,7 @@ MyApp
             function (response) {
                 $scope.pjInfoList = response.oneUserPjInfoList;
                 for(var i = 0;i<$scope.pjInfoList.length;i++){
-                    if($scope.pjInfoList[i].pjStatus === 2){
+                    if($scope.pjInfoList[i].pjStatus === 2 || $scope.pjInfoList[i].pjStatus === 1){
                         $scope.count += 1;
                     }
                 }
@@ -164,19 +164,19 @@ MyApp
         $scope.submit = function () {
             if($scope.submitType === 'submitProject'){
                 if($scope.validateAllDataForPj()){
-                    alert("ok ,the message have finished");
-                    $scope.projectData.pjReviewer = $scope.projectData.pjReviewer[0];
-                    $scope.projectData.pjUser = $scope.username;
-                    submitService.submitDataForPj($scope.file,$scope.projectData).then(
-                        function (response) {
-                            if(response.responseType === "SUCCESS"){
-                                alert("Congratulations, and your information submitted to success");
-                                window.location.href = "index.html#/userProfile";
-                            }else {
-                                alert("sorry,your information submitted to error")
+                        alert("ok ,the message have finished");
+                        $scope.projectData.pjReviewer = $scope.projectData.pjReviewer[0];
+                        $scope.projectData.pjUser = $scope.username;
+                        submitService.submitDataForPj($scope.file,$scope.projectData).then(
+                            function (response) {
+                                if(response.responseType === "SUCCESS"){
+                                    alert("Congratulations, and your information submitted to success");
+                                    window.location.href = "index.html#/userProfile";
+                                }else {
+                                    alert("sorry,your information submitted to error")
+                                }
                             }
-                        }
-                    )
+                        )
                 }
             }else if($scope.submitType === 'submitTask'){
                 if($scope.validateAllDataForTask()){
@@ -186,7 +186,8 @@ MyApp
                         function (response) {
                             if(response.responseType === "SUCCESS"){
                                 alert("Congratulations, and your information submitted to success");
-                                window.location.href = "index.html#/userProfile";
+                                notifyService.setNotifyForAudit($scope.name,$scope.taskData.pfName,"Task",2,$scope.taskData.taskName);
+                                window.location.href = "index.html#/tasks";
                             }else {
                                 alert("sorry,your information submitted to error")
                             }

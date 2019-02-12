@@ -66,6 +66,12 @@ MyApp
                     }else if($scope.onePjInfo.pjStatus === 3){
                         $scope.pjStatusModel = "Reject";
                         $scope.selectedStatusCode = $scope.onePjInfo.pjStatus;
+                    }else if($scope.onePjInfo.pjStatus === 4){
+                        $scope.pjStatusModel = "Finished";
+                        $scope.selectedStatusCode = $scope.onePjInfo.pjStatus;
+                    }else if($scope.onePjInfo.pjStatus === 5){
+                        $scope.pjStatusModel = "Break";
+                        $scope.selectedStatusCode = $scope.onePjInfo.pjStatus;
                     }
                 }
             )

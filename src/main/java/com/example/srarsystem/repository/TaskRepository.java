@@ -13,10 +13,10 @@ import java.util.List;
  */
 public interface TaskRepository extends JpaRepository<TaskInfo, String> {
 
-    List<TaskInfo> findAllByUserName(String username);
+    List<TaskInfo> findAllByUserNameAndDelFlag(String username,int delFlag);
     @Override
     List<TaskInfo> findAll();
     TaskInfo findOneByTaskId(String taskId);
-    List<TaskInfo> findAllByTaskStatus(int taskStatus);
+    List<TaskInfo> findAllByTaskStatusAndDelFlagAndUserName(int taskStatus,int delFlag,String userName);
     TaskInfo findOneByTaskName (String taskName);
 }

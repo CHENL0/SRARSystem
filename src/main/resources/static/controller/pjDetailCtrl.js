@@ -145,6 +145,15 @@ MyApp
 
         };
 
+        $scope.clickDetailOfPf = function (pfName) {
+            pjDetailService.getPfInfoData(pfName).then(
+                function (response) {
+                    $scope.pfInfoModel = response.professorInfo;
+                }
+            )
+
+        };
+
         $scope.logout = function () {
             localStorage.clear();
             window.location.href = "loginSign.html";
@@ -153,27 +162,29 @@ MyApp
 
 
 
-        $scope.clickCheck = function () {
-            
-        };
-        var timer = $interval(function(){
-            var $ctrl = this;
-            $scope.getCheckCount();
-        },10000);
+        // $scope.clickCheck = function () {
+        //
+        // };
+        // var timer = $interval(function(){
+        //     var $ctrl = this;
+        //     $scope.getCheckCount();
+        // },10000);
 
-        $scope.getCheckCount = function () {
-            checkService.getOnePfPjInfoListData($scope.name).then(
-                function (value) {
-                    var onePfPjInfoList = value.onePfPjInfoList;
-                    $scope.checkCount = 0;
-                    for(var i =0;i<onePfPjInfoList.length;i++){
-                        if(onePfPjInfoList[i].pjStatus === 1){
-                            $scope.checkCount =$scope.checkCount +1;
-                        }
-                    }
-                }
-            )
-        }
+
+
+        // $scope.getCheckCount = function () {
+        //     checkService.getOnePfPjInfoListData($scope.name).then(
+        //         function (value) {
+        //             var onePfPjInfoList = value.onePfPjInfoList;
+        //             $scope.checkCount = 0;
+        //             for(var i =0;i<onePfPjInfoList.length;i++){
+        //                 if(onePfPjInfoList[i].pjStatus === 1){
+        //                     $scope.checkCount =$scope.checkCount +1;
+        //                 }
+        //             }
+        //         }
+        //     )
+        // }
     }
     ]);
 
