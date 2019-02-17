@@ -72,7 +72,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectTypeInfo> getAllPjInfo() {
+    public List<ProjectTypeInfo> getAllPjTypeInfo() {
         return projectTypeRepository.findAll();
     }
 

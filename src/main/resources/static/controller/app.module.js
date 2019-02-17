@@ -39,6 +39,11 @@ MyApp.config(function ($routeProvider) {
             controller: 'applyController'
         })
 
+        .when('/mission', {
+            templateUrl: 'mission.html',
+            controller: 'missionController'
+        })
+
         .when('/notify', {
             templateUrl: 'notifications.html',
             controller: 'notifyController'

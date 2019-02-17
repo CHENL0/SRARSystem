@@ -94,7 +94,110 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" id="">
+                                <h4 class="card-title">Project</h4>
+                                <p class="card-category">Here are some Project,and you can understand</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="demo">
+                                    <span ng-repeat="pjInfo in pjInfoList">
+                                        <label class="form-radio-label">
+                                            <span ng-if="pjInfo.pjType === '基础研究'">
+                                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getPfList(pjInfo.pjType,0);refreshActiveCode()" checked>
+                                                <span class="form-radio-sign">{{pjInfo.pjType}}</span>
+                                            </span>
+                                            <span ng-if="pjInfo.pjType !=  '基础研究'">
+                                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getPfList(pjInfo.pjType,0);refreshActiveCode()">
+                                                <span class="form-radio-sign">{{pjInfo.pjType}}</span>
+                                            </span>
+                                        </label>
+                                    </span>
+                                    <input ng-model="queryData" style="width: 350px; height :30px">
+                                    <button type="button" class="btn btn-default" ng-click="queryPjTitle()" style="height:30px;">
+                                        <span class="glyphicon glyphicon-search" style="font-size: 10px"></span>
+                                    </button>
+                                </p>
+                                <br>
+                                <div class="row">
+                                    <div ng-show = "pjInfoList.length === 0">
+                                        <div class="card-sub">
+                                            You don't have a related project , you can improve your personal information what can attract people to commit you
+                                        </div>
+                                    </div>
+                                    <div ng-show = "pjInfoList.length > 0">
+                                        <div class="card-sub">
+                                            This is the  table view of your all project :
+                                        </div>
+                                        <table class="table mt-3">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">#Status</th>
+                                                <th scope="col">Project Title</th>
+                                                <th scope="col">Project Type</th>
+                                                <th scope="col">UserName</th>
+                                                <th scope="col">ProfessName</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="pj in pjInfoList">
+                                                <td ng-if="pj.pjStatus == 1"><span style="color: #2e6da4">Review</span></td>
+                                                <td ng-if="pj.pjStatus == 2"><span style="color: #1e7e34">Pass</span></td>
+                                                <td ng-if="pj.pjStatus == 3"><span style="color: red">Reject</span></td>
+                                                <td ng-if="pj.pjStatus == 4"><span style="color: #1e7e34">Finished</span></td>
+                                                <td ng-if="pj.pjStatus == 5"><span style="color: red">Break</span></td>
+                                                <td><a href="javascript:void(0)" >
+                                                    {{pj.pjTitle}}</a>
+                                                </td>
+                                                <td>{{pj.pjType}}</td>
+                                                <td>
+                                                    <a  ng-click="getUserDetail(pj.pjUser)"
+                                                        data-toggle = "modal" data-target = "#modalUser"
+                                                        class="btn btn-link btn-simple-primary">
+                                                        @{{pj.pjUser}}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a  ng-click="getUserDetail(pj.pjUser)"
+                                                        data-toggle = "modal" data-target = "#modalUser"
+                                                        class="btn btn-link btn-simple-primary">
+                                                        @{{pj.pfName}}
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <ul class="pagination pg-primary">
+                                    <div ng-show = "pageMap[0] != 1">
+                                        <li class="page-item">
+                                            <a class="page-link"  aria-label="Previous" ng-click="getPreviousPage()" >
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <!--<span class="sr-only">Previous</span>-->
+                                            </a>
+                                        </li>
+                                    </div>
+                                    <span ng-repeat="page in pageMap">
+                                        <li class="page-item " ng-class="(activeCode === page)? 'active':''">
+                                            <a class="page-link" disabled ng-click="changeActive(page);getPfList(currentType,page-1)">{{page}}</a>
+                                        </li>
+                                    </span>
+                                    <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
+                                    <!--<li class="page-item"><a class="page-link" href="#">3</a></li>-->
+                                    <div ng-show = "showNext">
+                                        <li class="page-item">
+                                            <a class="page-link" aria-label="Next" ng-click="getNextPage()" >
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <!--<span class="sr-only">Next</span>-->
+                                            </a>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

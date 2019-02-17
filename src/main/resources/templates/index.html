@@ -7,6 +7,7 @@
     <title>Components - Ready Bootstrap Dashboard</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
+    <link rel="stylesheet" href="assets/bootstrap3.3.7/dist/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="assets/css/bootstrap.css">-->
     <link rel="stylesheet"
@@ -15,7 +16,7 @@
     <link rel="stylesheet" href="assets/css/demo.css">
     <script src="assets/js/jquery.min.js" ></script>
     <script src="assets/js/date.format.js" ></script>
-
+    <script src="assets/bootstrap3.3.7/dist/js/bootstrap.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/angular.min.js"></script>
     <script src="assets/js/angular-route.js"></script>
@@ -38,6 +39,13 @@
     <script src="service/commonServ.js" ></script>
     <script src="controller/applyForCtrl.js" ></script>
     <script src="service/applyForServ.js" ></script>
+    <script src="controller/auditCtrl.js" ></script>
+    <script src="service/auditServ.js" ></script>
+    <script src="controller/pjTypeCtrl.js" ></script>
+    <script src="service/pjTypeServ.js" ></script>
+    <script src="controller/missionCtrl.js" ></script>
+    <script src="service/missionServ.js" ></script>
+    <script src="filters/filters.js" ></script>
 </head>
 <body ng-app="MyApp" ng-controller="pjDetailController">
 <div class="wrapper">
@@ -92,9 +100,9 @@
             </div>
             <div ng-if="prefixName === 'PROFESSOR'">
                 <li class="nav-item">
-                    <a href="#/upload">
+                    <a href="#/mission">
                         <i class="la la-keyboard-o"></i>
-                        <p>Upload</p>
+                        <p>Mission</p>
                         <!--<span class="badge badge-count">50</span>-->
                     </a>
                 </li>
@@ -105,6 +113,24 @@
                         <i class="la la-keyboard-o"></i>
                         <p>Check</p>
                         <!--<span class="badge badge-success">{{checkCount}}</span>-->
+                    </a>
+                </li>
+            </div>
+            <div ng-if="prefixName === 'ADMIN'">
+                <li class="nav-item">
+                    <a href="#/audit">
+                        <i class="la la-keyboard-o"></i>
+                        <p>Audit</p>
+                        <!--<span class="badge badge-success">{{checkCount}}</span>-->
+                    </a>
+                </li>
+            </div>
+            <div ng-if="prefixName === 'ADMIN' ">
+                <li class="nav-item">
+                    <a href="#/PjType">
+                        <i class="la la-th"></i>
+                        <p>PjType</p>
+                        <!--<span class="badge badge-count">6</span>-->
                     </a>
                 </li>
             </div>
@@ -126,19 +152,6 @@
                     </a>
                 </li>
             </div>
-            <!--<li class="nav-item">-->
-                <!--<a href="#">-->
-                    <!--<i class="la la-font"></i>-->
-                    <!--<p>Please wait</p>-->
-                    <!--&lt;!&ndash;<span class="badge badge-danger">25</span>&ndash;&gt;-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li class="nav-item">-->
-                <!--<a href="icons.html">-->
-                    <!--<i class="la la-fonticons"></i>-->
-                    <!--<p>Icons</p>-->
-                <!--</a>-->
-            <!--</li>-->
             <li class="nav-item update-pro">
                 <button data-toggle="modal" data-target="#modalUpdate" ng-click="logout()">
                     <i class="la la-hand-pointer-o"></i>

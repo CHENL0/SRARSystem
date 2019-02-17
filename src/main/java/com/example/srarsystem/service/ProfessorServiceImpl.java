@@ -1,7 +1,10 @@
 package com.example.srarsystem.service;
 
+import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.commons.PageToolUtils;
+import com.example.srarsystem.commons.UUIDUtils;
 import com.example.srarsystem.entity.ProfessorInfo;
+import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -74,5 +77,21 @@ public class ProfessorServiceImpl implements ProfessorService {
         ProfessorInfo professorInfo = findOneByPfName(pfName);
         professorInfo.setPfSuccessCount(professorInfo.getPfSuccessCount()+1);
         professorRepository.save(professorInfo);
+    }
+
+    @Override
+    public String createPfInfoAndSave(UserInfo userInfo,String selectedType) {
+        ProfessorInfo professorInfo = new ProfessorInfo();
+        String timestamp = DateUtils.getTimestamp();
+        String pfName = "PROFESSOR_" + timestamp;
+        professorInfo.setPfId(UUIDUtils.getUUID());
+        professorInfo.setPfName(pfName);
+        professorInfo.setPfPassword(userInfo.getUserPassword());
+        professorInfo.setPfPhone(userInfo.getUserPhone());
+        professorInfo.setPfSecurityQuestion(userInfo.getUrSecurityQuestion());
+        professorInfo.setPfSecurityAnswer(userInfo.getUrSecurityAnswer());
+        professorInfo.setPfType(selectedType);
+        professorRepository.save(professorInfo);
+        return pfName;
     }
 }

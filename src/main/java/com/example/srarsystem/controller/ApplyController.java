@@ -3,7 +3,11 @@ package com.example.srarsystem.controller;
 import com.example.srarsystem.commons.AccessUtils;
 import com.example.srarsystem.commons.FileUtils;
 import com.example.srarsystem.entity.ApplyInfo;
+import com.example.srarsystem.entity.ProfessorInfo;
+import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.service.ApplyService;
+import com.example.srarsystem.service.ProfessorService;
+import com.example.srarsystem.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,11 +33,15 @@ import java.util.Map;
 public class ApplyController {
     @Autowired
     private ApplyService applyService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ProfessorService professorService;
 
     @RequestMapping(value = "/submitApplyInfoData")
     public @ResponseBody
     Object submitApplyInfoData(MultipartFile file, String applyInfoData
-            , HttpServletResponse response) throws IOException {
+            ,HttpServletResponse response) throws IOException {
         AccessUtils.getAccessAllow(response);
         Map<Object,Object> finishDataRequestMap = new HashMap<>();
 
@@ -59,15 +68,23 @@ public class ApplyController {
      * @Param
      * @Return
      */
-    @PostMapping("/download")
+    @PostMapping("/downloadApplyFile")
     public @ResponseBody
-    String downloadFile(HttpServletResponse response) {
+    String downloadApplyFile(HttpServletResponse response,String applyId) {
         AccessUtils.getAccessAllow(response);
         // 文件名
-        ApplyInfo applyInfo = applyService.getApplyInfoDataByApplyType();
-        String fileName = applyInfo.getFileName();
-        String realPath = applyInfo.getFilePath();
-        if (fileName != null) {
+        String fileName;
+        String realPath;
+        if(applyId.equals(null) || applyId ==""){
+            ApplyInfo applyInfo = applyService.getApplyInfoDataByApplyType();
+            fileName = applyInfo.getFileName();
+            realPath = applyInfo.getFilePath();
+        }else {
+            ApplyInfo applyInfo = applyService.getApplyInfoDataByApplyId(applyId);
+            fileName = applyInfo.getFileName();
+            realPath = applyInfo.getFilePath();
+        }
+        if(fileName != null){
             File file = new File(realPath , fileName);
             if (file.exists()) {
                 response.setContentType("application/force-download");
@@ -116,5 +133,58 @@ public class ApplyController {
         ApplyInfo applyInfo = applyService.getApplyInfo();
         applyInfoMap.put("applyInfo",applyInfo);
         return applyInfoMap;
+    }
+
+
+    @RequestMapping(value = "/getAllApplyInfo")
+    public @ResponseBody
+    Object getAllApplyInfo (HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        List<ApplyInfo> applyInfos = applyService.getApplyInfos();
+        Map<String,List<ApplyInfo>> applyInfoMap = new HashMap<>();
+        applyInfoMap.put("applyInfos",applyInfos);
+        return applyInfoMap;
+    }
+
+    @RequestMapping(value = "/changeApplyType")
+    public @ResponseBody
+    Object changeApplyType (String applyId,String applyType,HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        ApplyInfo applyInfo = applyService.getApplyInfoDataByApplyId(applyId);
+        applyInfo.setApplyType(applyType);
+        applyService.saveApplyInfo(applyInfo);
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("responseType","SUCCESS");
+        return responseMap;
+    }
+
+    @RequestMapping(value = "/createPfInfo")
+    public @ResponseBody
+    Object createPfInfo (String applyUser,String selectedType,HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        UserInfo userInfo = userService.findOneByUserName(applyUser);
+        String pfName = professorService.createPfInfoAndSave(userInfo,selectedType);
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("pfName",pfName);
+        return responseMap;
+    }
+
+    @RequestMapping(value = "/submitApplyFile")
+    public @ResponseBody
+    Object submitApplyFile (MultipartFile file,String applyType,HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        Map<Object,Object> finishDataRequestMap = new HashMap<>();
+        String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/applyFile";
+        String oldFileName = applyService.getApplyInfoDataByApplyType().getFileName();
+        FileUtils.deleteFile(file, localPath, oldFileName);
+        if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
+            //success
+            applyService.submitApplyFile(applyType,file.getOriginalFilename(),localPath);
+            finishDataRequestMap.put("responseType","SUCCESS");
+        }else {
+            //error
+            finishDataRequestMap.put("responseType","ERROR");
+        }
+        return finishDataRequestMap;
     }
 }

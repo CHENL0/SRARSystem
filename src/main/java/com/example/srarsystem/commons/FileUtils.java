@@ -39,4 +39,12 @@ public class FileUtils {
         }
 
     }
+
+    public static void deleteFile(MultipartFile file, String path, String fileName){
+        String realPath = path + "/" + fileName;
+        File dest = new File(realPath);
+        if (dest.isFile() && dest.exists()) {
+            dest.delete();
+        }
+    }
 }

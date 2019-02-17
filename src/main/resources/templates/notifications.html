@@ -17,74 +17,80 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header">
-                                <p class="demo">
-                                    <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getReadNotifyList()">
-                                        <span class="form-radio-sign">Read</span>
-                                    </label>
-                                    <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getNotReadNotifyList()">
-                                        <span class="form-radio-sign">Did not read</span>
-                                    </label>
-                                    <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getOneUserNotifyData()">
-                                        <span class="form-radio-sign">Refresh</span>
-                                    </label>
-                                </p>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <div class="table-full-width">
-                                        <table class="table mt-3" >
-                                            <thead>
-                                            <tr>
-                                                <th>
-                                                    #Status
-                                                </th>
-                                                <th>Date</th>
-                                                <th>Type</th>
-                                                <th>By</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr ng-repeat="notify in notifyInfoList" ng-if="notify.notifyStatus !=3 ">
-                                                <div >
-                                                    <td>
-                                                        <!--<div class="form-check">-->
-                                                            <!--<label class="form-check-label">-->
-                                                                <!--<input class="form-check-input task-select" type="checkbox">-->
-                                                                <!--<span class="form-check-sign"></span>-->
-                                                            <!--</label>-->
-                                                        <!--</div>-->
-                                                        <span class="badge badge-success" ng-if="notify.notifyStatus === 1">!</span>
-                                                    </td>
-                                                    <td>{{notify.notifyDate}}</td>
-                                                    <td>{{notify.notifyType}}</td>
-                                                    <td>{{notify.notifyBy}}</td>
-                                                    <td class="td-actions ">
-                                                        <div class="form-button-action">
-                                                            <button type="button"  title="Read Message" ng-click = "getNotifyDetail(notify.notifyId)"
-                                                                    data-toggle = "modal" data-target = "#modalNotify"
-                                                                    class="btn btn-link btn-simple-primary">
-                                                                <i class="la la-edit"></i>
-                                                            </button>
-                                                            <button type="button"
-                                                                    class="btn btn-link btn-simple-danger" ng-click="deleteNotifyInfo(notify.notifyId)">
-                                                                <i class="la la-times"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </div>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
+                            <div ng-if="!notifyInfoList.length">
+                                <div class="card-sub">
+                                    There is no any message !
                                 </div>
                             </div>
-                            <div class="card-footer">
+                            <div ng-if="notifyInfoList.length">
+                                <div class="card-header">
+                                    <p class="demo">
+                                        <label class="form-radio-label">
+                                            <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getReadNotifyList()">
+                                            <span class="form-radio-sign">Read</span>
+                                        </label>
+                                        <label class="form-radio-label">
+                                            <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getNotReadNotifyList()">
+                                            <span class="form-radio-sign">Did not read</span>
+                                        </label>
+                                        <label class="form-radio-label">
+                                            <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getOneUserNotifyData()">
+                                            <span class="form-radio-sign">Refresh</span>
+                                        </label>
+                                    </p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <div class="table-full-width">
+                                            <table class="table mt-3" >
+                                                <thead>
+                                                <tr>
+                                                    <th>
+                                                        #Status
+                                                    </th>
+                                                    <th>Date</th>
+                                                    <th>Type</th>
+                                                    <th>By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="notify in notifyInfoList" ng-if="notify.notifyStatus !=3 ">
+                                                    <div >
+                                                        <td>
+                                                            <!--<div class="form-check">-->
+                                                                <!--<label class="form-check-label">-->
+                                                                    <!--<input class="form-check-input task-select" type="checkbox">-->
+                                                                    <!--<span class="form-check-sign"></span>-->
+                                                                <!--</label>-->
+                                                            <!--</div>-->
+                                                            <span class="badge badge-success" ng-if="notify.notifyStatus === 1">!</span>
+                                                        </td>
+                                                        <td>{{notify.notifyDate}}</td>
+                                                        <td>{{notify.notifyType}}</td>
+                                                        <td>{{notify.notifyBy}}</td>
+                                                        <td class="td-actions ">
+                                                            <div class="form-button-action">
+                                                                <button type="button"  title="Read Message" ng-click = "getNotifyDetail(notify.notifyId)"
+                                                                        data-toggle = "modal" data-target = "#modalNotify"
+                                                                        class="btn btn-link btn-simple-primary">
+                                                                    <i class="la la-edit"></i>
+                                                                </button>
+                                                                <button type="button"
+                                                                        class="btn btn-link btn-simple-danger" ng-click="deleteNotifyInfo(notify.notifyId)">
+                                                                    <i class="la la-times"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </div>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-footer">
                                 <div class="stats">
                                     <ul class="pagination pg-primary">
                                         <div >
@@ -106,38 +112,13 @@
                                     </ul>
                                 </div>
                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                ThemeKita
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Help
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#license/#free-item">
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="copyright ml-auto">
-                    2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">ThemeKita</a> - More
-                    Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a
-                        href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>
-            </div>
-        </footer>
+
     </div>
 
 

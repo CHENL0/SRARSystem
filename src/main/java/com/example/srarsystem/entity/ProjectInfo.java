@@ -15,6 +15,7 @@ import javax.persistence.Id;
 public class ProjectInfo{
     @Id
     private String pjId;
+    private String pjTitle;
     private String pjName;
     private String pjPath;
     private String pjUser;

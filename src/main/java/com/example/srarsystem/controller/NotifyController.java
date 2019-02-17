@@ -53,7 +53,14 @@ public class NotifyController {
                 message = "   Hi, "+ notifyFor + ", i sorry to tell you that your task  was timeout "
                         +", best regard !!";
             }
-
+        }else if(notifyType.equals("Apply")){
+            if(notifyStatus == 2){
+                message = "   Hi, "+ notifyFor + ", you are luck that your apply has passed by "+ notifyBy
+                        +" and your account name is <"+ notifyMain +">,the password as your current account, best regard !!";
+            }else if(notifyStatus == 3){
+                message = "   Hi, "+ notifyFor + ", i sorry to tell you that your apply has reject by "+ notifyBy
+                        +" and your can continue to improve your message, best regard !!";
+            }
         }
         notifyService.setNotifyDataForUser(notifyBy,notifyFor,notifyType,message, notifyMain);
         return null;

@@ -12,7 +12,7 @@ import java.util.List;
  * @description the repository of task
  */
 public interface TaskRepository extends JpaRepository<TaskInfo, String> {
-
+    List<TaskInfo> findAllByPfName (String pfName);
     List<TaskInfo> findAllByUserNameAndDelFlag(String username,int delFlag);
     @Override
     List<TaskInfo> findAll();

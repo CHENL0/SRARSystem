@@ -21,4 +21,5 @@ public interface TaskService {
     TaskInfo getTaskInfoByTaskName (String taskName);
     void deleteTaskInfoDataByTaskIdForUser(String taskId);
     void deleteTaskInfoDataByTaskIdForAudit(String taskId);
+    List<TaskInfo> getTaskInfosByPfName(String pfName);
 }

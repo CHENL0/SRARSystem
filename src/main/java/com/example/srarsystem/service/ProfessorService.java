@@ -2,6 +2,7 @@ package com.example.srarsystem.service;
 
 import com.example.srarsystem.entity.ProfessorInfo;
 import com.example.srarsystem.entity.ProjectInfo;
+import com.example.srarsystem.entity.UserInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,6 @@ public interface ProfessorService {
     void changePfSubmitCount (String pfName);
 
     void changePfSuccessCount (String pfName);
+
+    String createPfInfoAndSave (UserInfo userInfo,String selectedType);
 }

@@ -6448,8 +6448,8 @@ body {
 }
 
 .btn-default:hover, .btn-default:focus, .btn-default:disabled {
-    background: #607D8B !important;
-    color: #ffffff !important;
+    /*background: #607D8B !important;*/
+    color: #607D8B !important;
 }
 
 .btn-primary {

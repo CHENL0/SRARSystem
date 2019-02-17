@@ -43,42 +43,13 @@ public class ProjectController {
 
     @GetMapping("/getPjInfoList")
     public @ResponseBody
-    Object getAllPjInfos(HttpServletResponse response) {
+    Object getAllPjTypeInfos(HttpServletResponse response) {
         AccessUtils.getAccessAllow(response);
-        List<ProjectTypeInfo> projectInfoList = projectService.getAllPjInfo();
+        List<ProjectTypeInfo> projectInfoList = projectService.getAllPjTypeInfo();
         Map<String, List<?>> pjInfoListMap = new HashMap<>();
         pjInfoListMap.put("pjInfoList", projectInfoList);
         return pjInfoListMap;
     }
-
-//    @PostMapping("/upload")
-//    public @ResponseBody
-//    String upload(@RequestParam MultipartFile file, String pjType,
-//                  @RequestParam("pjDescription") String pjDescription,
-//                  HttpServletRequest request,HttpServletResponse response) {
-//        AccessUtils.getAccessAllow(response);
-//        String userId = (String) request.getSession().getAttribute("userId");
-//        UserInfo userInfo = userService.getUserInfoByUserId(userId);
-//        if (file.isEmpty()) {
-//            return "上传失败，请选择文件";
-//        }
-//        String fileName = file.getOriginalFilename();
-//        String filePath = "E:/f/";
-////        String filePath = "D:" + File.separator + "apache-tomcat-8.5.15"+ File.separator + "files" ;
-////        String realPath = File.separator + "home" + File.separator + "tomcat" + File.separator + "apache-tomcat-9.0.1" + File.separator + "files"
-//        File cuFilePath = new File(filePath);
-//        if (!cuFilePath.isDirectory()) {
-//            cuFilePath.mkdir();
-//        }
-//        File dest = new File(filePath + fileName);
-//        try {
-//            file.transferTo(dest);
-//            projectService.uploadProjectFile(filePath, fileName, userInfo.getUserName(), pjType, pjDescription);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return "上传成功";
-//    }
 
     /**
      * @Description  //TODO userProfiles show oneself pjInfos

@@ -76,10 +76,10 @@
                                                     <a  ng-click="getUserDetail(pj.pjUser)"
                                                        data-toggle = "modal" data-target = "#modalUser"
                                                        class="btn btn-link btn-simple-primary">
-                                                        @{{pj.pjUser}}
+                                                        {{pj.pjUser |filterName}}
                                                     </a>
                                                 </td>
-                                                <td>
+                                                <td ng-if="pj.pjStatus === 1">
                                                     <button type="button"  title="Edit Task" ng-click = "editPjStatus(pj.pjId,pj.pjStatus)"
                                                             data-toggle = "modal" data-target = "#modalStatus"
                                                             class="btn btn-link btn-simple-primary">
@@ -93,16 +93,7 @@
                                     </div>
                                 </div>
                                 </div>
-                                <!--<div class="form-check">-->
-                                    <!--<label class="form-check-label">-->
-                                        <!--<input class="form-check-input" type="checkbox" ng-model="checkAgree" ng-click="changeDisabledForSubmit()" ng-disabled="disabledInput">-->
-                                        <!--<span class="form-check-sign">Agree with terms and conditions</span>-->
-                                    <!--</label>-->
-                                <!--</div>-->
                             </div>
-                            <!--<div class="card-action">-->
-                                <!--<input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledSubmit" ng-click="submit()">-->
-                            <!--</div>-->
                         </div>
                     </div>
                 </div>
@@ -135,7 +126,7 @@
     </div>
 </div>
 
-    <!--modal  modalStatus   modalUser-->
+    <!--filters  modalStatus   modalUser-->
     <div class="modal fade" id="modalStatus" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="width: 680px;" role="document">

@@ -22,16 +22,6 @@ MyApp
        $scope.download = function (pjId, pjName) {
            checkService.downloadPj(pjId).then(
                function (response) {
-                   // 这里会弹出一个下载框，增强用户体验
-                   // var blob = new Blob([response], {
-                   //     type: "octet/stream"
-                   // });
-                   // var objectUrl = URL.createObjectURL(blob);
-                   // //  创建a标签模拟下载
-                   // var aForExcel = $("<a><span class='forExcel'>下载excel</span></a>").attr("href",objectUrl);
-                   // $("body").append(aForExcel);
-                   // $(".forExcel").click();
-                   // aForExcel.remove();
                    var link = document.createElement('a');
                    var blob = new Blob([response], {type: 'application/zip'});
                    link.setAttribute('href', window.URL.createObjectURL(blob));

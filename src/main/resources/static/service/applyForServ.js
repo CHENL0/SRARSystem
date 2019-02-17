@@ -30,8 +30,9 @@ MyApp
                 // 向后台发送处理数据
                 var promise = $http({
                     method: 'POST',
-                    url: 'http://localhost:8080/apply/getApplyFile',
+                    url: 'http://localhost:8080/apply/downloadApplyFile',
                     data:{
+                        'applyId':''
                     },
                     // responseType: "arraybuffer",
                     responseType: "blob",

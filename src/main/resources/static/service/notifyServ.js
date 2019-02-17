@@ -1,18 +1,18 @@
 MyApp
     .service('notifyService',['$http', '$q',function ($http, $q) {
         return {
-            setNotify : function (pfName,userName,type,status,pjName) {
+            setNotify : function (notifyBy,notifyFor,type,status,notifyMain) {
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
                     method: 'POST',
                     url: 'http://localhost:8080/notify/setNotifyDataForUser',
                     data:{
-                        notifyBy : pfName,
-                        notifyFor : userName,
+                        notifyBy : notifyBy,
+                        notifyFor : notifyFor,
                         notifyType : type,
                         notifyStatus : status,
-                        notifyMain : pjName
+                        notifyMain : notifyMain
                     },
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
                     transformRequest: function(obj) {

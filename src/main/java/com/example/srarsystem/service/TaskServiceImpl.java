@@ -92,4 +92,10 @@ public class TaskServiceImpl implements TaskService {
         taskInfo.setDelFlagAudit(1);
         taskRepository.save(taskInfo);
     }
+
+    @Override
+    public List<TaskInfo> getTaskInfosByPfName(String pfName) {
+        return taskRepository.findAllByPfName(pfName);
+
+    }
 }
