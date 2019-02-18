@@ -70,6 +70,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public void createTaskInfo(TaskInfo taskInfoMapper) {
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setPfName(taskInfoMapper.getPfName());
+        taskInfo.setUserName(taskInfoMapper.getUserName());
+        taskInfo.setTaskName(taskInfoMapper.getTaskName());
+        taskInfo.setTaskDescription(taskInfoMapper.getTaskDescription());
+        taskInfo.setDeadline(taskInfoMapper.getDeadline());
+        taskRepository.save(taskInfo);
+    }
+
+    @Override
     public void updateTaskInfoData(TaskInfo taskInfo) {
         taskRepository.save(taskInfo);
     }

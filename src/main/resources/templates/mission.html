@@ -36,7 +36,8 @@
                                     </div>
                                     <div class="card-body">
                                         <a data-toggle = "modal" data-target = "#modalCreateTask"
-                                            class="btn btn-link btn-simple-primary">
+                                            class="btn btn-link btn-simple-primary"
+                                            ng-click="getUserNameList()">
                                             @Create Task
                                         </a>
                                         <div ng-show = "taskInfos.length === 0">
@@ -146,6 +147,14 @@
                             <tr>
                                 <td><h6>TaskName  :</h6></td>
                                 <td><h6 ><input type="text" ng-model="taskInfoData.taskName"></h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6>UserName  :</h6></td>
+                                <td>
+                                    <select ng-model="taskInfoData.userName">
+                                        <option ng-repeat="x in userNameList" value="{{x}}">{{x}}</option>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td><h6>Deadline  :</h6></td>

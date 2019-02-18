@@ -52,12 +52,30 @@ MyApp
         };
 
         $scope.submitTaskData = function (taskInfo) {
+            taskInfo.pfName = $scope.name;
+            if(!taskInfo.userName || !taskInfo.taskName || !taskInfo.deadline || !taskInfo.taskDescription){
+                alert("Haven't fill in complete information");
+                return;
+            }
             missionService.submitTaskInfoData(taskInfo).then(
                 function (value) {
-                    alert("success");
+                    if(value.responseType === "SUCCESS"){
+                        alert("create success");
+                    }
+
                 }
             )
+        };
+
+        $scope.getUserNameList = function () {
+            missionService.getUserNameListByPfName($scope.name).then(
+                function (value) {
+                    $scope.userNameList = value.projectInfos;
+                }
+            )
+
         }
+
     }
     ]);
 

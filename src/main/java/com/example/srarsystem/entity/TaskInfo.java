@@ -1,9 +1,12 @@
 package com.example.srarsystem.entity;
 
+import com.example.srarsystem.commons.DateUtils;
+import com.example.srarsystem.commons.UUIDUtils;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * @author Chen
@@ -33,4 +36,13 @@ public class TaskInfo{
      * and 3 is default and 4 is termination and 5 is commit
      */
     private int taskStatus;
+
+    public TaskInfo() {
+        this.taskId = UUIDUtils.getUUID();
+        this.taskDate = DateUtils.parseStringTime(new Date());
+        this.countTime = "1";
+        this.delFlag = 0;
+        this.delFlagAudit = 0;
+        this.taskStatus = 1;
+    }
 }

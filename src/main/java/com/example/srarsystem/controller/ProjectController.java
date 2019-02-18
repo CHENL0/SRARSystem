@@ -101,4 +101,31 @@ public class ProjectController {
         projectInfoMap.put("projectInfo", projectInfo);
         return projectInfoMap;
     }
+
+//    @GetMapping("/getAllPjInfo")
+//    public @ResponseBody
+//    Object getAllPjInfo(HttpServletResponse response) {
+//        AccessUtils.getAccessAllow(response);
+//        List<ProjectInfo> pjInfos = projectService.getAllPjInfos();
+//        Map<String, List<?>> pjInfoListMap = new HashMap<>();
+//        pjInfoListMap.put("pjInfos", pjInfos);
+//        return pjInfoListMap;
+//    }
+
+    @RequestMapping(value = "/queryPjTitle")
+    public @ResponseBody
+    Object queryPjTitle (HttpServletResponse response,String pjTitle,String pjType){
+        AccessUtils.getAccessAllow(response);
+        List<ProjectInfo> pjInfos;
+        if(pjTitle !=null && !pjTitle.equals("")){
+            pjInfos = projectService.getAllPjInfosByQuery(pjTitle,pjType);
+
+        }else {
+            pjInfos = projectService.getAllPjInfos(pjType);
+        }
+        Map<String, List<?>> pjInfoListMap = new HashMap<>();
+        pjInfoListMap.put("pjInfos", pjInfos);
+        return pjInfoListMap;
+
+    }
 }

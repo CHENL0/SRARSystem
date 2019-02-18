@@ -69,4 +69,9 @@ public interface ProjectService {
 
     ProjectInfo setPjInfoData (ProjectInfo projectInfo, String file, String localPath);
 
+    List<ProjectInfo> getAllPjInfos(String pjType);
+
+    List<ProjectInfo> getAllPjInfosByQuery(String pjTitle,String pjType);
+
+    List<ProjectInfo> getDistinctPjUsersBypfReviewer (String pfReviewer);
 }

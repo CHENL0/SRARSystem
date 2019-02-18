@@ -39,4 +39,10 @@ public class DateUtils {
         }
         return parseDate;
     }
+
+    public static String parseStringTime(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdf.format(date);
+        return dateStr;
+    }
 }

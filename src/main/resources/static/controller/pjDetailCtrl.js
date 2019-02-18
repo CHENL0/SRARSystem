@@ -1,28 +1,70 @@
 MyApp
-    .controller('pjDetailController',['$scope', '$interval', 'pjDetailService','checkService','notifyService', function ($scope,$interval, pjDetailService,checkService,notifyService) {
+    .controller('pjDetailController',['$scope', '$interval', 'pjDetailService','checkService','notifyService','commonService',
+        function ($scope,$interval, pjDetailService,checkService,notifyServicem,commonService) {
         //get username from localStorage
         $scope.pageClass = 'pjDetail';
         $scope.index = 0;
         $scope.name = localStorage.getItem("data");
         $scope.prefixName = $scope.name.split("_")[0];
-
+        $scope.pjPageCount = 0;
         $scope.activeCode = 1;
         $scope.onePfTypeAllCount = 0;
         $scope.pageMap=[1,2,3,4,5];
         $scope.currentType ="基础研究";
+        $scope.queryData ="";
 
         //
-        pjDetailService.getPjInfoListData().then(
-            function (response) {
-                $scope.pjInfoList = response.pjInfoList;
-            });
-        //
-        pjDetailService.getPfInfoListData("基础研究",0).then(
-            function (response) {
-                $scope.pfInfoListPage = response.pfInfoListPage.content;
-            }
-        );
+            $scope.getPjTypeInfoData = function(){
+                pjDetailService.getPjInfoListData().then(
+                    function (response) {
+                        $scope.pjInfoList = response.pjInfoList;
+                        //first get pjInfoTypeData
+                        $scope.queryPjTitle();
+                        $scope.queryPjType = $scope.pjInfoList[0].pjType;
+                    });
+            };
+            $scope.getPjTypeInfoData();
 
+        //
+            $scope.getPfInfoListData = function f() {
+                pjDetailService.getPfInfoListData("基础研究",0).then(
+                    function (response) {
+                        $scope.pfInfoListPage = response.pfInfoListPage.content;
+                    }
+                );
+            };
+            $scope.getPfInfoListData();
+
+            $scope.queryPjTitle = function (queryData,pjTypeData,changeType) {
+                if(changeType){
+                    $scope.pjPageCount=0;
+                };
+                if(!pjTypeData){
+                    var pjType = $scope.pjInfoList[0].pjType;
+                    $scope.queryPjType = pjTypeData;
+                }else {
+                    var pjType = pjTypeData;
+                    $scope.queryPjType = pjTypeData;
+                }
+                var title;
+                if(queryData){
+                    title = commonService.trim(queryData);
+                }else {
+                    title = queryData;
+                }
+                pjDetailService.queryPjTitle(title,pjType).then(
+                    function (value) {
+                        $scope.pjInfoSliceList = commonService.sliceArr(value.pjInfos,6);
+                        $scope.pjInfos = $scope.pjInfoSliceList[$scope.pjPageCount];
+                    }
+                )
+            };
+
+
+            // $scope.trim = function (str) {
+            //     var strnew=str.replace(/^\s*|\s*$/g, "");
+            //     return strnew;
+            // }
         $scope.getPersonageInfoData = function(){
             if($scope.prefixName === "USER"){
                 pjDetailService.getUserInfoData($scope.name).then(
@@ -160,6 +202,40 @@ MyApp
         };
 
 
+
+
+            $scope.notifyNextPage = function(){
+                if($scope.pjPageCount >= $scope.pjInfoSliceList.length -1){
+                    alert("this is the last page");
+                }else {
+                    $scope.pjPageCount +=1;
+                    $scope.pjInfos = $scope.pjInfoSliceList[$scope.pjPageCount];
+                }
+            };
+            $scope.notifyPrePage = function(){
+                if($scope.pjPageCount === 0){
+                    alert("this is the first page");
+                }else {
+                    $scope.pjPageCount -=1;
+                    $scope.pjInfos = $scope.pjInfoSliceList[$scope.pjPageCount];
+                }
+            };
+
+        $scope.getPjInfoModelData = function(PjId) {
+            checkService.getOnePjInfoData(PjId).then(
+                function (response) {
+                    $scope.pjInfoModel = response.projectInfo;
+                }
+            )
+        };
+
+        $scope.getUserInfoModelData = function (userName) {
+            checkService.getUserInfoData(userName).then(
+                function (response) {
+                    $scope.userInfoModel = response.userInfo;
+                }
+            )
+        };
 
 
         // $scope.clickCheck = function () {

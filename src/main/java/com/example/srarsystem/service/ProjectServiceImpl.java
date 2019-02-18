@@ -102,6 +102,20 @@ public class ProjectServiceImpl implements ProjectService {
         return projectInfo;
     }
 
+    @Override
+    public List<ProjectInfo> getAllPjInfos(String pjType) {
+        return projectRepository.findAllByPjTypeAndPjStatus(pjType);
+    }
+
+    @Override
+    public List<ProjectInfo> getAllPjInfosByQuery(String pjTitle,String pjType) {
+        return projectRepository.findAllByPjStatusAndPjTitleContainingAndPjType(2,pjTitle,pjType);
+    }
+
+    @Override
+    public List<ProjectInfo> getDistinctPjUsersBypfReviewer(String pfReviewer) {
+        return projectRepository.findAllByPjReviewer(pfReviewer);
+    }
 
 
 }

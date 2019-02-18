@@ -161,7 +161,7 @@ MyApp
 
         };
         
-        $scope.submit = function () {
+        $scope.submitPj = function () {
             if($scope.submitType === 'submitProject'){
                 if($scope.validateAllDataForPj()){
                         alert("ok ,the message have finished");

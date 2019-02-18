@@ -1,8 +1,11 @@
 package com.example.srarsystem.controller;
 
 import com.example.srarsystem.commons.AccessUtils;
+import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.TaskInfo;
+import com.example.srarsystem.service.ProjectService;
 import com.example.srarsystem.service.TaskService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,9 +26,11 @@ import java.util.Map;
 public class TaskController {
 
     private final TaskService taskService;
+    private final ProjectService projectService;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, ProjectService projectService) {
         this.taskService = taskService;
+        this.projectService = projectService;
     }
 
     @RequestMapping(value = "/deleteTaskInfoDataForUser")
@@ -120,7 +125,23 @@ public class TaskController {
 
     @RequestMapping("/submitTaskInfoData")
     public @ResponseBody
-    Object submitTaskInfoData (TaskInfo taskInfo){
-        return "success";
+    Object submitTaskInfoData (HttpServletResponse response,String taskInfo) throws IOException {
+        AccessUtils.getAccessAllow(response);
+        ObjectMapper objectMapper = new ObjectMapper();
+        TaskInfo taskInfoMapper = objectMapper.readValue(taskInfo,TaskInfo.class);
+        taskService.createTaskInfo(taskInfoMapper);
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("responseType","SUCCESS");
+        return responseMap;
+    }
+
+    @RequestMapping("/getUserNameList")
+    public @ResponseBody
+    Object getUserNameList (String pfName){
+        List<ProjectInfo> projectInfos = projectService.getDistinctPjUsersBypfReviewer(pfName);
+        Map<String,List<ProjectInfo>> projectInfosMap = new HashMap<>();
+        projectInfosMap.put("projectInfos",projectInfos);
+        return projectInfosMap;
+
     }
 }

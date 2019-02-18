@@ -6,14 +6,6 @@ MyApp
         $scope.notifyPageCount = 0;
 
 
-        // notifyService.getNotifyDataForUser($scope.name).then(
-        //     function (response) {
-        //         $scope.notifyInfoListSort = response.notifyInfoList.sort(checkService.compare("notifyStatus"));
-        //         $scope.notifyInfoSliceList = commonService.sliceArr(notifyInfoListSort,6)
-        //         $scope.notifyInfoList = $scope.notifyInfoSliceList[$scope.notifyPageCount];
-        //     }
-        // );
-
         $scope.getOneUserNotifyData = function () {
             notifyService.getNotifyDataForUser($scope.name).then(
                 function (response) {
