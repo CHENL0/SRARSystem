@@ -74,4 +74,19 @@ public interface ProjectService {
     List<ProjectInfo> getAllPjInfosByQuery(String pjTitle,String pjType);
 
     List<ProjectInfo> getDistinctPjUsersBypfReviewer (String pfReviewer);
+
+    List<ProjectInfo> getAllByPjReviewerAndPjUser(String pjReviewer,String pjUser);
+
+    List<ProjectInfo> getAllByPjTitle (String pjTitle);
+
+    void saveProjectTypeInfo (ProjectTypeInfo projectTypeInfo);
+
+    void updateProjectTypeInfo (ProjectTypeInfo projectTypeInfo);
+
+    ProjectTypeInfo getOnePjTypeByPjTypeId (String pjTypeId);
+
+    void deletePjTypeInfoByPjTypeId (String pjTypeId);
+
+
+
 }

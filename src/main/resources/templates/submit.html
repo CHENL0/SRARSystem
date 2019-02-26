@@ -73,8 +73,10 @@
                                         <span class="form-radio-sign">{{pjType.pjType}}</span>
                                     </label>
 
-                                    <input type = 'test'  ng-change="changeKeyValueForPj(projectData.pjReviewer)" ng-model="projectData.pjReviewer" style = 'display:block;width:200px' ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
-                                    <!--<span style="color: #bd2130" ng-show = "pfError">sorry,the professor is not correct</span>-->
+                                    <input type = 'test'  ng-change="changeKeyValueForPj(projectData.pjReviewer)"
+                                           ng-model="projectData.pjReviewer" style = 'display:block;width:200px'
+                                           ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
+                                    <span style="color: #bd2130" ng-show = "pfError">professor can't select yourself </span>
                                     <div  ng-hide="hidden">
                                         <select style = 'width:200px' ng-change="changeForPj(x)" ng-model="x" multiple>
                                             <option ng-repeat="data in datasForPj track by $index" >{{data}}</option>
@@ -85,7 +87,8 @@
 
                                 <div class="form-check" ng-if="submitType === 'submitTask'">
                                     <legend>Select your task</legend><br/>
-                                    <input type = 'test'  ng-change="changeKeyValueForTask(taskData.taskName)" ng-model="taskData.taskName" style = 'display:block;width:200px' ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
+                                    <input type = 'test'  ng-change="changeKeyValueForTask(taskData.taskName)" ng-model="taskData.taskName" style = 'display:block;width:200px'
+                                           ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
                                     <!--<span style="color: #bd2130" ng-show = "pfError">sorry,the professor is not correct</span>-->
                                     <div  ng-hide="hidden">
                                         <select style = 'width:200px' ng-change="changeForTask(x)" ng-model="x" multiple>
@@ -120,7 +123,7 @@
                                 </div>
                             </div>
                             <div class="card-action">
-                            <input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledSubmit" ng-click="submitPj()">
+                            <input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledSubmit" ng-click="submit()">
                         </div>
                         </div>
                     </div>

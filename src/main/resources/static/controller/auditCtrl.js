@@ -2,7 +2,7 @@ MyApp
     .controller('auditController',['$scope', '$interval','checkService', 'auditService','notifyService','applyService',
         function ($scope,$interval, checkService,auditService,notifyService,applyService) {
         //get username from localStorage
-        $scope.pageClass = 'apply';
+        $scope.pageClass = 'audit';
         $scope.name = localStorage.getItem("data");
 
         $scope.getApplyInfos = function(){

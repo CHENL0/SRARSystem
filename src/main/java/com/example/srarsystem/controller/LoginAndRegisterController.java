@@ -62,29 +62,47 @@ public class LoginAndRegisterController {
                  HttpServletResponse response, HttpServletRequest request) {
         AccessUtils.getAccessAllow(response);
         String trimLoginName = StringUtils.trimWhitespace(loginName);
+        Map<String,String> responseType = new HashMap<>();
         if (StringUtils.substringMatch(trimLoginName, 0, "ADMIN")) {
             if (adminService.adminLogin(trimLoginName, loginPassword)) {
                 AdminInfo adminInfo = adminService.findOneByAdminName(trimLoginName);
                 request.getSession().setAttribute("adminInfo", adminInfo);
-                return true;
+                responseType.put("responseType","success");
+                return responseType;
             }
-            return false;
+            responseType.put("responseType","false");
+            return responseType;
         } else if (StringUtils.substringMatch(trimLoginName, 0, "PROFESSOR")) {
             if (professorService.pfLogin(trimLoginName, loginPassword)) {
                 ProfessorInfo professorInfo = professorService.findOneByPfName(trimLoginName);
-                request.getSession().setAttribute("professorInfo", professorInfo);
-                return true;
+                if(professorInfo.getDelFlag()==0){
+                    request.getSession().setAttribute("professorInfo", professorInfo);
+                    responseType.put("responseType","success");
+                    return responseType;
+                }else {
+                    responseType.put("responseType","freeze");
+                    return responseType;
+                }
             }
-            return false;
+            responseType.put("responseType","false");
+            return responseType;
         } else if (StringUtils.substringMatch(trimLoginName, 0, "USER")) {
             if (userService.userLogin(trimLoginName, loginPassword)) {
                 UserInfo userInfo = userService.findOneByUserName(trimLoginName);
-                request.getSession().setAttribute("userInfo", userInfo);
-                return true;
+                if(userInfo.getDelFlag()==0){
+                    request.getSession().setAttribute("userInfo", userInfo);
+                    responseType.put("responseType","success");
+                    return responseType;
+                }else {
+                    responseType.put("responseType","freeze");
+                    return responseType;
+                }
             }
-            return false;
+            responseType.put("responseType","false");
+            return responseType;
         }
-        return false;
+        responseType.put("responseType","false");
+        return responseType;
     }
 
     /**

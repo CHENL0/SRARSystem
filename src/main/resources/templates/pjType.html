@@ -26,95 +26,97 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Submit your project or task</h4>
+                            <h4 class="card-title">Add new project type</h4>
                             <p class="card-category">Here is a form for submitting your project or task</p>
 
                             <label class="form-radio-label">
-                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getChangeSubmitType('submitProject')" checked>
-                                <span class="form-radio-sign">submit project</span>
+                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="changeType('add')" checked>
+                                <span class="form-radio-sign">submit new pjType</span>
                             </label>
                             <label class="form-radio-label">
-                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="getChangeSubmitType('submitTask')">
-                                <span class="form-radio-sign">submit task</span>
+                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="changeType('update')">
+                                <span class="form-radio-sign">update pjType</span>
                             </label>
                         </div>
-                        <div ng-show="isOverCount && submitType === 'submitProject'">
-                            <div class="card-body">
+                        <div>
+                            <div class="card-body" ng-show="pageType === 'add'">
                                 <div class="form-group">
-                                    <label class="control-label">
-                                                <span style="color: #bd2130">
-                                                    ps: sorry , Your project has been more than three
-                                                </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div ng-if="!isOverCount || submitType === 'submitTask'">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <legend>Name:</legend>
-                                    <p class="form-control-static">{{userInfo.userName}}</p>
-                                    <legend>Nickname:</legend>
-                                    <p class="form-control-static">{{userInfo.userNickname}}</p>
-                                    <legend>Phone:</legend>
-                                    <p class="form-control-static">{{userInfo.userPhone}}</p>
-                                </div>
-
-                                <div class="form-check" ng-if="submitType === 'submitProject'">
-                                    <legend>Select your professor</legend><br/>
-                                    <label class="form-radio-label" ng-repeat="pjType in pjTypeList">
-                                        <input class="form-radio-input" type="radio" name="types"  ng-checked="checkPfType === pjType.pjType" ng-click="changePfType(pjType.pjType)">
-                                        <span class="form-radio-sign">{{pjType.pjType}}</span>
-                                    </label>
-
-                                    <input type = 'test'  ng-change="changeKeyValueForPj(projectData.pjReviewer)" ng-model="projectData.pjReviewer" style = 'display:block;width:200px' ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
-                                    <!--<span style="color: #bd2130" ng-show = "pfError">sorry,the professor is not correct</span>-->
-                                    <div  ng-hide="hidden">
-                                        <select style = 'width:200px' ng-change="changeForPj(x)" ng-model="x" multiple>
-                                            <option ng-repeat="data in datasForPj track by $index" >{{data}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-check" ng-if="submitType === 'submitTask'">
-                                    <legend>Select your task</legend><br/>
-                                    <input type = 'test'  ng-change="changeKeyValueForTask(taskData.taskName)" ng-model="taskData.taskName" style = 'display:block;width:200px' ng-click = 'hidden=!hidden' value="{{searchField}}"/></input>
-                                    <!--<span style="color: #bd2130" ng-show = "pfError">sorry,the professor is not correct</span>-->
-                                    <div  ng-hide="hidden">
-                                        <select style = 'width:200px' ng-change="changeForTask(x)" ng-model="x" multiple>
-                                            <option ng-repeat="data in datasForTask track by $index" >{{data}}</option>
-                                        </select>
-                                    </div>
+                                    <legend>Type:</legend>
+                                    <input type="text" style="width: 200px" class="form-control"   ng-model="projectTypeData.pjType">
+                                        </input>
                                 </div>
 
                                 <div class="form-group">
-                                    <legend>File input</legend>
-                                    <span style="color:#1e7e34;">ps: please upload .zip or .rar file</span><br>
-                                    <!--form-control-file-->
-                                    <input type="file" class=" a-upload" id="fileUpload"  onchange="angular.element(this).scope().validateFiles()">
-                                    <div style="color: #dc3545" ng-if="fileFromatError">Sorry,your  file type is not correct</div>
-                                    <div style="color: #dc3545" ng-if="fileSizeError">Sorry,your  file size is too big</div>
-                                </div>
-                                <div class="form-group" ng-if="submitType === 'submitProject'">
-                                    <legend>Project description</legend>
-                                    <textarea class="form-control" id="comment" rows="5" ng-model="projectData.pjDescription" ng-disabled="disabledInput">
-                                        </textarea>
-                                </div>
-                                <div class="form-group" ng-if="submitType === 'submitTask'">
-                                    <legend>Commit task message</legend>
-                                    <textarea class="form-control" id="comment2" rows="5" ng-model="taskData.taskMessage" ng-disabled="disabledInput">
+                                    <legend>Type description</legend>
+                                    <textarea class="form-control"  rows="5" ng-model="projectTypeData.pjTypeDescription" >
                                         </textarea>
                                 </div>
                                 <div class="form-check" >
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" ng-model="checkAgree" ng-click="changeDisabledForSubmit(checkAgree)" ng-disabled="disabledInput">
+                                        <input class="form-check-input" type="checkbox" ng-model="checkAgree" ng-click="changeDisabledForSubmit(checkAgree)" >
                                         <span class="form-check-sign">Agree with terms and conditions</span>
                                     </label>
                                 </div>
                             </div>
-                            <div class="card-action">
-                            <input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledSubmit" ng-click="submit()">
+                            <div class="card-body" ng-show="pageType === 'update'">
+                                <div>
+                                    <div class="card-sub">
+                                        This is the  table view of  all type of project  :
+                                    </div>
+                                    <table class="table mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Number</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">#Edit</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                         <tr ng-repeat="pjTypeInfo in pjTypeInfoList">
+                                            <td ng-repeat=" pjTypeNumber in pjTypeNumbers" ng-if="pjTypeNumber.name === pjTypeInfo.pjType">
+                                                <span style="color: red">{{pjTypeNumber.number}}
+                                                </span>
+                                            </td>
+                                            <td>{{pjTypeInfo.pjType}}</td>
+                                            <td >
+                                                <button type="button"  title="Edit Task" ng-click = "editPjTypeInfo(pjTypeInfo.pjTypeId)"
+                                                        data-toggle = "modal" data-target = "#modalDetail"
+                                                        class="btn btn-link btn-simple-primary">
+                                                    <i class="la la-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-link btn-simple-danger"
+                                                        ng-click="deletePjTypeInfo(pjTypeInfo.pjTypeId,pjTypeInfo.pjType)">
+                                                    <i class="la la-times"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="card-action" ng-show="pageType === 'add'">
+                                <input type="button"  class="btn btn-success" value="Submit"  ng-click="submitPjTypeData()">
+                             </div>
+                        <div class="card-footer" ng-show="pageType === 'update'">
+                            <div class="stats">
+                                <ul class="pagination pg-primary">
+                                    <div >
+                                        <li class="page-item">
+                                            <a class="page-link"  aria-label="Previous" ng-click="pjTypePrePage()" >
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    </div>
+                                    <div >
+                                        <li class="page-item">
+                                            <a class="page-link" aria-label="Next" ng-click="pjTypeNextPage()" >
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -144,6 +146,49 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> pjType profiles</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                    <table class="table table-striped">
+                        <tr>
+                            <td><h6>Type name  :</h6></td>
+                            <td>
+                                <input type="text" class="form-control" id="disableinput"
+                                       ng-model="pjTypeInfo.pjType"
+                                       ng-disabled="disabledInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><h6>Description  :</h6></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <textarea class="form-control" id="comment" rows="5"
+                                          ng-model="pjTypeInfo.pjTypeDescription" ng-disabled="disabledInput"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input id="updateBtn" type="button"  class="btn btn-success" value="{{changeBtnName}}" ng-click="updateAndChange(pjTypeInfo.pjTypeId,
+                pjTypeInfo.pjType,pjTypeInfo.pjTypeDescription)">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="close()">Close</button>
             </div>
         </div>
     </div>

@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface ProjectTypeRepository extends JpaRepository<ProjectTypeInfo,String> {
 //    List<ProjectTypeInfo> getAll();
+    ProjectTypeInfo findOneByPjTypeId (String pjTypeId);
+    List<ProjectTypeInfo> findAllByDelFlag(int delFlag);
 }

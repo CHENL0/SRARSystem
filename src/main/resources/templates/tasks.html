@@ -107,9 +107,6 @@
                                                     <input class="form-radio-input" type="radio" checked name="optionsRadios" ng-click="getTasksListData()">
                                                     <span class="form-radio-sign">Refresh</span>
                                                 </label>
-                                                <!--<label class="radio-inline">-->
-                                                <!--<img src="assets/img/refresh.jpg" ng-click="getTasksListData()">-->
-                                                <!--</label>-->
                                             </p>
                                         </div>
                                         <div class="card-body ">
@@ -117,16 +114,6 @@
                                                 <table class="table">
                                                     <thead>
                                                     <tr>
-                                                        <th>
-                                                            <div class="form-check">
-                                                                <label class="form-check-label">
-                                                                    <input class="form-check-input  select-all-checkbox"
-                                                                           type="checkbox" data-select="checkbox"
-                                                                           data-target=".task-select">
-                                                                    <span class="form-check-sign"></span>
-                                                                </label>
-                                                            </div>
-                                                        </th>
                                                         <th>Status</th>
                                                         <th>Task</th>
                                                         <th>Action</th>
@@ -134,14 +121,6 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr ng-repeat="tasks in taskInfoList">
-                                                        <td>
-                                                            <div class="form-check">
-                                                                <label class="form-check-label">
-                                                                    <input class="form-check-input task-select" type="checkbox">
-                                                                    <span class="form-check-sign"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
                                                         <td>
                                                             <span ng-if="tasks.taskStatus === 1">
                                                                 <span style="color: #b21f2d">Unfinished</span>
@@ -245,27 +224,27 @@
                     <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
                     <table class="table table-striped">
                         <tr>
-                            <td><h6>TASKID  :</h6></td>
-                            <td><h6 class="col-md-4">{{taskInfo.taskId}}</h6></td>
+                            <td><h6>PjTitle  :</h6></td>
+                            <td><h6 class="col-md-4">{{taskInfo.pjTitle}}</h6></td>
                         </tr>
                         <tr>
-                            <td><h6>TASKNAME  :</h6></td>
+                            <td><h6>TaskName  :</h6></td>
                             <td><h6 >{{taskInfo.taskName}}</h6></td>
                         </tr>
                         <tr>
-                            <td><h6 >PROFESSNAME  :</h6></td>
+                            <td><h6 >ProfessName :</h6></td>
                             <td><h6 >{{taskInfo.pfName}}</h6></td>
                         </tr>
                         <tr>
-                            <td><h6>TASKDATE  :</h6></td>
+                            <td><h6>CreateDate  :</h6></td>
                             <td><h6 >{{taskInfo.taskDate}}</h6></td>
                         </tr>
                         <tr>
-                            <td><h6 >DEADLINE  :</h6></td>
+                            <td><h6 >Deadline  :</h6></td>
                             <td><h6>{{taskInfo.deadline}}</h6></td>
                         </tr>
                         <tr>
-                            <td><h6 >STATUS  :</h6></td>
+                            <td><h6 >Status  :</h6></td>
                             <td>
                                 <h6>
                                     <span ng-if="taskInfo.taskStatus === 1">

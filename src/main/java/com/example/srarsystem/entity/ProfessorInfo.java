@@ -22,10 +22,12 @@ public class ProfessorInfo {
     private String pfPhone;
     private String pfIntroduce;
     private String pfPicture;
+    private String userName;
     private String pfSecurityQuestion;
     private String pfSecurityAnswer;
     private int pfSubmitCount;
     private int pfSuccessCount;
+    private int delFlag;
 
     public ProfessorInfo() {
         this.pfPicture = "noting.png";

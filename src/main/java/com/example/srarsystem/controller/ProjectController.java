@@ -1,5 +1,6 @@
 package com.example.srarsystem.controller;
 
+
 import com.example.srarsystem.commons.AccessUtils;
 import com.example.srarsystem.commons.FileUtils;
 import com.example.srarsystem.entity.ProjectInfo;
@@ -9,6 +10,8 @@ import com.example.srarsystem.service.ProjectService;
 import com.example.srarsystem.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,15 +106,6 @@ public class ProjectController {
         return projectInfoMap;
     }
 
-//    @GetMapping("/getAllPjInfo")
-//    public @ResponseBody
-//    Object getAllPjInfo(HttpServletResponse response) {
-//        AccessUtils.getAccessAllow(response);
-//        List<ProjectInfo> pjInfos = projectService.getAllPjInfos();
-//        Map<String, List<?>> pjInfoListMap = new HashMap<>();
-//        pjInfoListMap.put("pjInfos", pjInfos);
-//        return pjInfoListMap;
-//    }
 
     @RequestMapping(value = "/queryPjTitle")
     public @ResponseBody
@@ -126,6 +121,62 @@ public class ProjectController {
         Map<String, List<?>> pjInfoListMap = new HashMap<>();
         pjInfoListMap.put("pjInfos", pjInfos);
         return pjInfoListMap;
+    }
 
+    @RequestMapping (value = "/addPjTypeInfoData")
+    public @ResponseBody
+    Object addPjTypeInfoData (HttpServletResponse response,String pjTypeInfoData) throws IOException {
+        AccessUtils.getAccessAllow(response);
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProjectTypeInfo projectInfoMapper = objectMapper.readValue(pjTypeInfoData,ProjectTypeInfo.class);
+        if(projectInfoMapper.getPjTypeId()==null||projectInfoMapper.getPjTypeId()==""){
+            projectService.saveProjectTypeInfo(projectInfoMapper);
+        }else {
+            projectService.updateProjectTypeInfo(projectInfoMapper);
+        }
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("responseType","SUCCESS");
+        return responseMap;
+    }
+
+
+    @RequestMapping (value = "/getPjTypeInfoForModal")
+    public @ResponseBody
+    Object getPjTypeInfoForModal (HttpServletResponse response,String pjTypeId)  {
+        AccessUtils.getAccessAllow(response);
+        ProjectTypeInfo pjTypeInfo = projectService.getOnePjTypeByPjTypeId(pjTypeId);
+        Map<String,ProjectTypeInfo> pjTypeInfoMap = new HashMap<>();
+        pjTypeInfoMap.put("pjTypeInfo",pjTypeInfo);
+        return pjTypeInfoMap;
+    }
+
+    @RequestMapping (value = "/getPjTypeNumberForShow")
+    public @ResponseBody
+    Object getPjTypeNumberForShow (HttpServletResponse response,@RequestParam(value="pjTypeList") String projectTypeInfoList)  {
+        AccessUtils.getAccessAllow(response);
+        ObjectMapper mapper = new ObjectMapper();
+        JSONArray json = JSONArray.fromObject(projectTypeInfoList );
+        Map<String,List<Object>> pjTypeNumberMap = new HashMap<>();
+        List<Object> pjTypeList = new ArrayList<>();
+        for (int i=0;i<json.size();i++){
+            JSONObject job = json.getJSONObject(i);
+            int projectTypeNumber = professorService.projectTypeNumber((String) job.get("pjType"));
+            Map<String,Object> pjTypeInfoMap = new HashMap<>();
+            pjTypeInfoMap.put("name",(String) job.get("pjType"));
+            pjTypeInfoMap.put("number",projectTypeNumber);
+            pjTypeList.add(i,pjTypeInfoMap);
+        }
+        pjTypeNumberMap.put("pjTypeList",pjTypeList);
+        return pjTypeNumberMap;
+    }
+
+    @RequestMapping (value = "/deletePjTypeInfo")
+    public @ResponseBody
+    Object deletePjTypeInfo (HttpServletResponse response,String pjTypeId) {
+        AccessUtils.getAccessAllow(response);
+        projectService.deletePjTypeInfoByPjTypeId(pjTypeId);
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("responseType","SUCCESS");
+        return responseMap;
     }
 }

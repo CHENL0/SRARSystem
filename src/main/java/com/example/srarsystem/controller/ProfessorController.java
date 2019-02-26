@@ -201,4 +201,34 @@ public class ProfessorController {
         onePfPjInfoListMap.put("onePfPjInfoList", onePfPjInfoList);
         return onePfPjInfoListMap;
     }
+
+    @RequestMapping(value = "/getAllPfInfoForAdmin")
+    public @ResponseBody
+    Object getAllPfInfoForAdmin(HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        List<ProfessorInfo> pfInfoList = professorService.getAllPfInfo();
+        Map<String,List<ProfessorInfo>>pfInfoListMap = new HashMap<>();
+        pfInfoListMap.put("pfInfoList",pfInfoList);
+        return pfInfoListMap;
+    }
+
+    @RequestMapping(value = "/updateDelFlagForAdmin")
+    public @ResponseBody
+    Object updateDelFlagForAdmin(HttpServletResponse response,String pfId,int delFlag){
+        AccessUtils.getAccessAllow(response);
+        professorService.updateDelFlagByPfId(pfId,delFlag);
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("responseType","SUCCESS");
+        return responseMap;
+    }
+
+    @RequestMapping(value = "/validatePfInfo")
+    public @ResponseBody
+    Object validatePfInfo(HttpServletResponse response,String pfName,String userName){
+        AccessUtils.getAccessAllow(response);
+        boolean IsStatus = professorService.validatePf(userName,pfName);
+        Map<String,Boolean> responseMap = new HashMap<>();
+        responseMap.put("responseType",IsStatus);
+        return responseMap;
+    }
 }

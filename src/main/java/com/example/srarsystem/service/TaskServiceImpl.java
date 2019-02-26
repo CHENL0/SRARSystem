@@ -34,6 +34,13 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(taskInfo);
     }
 
+    @Override
+    public void UpdateTaskStatus(String taskId, int taskStatus) {
+        TaskInfo taskInfo = taskRepository.findOneByTaskId(taskId);
+        taskInfo.setTaskStatus(taskStatus);
+        taskRepository.save(taskInfo);
+    }
+
     /**
      * @Description //TODO get list of all task
      * @Author Chen
@@ -72,6 +79,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void createTaskInfo(TaskInfo taskInfoMapper) {
         TaskInfo taskInfo = new TaskInfo();
+//        taskInfo.setPjTitle(taskInfoMapper.getPjTitle());
+        taskInfo.setPjId(taskInfoMapper.getPjId());
+        taskInfo.setPjTitle(taskInfoMapper.getPjTitle());
         taskInfo.setPfName(taskInfoMapper.getPfName());
         taskInfo.setUserName(taskInfoMapper.getUserName());
         taskInfo.setTaskName(taskInfoMapper.getTaskName());
@@ -91,6 +101,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public TaskInfo getTaskInfoByPjId(String pjId) {
+        return taskRepository.findOneByPjId(pjId);
+    }
+
+    @Override
     public void deleteTaskInfoDataByTaskIdForUser(String taskId) {
         TaskInfo taskInfo = taskRepository.findOneByTaskId(taskId);
         taskInfo.setDelFlag(1);
@@ -106,7 +121,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskInfo> getTaskInfosByPfName(String pfName) {
-        return taskRepository.findAllByPfName(pfName);
+        return taskRepository.findAllByPfNameAndDelFlagAudit(pfName,0);
 
     }
 }

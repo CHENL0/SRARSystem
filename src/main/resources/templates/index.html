@@ -45,6 +45,8 @@
     <script src="service/pjTypeServ.js" ></script>
     <script src="controller/missionCtrl.js" ></script>
     <script src="service/missionServ.js" ></script>
+    <script src="controller/peopleCtrl.js" ></script>
+    <script src="service/peopleServ.js" ></script>
     <script src="filters/filters.js" ></script>
 </head>
 <body ng-app="MyApp" ng-controller="pjDetailController">
@@ -117,6 +119,15 @@
                 </li>
             </div>
             <div ng-if="prefixName === 'ADMIN'">
+                <li class="nav-item ">
+                    <a href="#/people">
+                        <i class="la la-table"></i>
+                        <p>People</p>
+                        <!--<span class="badge badge-count">14</span>-->
+                    </a>
+                </li>
+            </div>
+            <div ng-if="prefixName === 'ADMIN'">
                 <li class="nav-item">
                     <a href="#/audit">
                         <i class="la la-keyboard-o"></i>
@@ -127,7 +138,7 @@
             </div>
             <div ng-if="prefixName === 'ADMIN' ">
                 <li class="nav-item">
-                    <a href="#/PjType">
+                    <a href="#/pjType">
                         <i class="la la-th"></i>
                         <p>PjType</p>
                         <!--<span class="badge badge-count">6</span>-->

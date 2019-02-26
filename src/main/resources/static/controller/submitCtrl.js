@@ -34,13 +34,14 @@ MyApp
 
         //将下拉选的数据值赋值给文本框
         $scope.changeForPj=function(x){;
+            $scope.validatePf(x);
             $scope.projectData.pjReviewer=x;
-            $scope.hidden=true;
+            $scope.hidden=false;
         };
         //将下拉选的数据值赋值给文本框
         $scope.changeForTask=function(x){;
             $scope.taskData.taskName=x;
-            $scope.hidden=true;
+            $scope.hidden=false;
         }
 
 
@@ -161,7 +162,7 @@ MyApp
 
         };
         
-        $scope.submitPj = function () {
+        $scope.submit = function () {
             if($scope.submitType === 'submitProject'){
                 if($scope.validateAllDataForPj()){
                         alert("ok ,the message have finished");
@@ -171,7 +172,7 @@ MyApp
                             function (response) {
                                 if(response.responseType === "SUCCESS"){
                                     alert("Congratulations, and your information submitted to success");
-                                    window.location.href = "index.html#/userProfile";
+                                    window.location.href = "index.html#/task";
                                 }else {
                                     alert("sorry,your information submitted to error")
                                 }
@@ -216,12 +217,29 @@ MyApp
             return true;
         };
 
+        $scope.validatePf = function (pfName) {
+            submitService.validatePf(pfName,$scope.name).then(
+                function (value) {
+                    if(value.responseType){
+                        $scope.pfError=false;
+                        $scope.hidden=true;
+                    }else {
+                        $scope.pfError=true;
+                        $scope.hidden=true;
+                    }
+                }
+            )
+        };
+
         $scope.validateAllDataForPj = function () {
             if(!$scope.projectData.pjReviewer){
                 alert("professor have not selected");
                 return false;
             }else if(!$scope.datasForPj.includes($scope.projectData.pjReviewer[0])){
                 alert("sorry,the professor is not correct");
+                return false;
+            }else if($scope.pfError){
+                alert("professor can't select yourself");
                 return false;
             }
             if(!$scope.file){

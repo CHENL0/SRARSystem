@@ -1,19 +1,41 @@
 MyApp
-    .controller('missionController',['$scope', '$interval','taskService','notifyService', 'missionService', function ($scope,$interval,taskService,notifyService,missionService) {
+    .controller('missionController',['$scope', '$interval','taskService','notifyService',
+        'missionService','commonService','checkService',
+        function ($scope,$interval,taskService,notifyService,missionService,commonService,checkService) {
         //get username from localStorage
         $scope.pageClass = 'mission';
         $scope.name = localStorage.getItem("data");
-
+        $scope.taskPageCount = 0;
         $scope.taskInfoData = missionService.initTaskData();
+        $scope.taskIdModal = '';
 
         $scope.getTaskInfoData = function () {
             missionService.getTaskInfoListData($scope.name).then(
                 function (response) {
-                    $scope.taskInfos = response.taskInfos;
+                    $scope.taskInfoSliceList = commonService.sliceArr(response.taskInfos.sort(checkService.compare("taskStatus")),6);
+                    $scope.taskInfos = $scope.taskInfoSliceList[$scope.taskPageCount];
                 }
             )
         };
         $scope.getTaskInfoData();
+
+            $scope.notifyNextPage = function(){
+                if($scope.taskPageCount >= $scope.taskInfoSliceList.length -1){
+                    alert("this is the last page");
+                }else {
+                    $scope.taskPageCount +=1;
+                    $scope.taskInfos = $scope.taskInfoSliceList[$scope.taskPageCount];
+                }
+            };
+            $scope.notifyPrePage = function(){
+                if($scope.taskPageCount === 0){
+                    alert("this is the first page");
+                }else {
+                    $scope.taskPageCount -=1;
+                    $scope.taskInfos = $scope.taskInfoSliceList[$scope.taskPageCount];
+                }
+            };
+
 
         $scope.getTaskDetail = function (taskId) {
             taskService.getTaskInfoData(taskId).then(
@@ -21,12 +43,11 @@ MyApp
                     $scope.taskInfo = response.taskInfo;
                     var currentDate = dateFormat(new Date(), "yyyy-mm-dd");
                     $scope.countdown = taskService.getCountdownDate(currentDate,$scope.taskInfo.deadline);
-                    // var countdown  = $interval(function () {
-                    //     getCountdownDate($scope.deadlineDate , $scope.deadlineDate);
-                    // },3000)
                 }
             )
         };
+
+
 
         $scope.download = function (taskId, taskName) {
             missionService.downloadTask(taskId).then(
@@ -51,21 +72,46 @@ MyApp
             )
         };
 
-        $scope.submitTaskData = function (taskInfo) {
-            taskInfo.pfName = $scope.name;
-            if(!taskInfo.userName || !taskInfo.taskName || !taskInfo.deadline || !taskInfo.taskDescription){
+        $scope.editTaskStatus = function (pjId,taskId) {
+            $scope.selectStatusData = missionService.getStatusData ();
+            checkService.getOnePjInfoData(pjId).then(
+                function (value) {
+                    $scope.onePjInfo = value.projectInfo;
+                    $scope.taskIdModal = taskId;
+                }
+            )
+        };
+
+
+        $scope.submitTaskData = function () {
+            $scope.taskInfoData.pfName = $scope.name;
+            if(!$scope.taskInfoData.userName || !$scope.taskInfoData.taskName ||
+                !$scope.taskInfoData.deadline || !$scope.taskInfoData.taskDescription ||
+                !$scope.taskInfoData.pjId){
                 alert("Haven't fill in complete information");
                 return;
             }
-            missionService.submitTaskInfoData(taskInfo).then(
+            missionService.getPjInfoDataForPjTitle($scope.taskInfoData.pjId).then(
+                function (value) {
+                    $scope.taskInfoData.pjTitle = value.projectInfo.pjTitle;
+                    $scope.submit();
+                }
+            );
+        };
+        $scope.submit = function (){
+            missionService.submitTaskInfoData($scope.taskInfoData).then(
                 function (value) {
                     if(value.responseType === "SUCCESS"){
                         alert("create success");
+                        $scope.getTaskInfoData();
+                        notifyService.setNotify($scope.name,$scope.taskInfoData.userName,'Task',2,$scope.taskInfoData.taskName);
                     }
 
                 }
             )
         };
+
+
 
         $scope.getUserNameList = function () {
             missionService.getUserNameListByPfName($scope.name).then(
@@ -73,9 +119,37 @@ MyApp
                     $scope.userNameList = value.projectInfos;
                 }
             )
+        };
 
+        $scope.getProjectTitle = function (userName) {
+            missionService.getPjTitleForSelecting($scope.name,userName).then(
+                function (value) {
+                    $scope.pjInfoList = value.projectInfos;
+                }
+            )
+        };
+
+        $scope.changeTaskStatus = function (pjId,selectedStatusCode) {
+            if(!selectedStatusCode){
+                alert("the select can't be null");
+                return;
+            }
+            missionService.changeTaskStatus(pjId,selectedStatusCode).then(
+                function (value) {
+                    $scope.getTaskInfoData();
+                    $scope.selectedStatusCode = "";
+                    alert("change success");
+                }
+            )
+        };
+
+        $scope.deleteTaskInfo = function (taskId) {
+            taskService.removeTaskInfoDataForAudit(taskId).then(
+                function (value) {
+                    $scope.getTaskInfoData();
+                }
+            )
         }
-
     }
     ]);
 

@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -150,7 +151,6 @@ public class UserController {
             ,HttpServletResponse response) throws IOException {
         AccessUtils.getAccessAllow(response);
         Map<Object,Object> finishDataRequestMap = new HashMap<>();
-
         ObjectMapper objectMapper = new ObjectMapper();
         TaskInfo taskInfoMapper = objectMapper.readValue(taskInfoData,TaskInfo.class);
         String userName = taskInfoMapper.getUserName();
@@ -170,5 +170,23 @@ public class UserController {
         return finishDataRequestMap;
     }
 
+    @RequestMapping(value = "/getAllUserInfoForAdmin")
+    public @ResponseBody
+    Object getAllUserInfoForAdmin(HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        List<UserInfo> userInfoList = userService.getAllUserInfo();
+        Map<String,List<UserInfo>> userInfoListMap = new HashMap<>();
+        userInfoListMap.put("userInfoList",userInfoList);
+        return userInfoListMap;
+    }
 
+    @RequestMapping(value = "/updateDelFlagForAdmin")
+    public @ResponseBody
+    Object updateDelFlagForAdmin(HttpServletResponse response,String userId,int delFlag){
+        AccessUtils.getAccessAllow(response);
+        userService.updateDelFlagByUserId(userId,delFlag);
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("responseType","SUCCESS");
+        return responseMap;
+    }
 }

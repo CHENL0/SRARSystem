@@ -44,6 +44,21 @@ MyApp.config(function ($routeProvider) {
             controller: 'missionController'
         })
 
+        .when('/audit', {
+            templateUrl: 'audit.html',
+            controller: 'auditController'
+        })
+
+        .when('/pjType', {
+            templateUrl: 'pjType.html',
+            controller: 'pjTypeController'
+        })
+
+        .when('/people', {
+            templateUrl: 'people.html',
+            controller: 'peopleController'
+        })
+
         .when('/notify', {
             templateUrl: 'notifications.html',
             controller: 'notifyController'

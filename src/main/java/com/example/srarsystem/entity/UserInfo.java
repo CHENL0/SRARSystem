@@ -27,6 +27,7 @@ public class UserInfo {
     private String urSecurityAnswer;
     private int pjStatus;
     private String pjId;
+    private int delFlag;
 
     public UserInfo(String userId, String userName, String userPassword, String userPhone,
                     String urSecurityQuestion, String urSecurityAnswer) {

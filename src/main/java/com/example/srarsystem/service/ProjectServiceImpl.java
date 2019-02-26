@@ -3,6 +3,7 @@ package com.example.srarsystem.service;
 import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.commons.PageToolUtils;
 import com.example.srarsystem.commons.UUIDUtils;
+import com.example.srarsystem.entity.ProfessorInfo;
 import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.ProjectTypeInfo;
 import com.example.srarsystem.repository.ProfessorRepository;
@@ -73,7 +74,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectTypeInfo> getAllPjTypeInfo() {
-        return projectTypeRepository.findAll();
+        return projectTypeRepository.findAllByDelFlag(0);
     }
 
     @Override
@@ -116,6 +117,44 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectInfo> getDistinctPjUsersBypfReviewer(String pfReviewer) {
         return projectRepository.findAllByPjReviewer(pfReviewer);
     }
+
+    @Override
+    public List<ProjectInfo> getAllByPjReviewerAndPjUser(String pjReviewer, String pjUser) {
+        return projectRepository.findAllByPjReviewerAndPjUser(pjReviewer,pjUser);
+    }
+
+    @Override
+    public List<ProjectInfo> getAllByPjTitle(String pjTitle) {
+        return projectRepository.findAllByPjTitle(pjTitle);
+    }
+
+    @Override
+    public void saveProjectTypeInfo(ProjectTypeInfo projectTypeInfo) {
+        projectTypeInfo.setPjTypeId(UUIDUtils.getUUID());
+        projectTypeRepository.save(projectTypeInfo);
+    }
+
+    @Override
+    public void updateProjectTypeInfo(ProjectTypeInfo projectTypeInfoMapper) {
+        ProjectTypeInfo projectTypeInfo = projectTypeRepository.findOneByPjTypeId(projectTypeInfoMapper.getPjTypeId());
+        projectTypeInfo.setPjType(projectTypeInfoMapper.getPjType());
+        projectTypeInfo.setPjTypeDescription(projectTypeInfoMapper.getPjTypeDescription());
+        projectTypeRepository.save(projectTypeInfo);
+    }
+
+    @Override
+    public ProjectTypeInfo getOnePjTypeByPjTypeId(String pjTypeId) {
+        return projectTypeRepository.findOneByPjTypeId(pjTypeId);
+    }
+
+    @Override
+    public void deletePjTypeInfoByPjTypeId(String pjTypeId) {
+        ProjectTypeInfo projectTypeInfo = projectTypeRepository.findOneByPjTypeId(pjTypeId);
+        projectTypeInfo.setDelFlag(1);
+        projectTypeRepository.save(projectTypeInfo);
+    }
+
+
 
 
 }

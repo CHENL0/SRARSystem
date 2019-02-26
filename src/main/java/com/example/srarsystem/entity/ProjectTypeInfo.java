@@ -1,5 +1,6 @@
 package com.example.srarsystem.entity;
 
+import com.example.srarsystem.commons.UUIDUtils;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -14,10 +15,8 @@ import javax.persistence.Id;
 @Entity
 public class ProjectTypeInfo {
     @Id
-    private int pjTypeId;
+    private String pjTypeId;
     private String pjType;
     private String pjTypeDescription;
-
-    public ProjectTypeInfo() {
-    }
+    private int delFlag;
 }

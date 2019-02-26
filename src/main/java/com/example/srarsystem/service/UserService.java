@@ -2,6 +2,8 @@ package com.example.srarsystem.service;
 
 import com.example.srarsystem.entity.UserInfo;
 
+import java.util.List;
+
 /**
  * @author Chen
  * @createTime 20181017 22:03
@@ -56,4 +58,8 @@ public interface UserService {
     UserInfo finishUserInfoData(UserInfo userInfo,UserInfo userInfoMapper,String fileName);
 
     void  updateUserInfo (UserInfo userInfo);
+
+    List<UserInfo> getAllUserInfo ();
+
+    void  updateDelFlagByUserId (String userId,int delFlag);
 }

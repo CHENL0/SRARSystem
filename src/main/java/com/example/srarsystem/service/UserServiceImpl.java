@@ -6,6 +6,8 @@ import com.example.srarsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Chen
  * @createTime 20181017 22:06
@@ -144,6 +146,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserInfo(UserInfo userInfo) {
+        userRepository.save(userInfo);
+    }
+
+    @Override
+    public List<UserInfo> getAllUserInfo() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void updateDelFlagByUserId(String userId,int delFlag) {
+        UserInfo userInfo = userRepository.getUserInfoByUserId(userId);
+        userInfo.setDelFlag(delFlag);
         userRepository.save(userInfo);
     }
 }

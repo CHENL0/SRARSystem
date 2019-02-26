@@ -4,8 +4,7 @@ import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.commons.UUIDUtils;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -21,6 +20,7 @@ public class TaskInfo{
     private String userName;
     private String pfName;
     private String pjId;
+    private String pjTitle;
     private String taskDate;
     private String deadline;
     private String countTime;
@@ -36,6 +36,10 @@ public class TaskInfo{
      * and 3 is default and 4 is termination and 5 is commit
      */
     private int taskStatus;
+
+//    @OneToOne(cascade = {CascadeType.ALL,})
+//    @JoinColumn(name="pjId")
+//    private ProjectInfo projectInfo;
 
     public TaskInfo() {
         this.taskId = UUIDUtils.getUUID();

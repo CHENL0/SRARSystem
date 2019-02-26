@@ -30,4 +30,12 @@ public interface ProfessorService {
     void changePfSuccessCount (String pfName);
 
     String createPfInfoAndSave (UserInfo userInfo,String selectedType);
+
+    int projectTypeNumber (String pjType);
+
+    List<ProfessorInfo> getAllPfInfo ();
+
+    void updateDelFlagByPfId (String pfId,int delFlag);
+
+    boolean validatePf (String pfName,String userName);
 }

@@ -12,6 +12,7 @@ import java.util.List;
  */
 public interface TaskService {
     void addTask(TaskInfo taskInfo);
+    void UpdateTaskStatus(String pjId,int taskStatus);
     List<TaskInfo> findAllByUserNameAndDelFlag(String username);
     List<TaskInfo> getAllTaskInfoByTaskStatusAndDelFlag(int taskStatus,String username);
     List<TaskInfo> getAllTaskInfo();
@@ -20,6 +21,7 @@ public interface TaskService {
     void createTaskInfo (TaskInfo taskInfo);
     void updateTaskInfoData (TaskInfo taskInfo);
     TaskInfo getTaskInfoByTaskName (String taskName);
+    TaskInfo getTaskInfoByPjId (String pjId);
     void deleteTaskInfoDataByTaskIdForUser(String taskId);
     void deleteTaskInfoDataByTaskIdForAudit(String taskId);
     List<TaskInfo> getTaskInfosByPfName(String pfName);

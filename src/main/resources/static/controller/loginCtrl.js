@@ -363,12 +363,14 @@ LoginApp
                     }
                 }).then(function successCallback(response) {
                     console.log(response.data);
-                    if(response.data){
+                    if(response.data.responseType ==="success"){
                         localStorage.setItem("data",$scope.username);
                         window.location.href = "index.html";
                         $scope.cleanAllMsg();
-                    }else {
+                    }else if(response.data.responseType ==="false"){
                         alert("Your username or password is wrong");
+                    }else if(response.data.responseType ==="freeze"){
+                        alert("Your account is frozen");
                     }
                 }, function errorCallback(response) {
                     // 请求失败执行代码

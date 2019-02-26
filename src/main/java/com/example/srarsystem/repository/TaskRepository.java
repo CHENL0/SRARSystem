@@ -3,6 +3,7 @@ package com.example.srarsystem.repository;
 import com.example.srarsystem.entity.TaskInfo;
 import javafx.concurrent.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -12,11 +13,13 @@ import java.util.List;
  * @description the repository of task
  */
 public interface TaskRepository extends JpaRepository<TaskInfo, String> {
-    List<TaskInfo> findAllByPfName (String pfName);
+    List<TaskInfo> findAllByPfNameAndDelFlagAudit (String pfName,int delFlagAudit);
     List<TaskInfo> findAllByUserNameAndDelFlag(String username,int delFlag);
     @Override
     List<TaskInfo> findAll();
     TaskInfo findOneByTaskId(String taskId);
     List<TaskInfo> findAllByTaskStatusAndDelFlagAndUserName(int taskStatus,int delFlag,String userName);
     TaskInfo findOneByTaskName (String taskName);
+    TaskInfo findOneByPjId (String pjId);
+
 }

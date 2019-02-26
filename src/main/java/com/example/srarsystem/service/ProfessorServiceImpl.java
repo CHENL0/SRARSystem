@@ -4,6 +4,7 @@ import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.commons.PageToolUtils;
 import com.example.srarsystem.commons.UUIDUtils;
 import com.example.srarsystem.entity.ProfessorInfo;
+import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,5 +94,32 @@ public class ProfessorServiceImpl implements ProfessorService {
         professorInfo.setPfType(selectedType);
         professorRepository.save(professorInfo);
         return pfName;
+    }
+
+    @Override
+    public int projectTypeNumber(String pjType) {
+        List<ProfessorInfo> professorInfos = professorRepository.findAllByPfType(pjType);
+        return professorInfos.size();
+    }
+
+    @Override
+    public List<ProfessorInfo> getAllPfInfo() {
+        return professorRepository.findAll();
+    }
+
+    @Override
+    public void updateDelFlagByPfId(String pfId, int delFlag) {
+        ProfessorInfo professorInfo = professorRepository.findOneByPfId(pfId);
+        professorInfo.setDelFlag(delFlag);
+        professorRepository.save(professorInfo);
+    }
+
+    @Override
+    public boolean validatePf(String userName,String pfName) {
+        ProfessorInfo professorInfo =professorRepository.findOneByPfNameAndUserName(pfName,userName);
+        if(professorInfo ==null || professorInfo.equals("")){
+            return true;
+        }
+        return false;
     }
 }

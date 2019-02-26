@@ -44,7 +44,7 @@ public class NotifyController {
             }
         }else if(notifyType.equals("Task")){
             if(notifyStatus == 2){
-                message = "   Hi, "+ notifyFor + ", you have a new task by "+ notifyBy
+                message = "   Hi, "+ notifyFor + ", you have a new task ' "+ notifyMain + " ' by "+ notifyBy
                         +", best regard !!";
             }else if(notifyStatus == 3){
                 message = "   Hi, "+ notifyFor + ", i sorry to tell you that your task  was unfinished "

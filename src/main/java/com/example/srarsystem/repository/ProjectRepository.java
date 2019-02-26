@@ -29,6 +29,13 @@ public interface ProjectRepository extends JpaRepository<ProjectInfo, String> {
 
     List<ProjectInfo> findAllByPjStatusAndPjTitleContainingAndPjType(int pjStatus,String pjTitle,String pjType);
 
+    List<ProjectInfo> findAllByPjTitle (String pjTitle);
+
     @Query("SELECT distinct p.pjUser FROM ProjectInfo p where p.pjReviewer=?1")
     List<ProjectInfo> findAllByPjReviewer(String pjReviewer);
+
+    @Query("SELECT distinct p FROM ProjectInfo p where p.pjReviewer=?1 and p.pjUser =?2 and p.pjStatus =2")
+    List<ProjectInfo> findAllByPjReviewerAndPjUser(String pjReviewer,String pjUser);
+
+
 }

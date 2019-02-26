@@ -41,7 +41,6 @@ public class TaskController {
         Map<String,String> responseMap = new HashMap<>();
         responseMap.put("responseType","SUCCESS");
         return responseMap;
-
     }
 
     @RequestMapping(value = "/deleteTaskInfoDataForAudit")
@@ -142,6 +141,23 @@ public class TaskController {
         Map<String,List<ProjectInfo>> projectInfosMap = new HashMap<>();
         projectInfosMap.put("projectInfos",projectInfos);
         return projectInfosMap;
+    }
 
+    @RequestMapping("/getPjTitleForSelecting")
+    public @ResponseBody
+    Object getPjTitleForSelecting (String pjReviewer, String pjUser){
+        List<ProjectInfo> projectInfos = projectService.getAllByPjReviewerAndPjUser(pjReviewer,pjUser);
+        Map<String,List<ProjectInfo>> projectInfosMap = new HashMap<>();
+        projectInfosMap.put("projectInfos",projectInfos);
+        return projectInfosMap;
+    }
+
+    @RequestMapping("/changeTaskStatus")
+    public @ResponseBody
+    Object changeTaskStatus (String taskId,int taskStatus){
+        taskService.UpdateTaskStatus(taskId,taskStatus);
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("responseType","SUCCESS");
+        return responseMap;
     }
 }
