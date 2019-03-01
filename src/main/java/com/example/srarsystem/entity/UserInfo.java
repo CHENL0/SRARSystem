@@ -4,6 +4,10 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Chen
@@ -28,6 +32,12 @@ public class UserInfo {
     private int pjStatus;
     private String pjId;
     private int delFlag;
+
+    @Transient
+    private List<String> roles;
+    private Date lastPasswordResetDate;
+    public UserInfo() {
+    }
 
     public UserInfo(String userId, String userName, String userPassword, String userPhone,
                     String urSecurityQuestion, String urSecurityAnswer) {

@@ -29,6 +29,7 @@ import java.util.Map;
  * @description the controller of login and register
  */
 @RestController
+@RequestMapping(value = "/index")
 public class LoginAndRegisterController {
     private final UserService userService;
     private final AdminService adminService;
@@ -230,4 +231,6 @@ public class LoginAndRegisterController {
         }
         return false;
     }
+
+
 }
