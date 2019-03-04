@@ -5,6 +5,7 @@ import com.example.srarsystem.commons.security.JwtUser;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,22 +27,23 @@ import static java.util.Arrays.asList;
  */
 @Service
 public class AuthServiceImpl implements AuthService {
+    @Autowired
     private AuthenticationManager authenticationManager;
-    private UserDetailsService userDetailsService;
-    private JwtTokenUtil jwtTokenUtil;
-    private UserRepository userRepository;
+//    @Autowired
+//    private  BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    @Qualifier("jwtUserDetailsServiceImpl")
+    private  UserDetailsService userDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserRepository userRepository;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
     @Autowired
     public AuthServiceImpl(
-//            AuthenticationManager authenticationManager,
-            UserDetailsService userDetailsService,
             JwtTokenUtil jwtTokenUtil,
             UserRepository userRepository) {
-//        this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userRepository = userRepository;
     }
@@ -56,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
         final String rawPassword = userToAdd.getUserPassword();
         userToAdd.setUserPassword(encoder.encode(rawPassword));
         userToAdd.setLastPasswordResetDate(new Date());
-        userToAdd.setRoles(asList("ROLE_USER"));
+//        userToAdd.setRoles("ROLE_USER");
         return userRepository.save(userToAdd);
     }
 
@@ -66,11 +68,13 @@ public class AuthServiceImpl implements AuthService {
         // Perform the security
         final Authentication authentication = authenticationManager.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // Reload password post-security so we can generate token
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        final String token = jwtTokenUtil.generateToken(userDetails);
-        return token;
+//        if(passwordEncoder.matches(password,password)){
+            // Reload password post-security so we can generate token
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            final String token = jwtTokenUtil.generateToken(userDetails);
+            return token;
+//        }
+//            return "false";
     }
 
     @Override

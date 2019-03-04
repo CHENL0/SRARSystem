@@ -2,6 +2,7 @@ MyApp
     .service('taskService',['$http', '$q',function ($http, $q) {
         return {
             getTasksListData : function(requestData) {
+                var token = "Bearer "+localStorage.getItem("token");
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
@@ -10,7 +11,8 @@ MyApp
                     data: {
                         username : requestData
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                                'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {

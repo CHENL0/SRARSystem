@@ -36,7 +36,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping(value = "/user")
-@PreAuthorize("hasRole('USER')")
+//@PreAuthorize("hasRole('USER')")
 public class UserController {
 
     private final TaskService taskService;
@@ -50,6 +50,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getTasks")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public @ResponseBody
     Object getAllTasks(String username, HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -80,6 +81,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getOneStatusTaskList")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public  @ResponseBody
     Object getOneStatusTaskList(int taskStatus,String username, HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -90,6 +92,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getPFInfoListPage")
+//    @PreAuthorize("hasRole('USER')")
     public @ResponseBody
     Object getPFInfoListPage (@RequestParam(name = "pfType", defaultValue = "基础研究")String pfType,
                               @RequestParam(name = "page", defaultValue = "0") int page,

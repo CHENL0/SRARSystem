@@ -4,6 +4,7 @@ import com.example.srarsystem.commons.UUIDUtils;
 import com.example.srarsystem.entity.UserInfo;
 import com.example.srarsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +35,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean userLogin(String userName, String userPassword) {
-        UserInfo userInfo = userRepository.findByUserNameAndUserPassword(userName, userPassword);
-        if (userInfo != null) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        UserInfo userInfo = userRepository.findOneByUserName(userName);
+//        UserInfo userInfo = userRepository.findByUserNameAndUserPassword(userName, userPassword);
+        if (encoder.matches(userPassword,userInfo.getUserPassword())) {
             return true;
         }
         return false;

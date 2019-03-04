@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,6 +64,7 @@ public class ProjectController {
      * @Return
      */
     @PostMapping(value = "/getPjInfoListByUsername")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public @ResponseBody
     Object getPjInfoListByUser(String username,HttpServletResponse response) {
         AccessUtils.getAccessAllow(response);
