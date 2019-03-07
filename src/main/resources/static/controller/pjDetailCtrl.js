@@ -5,6 +5,7 @@ MyApp
         $scope.pageClass = 'pjDetail';
         $scope.index = 0;
         $scope.name = localStorage.getItem("data");
+        commonService.validateLogin($scope.name);
         $scope.prefixName = $scope.name.split("_")[0];
         $scope.pjPageCount = 0;
         $scope.activeCode = 1;
@@ -12,6 +13,9 @@ MyApp
         $scope.pageMap=[1,2,3,4,5];
         $scope.currentType ="基础研究";
         $scope.queryData ="";
+
+
+
 
         //
             $scope.getPjTypeInfoData = function(){

@@ -1,8 +1,10 @@
 MyApp
-    .controller('taskController',['$scope', '$uibModal', '$interval', 'taskService','checkService','commonService', function ($scope, $uibModal,$interval, taskService, checkService, commonService) {
+    .controller('taskController',['$scope', '$uibModal', '$interval', 'taskService','checkService',
+        'commonService', function ($scope, $uibModal,$interval, taskService, checkService, commonService) {
         //get username from localStorage
         $scope.pageClass = 'tasks';
         $scope.username = localStorage.getItem("data");
+        commonService.validateLogin($scope.username);
         $scope.taskPageCount = 0;
         $scope.pjPageCount =0;
         $scope.taskStatus = 0;

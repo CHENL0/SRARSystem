@@ -59,8 +59,8 @@
     <div class="scrollbar-inner sidebar-wrapper">
         <div class="user">
             <div class="photo">
-                <img ng-src="assets/icon/{{userInfo.userIconName}}" ng-if="prefixName === 'USER'">
-                <img ng-src="assets/icon/{{pfInfo.pfPicture}}" ng-if="prefixName === 'PROFESSOR'">
+                <img ng-src="http://localhost:8080/icon/{{userInfo.userIconName}}" ng-if="prefixName === 'USER'">
+                <img ng-src="http://localhost:8080/icon/{{pfInfo.pfPicture}}" ng-if="prefixName === 'PROFESSOR'">
             </div>
             <div class="info">
                 <a class="" data-toggle="collapse" href="#/userProfile" aria-expanded="true">
@@ -204,4 +204,11 @@
 <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
 <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="assets/js/ready.min.js"></script>
+<script>
+    window.onbeforeunload=function(){
+        localStorage.clear();
+        return "Confirm close?";
+        //这一句如果写了，会弹窗提示是否要关掉页面，如果没这个需求，可以不写
+    };
+</script>
 </html>

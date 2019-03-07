@@ -1,8 +1,11 @@
 MyApp
-    .controller('submitController',['$scope', '$interval', 'submitService','taskService','notifyService', function ($scope,$interval, submitService,taskService,notifyService) {
+    .controller('submitController',['$scope', '$interval', 'submitService','taskService',
+        'notifyService', 'commonService',
+        function ($scope,$interval, submitService,taskService,notifyService,commonService) {
         //get username from localStorage
         $scope.pageClass = 'submit';
         $scope.username = localStorage.getItem("data");
+            commonService.validateLogin($scope.username);
         $scope.checkPfType = "基础研究";
         $scope.disabledSubmit = true;
         $scope.submitType = 'submitProject';

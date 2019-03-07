@@ -5,6 +5,7 @@ MyApp
         //get username from localStorage
         $scope.pageClass = 'people';
         $scope.username = localStorage.getItem("data");
+            commonService.validateLogin($scope.username);
         $scope.pagaType = 'user';
         $scope.userPageCount = 0;
         $scope.pfPageCount = 0;

@@ -30,64 +30,101 @@
                                 <p class="card-category">Here is a table for this message</p>
                             </div>
                             <div class="card-body">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title">Project Table</div>
-                                    </div>
-                                    <div class="card-body">
+                                <div class="form-group">
+                                    <legend>File input</legend>
+                                    <span style="color:#1e7e34;">ps: please upload .zip or .rar file</span><br>
+                                    <!--form-control-file-->
+                                    <input type="file" class=" a-upload" id="fileUpload"  onchange="angular.element(this).scope().validateFiles()">
+                                    <div style="color: #dc3545" ng-if="fileFromatError">Sorry,your  file type is not correct</div>
+                                    <div style="color: #dc3545" ng-if="fileSizeError">Sorry,your  file size is too big</div>
+                                </div>
+                                <div class="form-group">
+                                    <legend>Current file</legend>
+                                    <a href="javascript:void(0)" ng-click="downloadApplyFile(applyFile.fileName)">{{applyFile.fileName}}</a>
+                                </div>
 
-                                        <div class="form-group">
-                                            <legend>File input</legend>
-                                            <span style="color:#1e7e34;">ps: please upload .zip or .rar file</span><br>
-                                            <!--form-control-file-->
-                                            <input type="file" class=" a-upload" id="fileUpload"  onchange="angular.element(this).scope().validateFiles()">
-                                            <div style="color: #dc3545" ng-if="fileFromatError">Sorry,your  file type is not correct</div>
-                                            <div style="color: #dc3545" ng-if="fileSizeError">Sorry,your  file size is too big</div>
-                                        </div>
-                                        <div class="form-group">
-                                            <legend>Current file</legend>
-                                            <a href="javascript:void(0)" ng-click="downloadApplyFile(applyFile.fileName)">{{applyFile.fileName}}</a>
-                                        </div>
-
-                                        <div ng-show = "applyInfos.length === 0">
-                                            <div class="card-sub">
-                                                No one to apply for the professor
-                                            </div>
-                                        </div>
-                                        <div ng-show = "applyInfos.length > 0">
-                                            <div class="card-sub">
-                                                This is the  table view of  all applications :
-                                            </div>
-                                            <table class="table mt-3">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">#Status</th>
-                                                <th scope="col">Apply user</th>
-                                                <th scope="col">File name</th>
-                                                <th scope="col">#Edit</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr ng-repeat="applyInfo in applyInfos">
-                                                <td ng-if="applyInfo.applyType == 1"><span style="color: #2e6da4">Review</span></td>
-                                                <td ng-if="applyInfo.applyType == 2"><span style="color: #1e7e34">Pass</span></td>
-                                                <td ng-if="applyInfo.applyType == 3"><span style="color: red">Reject</span></td>
-                                                <td>{{applyInfo.applyUser}}</td>
-                                                <td><a href="javascript:void(0)" ng-click="download(applyInfo.applyId,applyInfo.fileName)">{{applyInfo.fileName}}</a></td>
-                                                <td ng-if="applyInfo.applyType == 1">
-                                                    <button type="button"  title="Edit Task" ng-click = "editApplyType(applyInfo.applyId,applyInfo.applyUser)"
-                                                            data-toggle = "modal" data-target = "#modalStatus"
-                                                            class="btn btn-link btn-simple-primary">
-                                                        <i class="la la-edit"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        </div>
+                                <div ng-show = "applyInfosForUser.length === 0">
+                                    <div class="card-sub">
+                                        No one to apply for the professor
                                     </div>
                                 </div>
+                                <div ng-show = "applyInfosForUser.length > 0">
+                                    <legend>
+                                        <div class="card-sub">
+                                            This is the table view of  all applications for Professor :
+                                        </div>
+                                    </legend>
+                                    <table class="table mt-3">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#Status</th>
+                                        <th scope="col">Apply user</th>
+                                        <th scope="col">File name</th>
+                                        <th scope="col">#Edit</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="applyInfo in applyInfosForUser">
+                                        <td ng-if="applyInfo.applyType == 1"><span style="color: #2e6da4">Review</span></td>
+                                        <td ng-if="applyInfo.applyType == 2"><span style="color: #1e7e34">Pass</span></td>
+                                        <td ng-if="applyInfo.applyType == 3"><span style="color: red">Reject</span></td>
+                                        <td>{{applyInfo.applyUser}}</td>
+                                        <td><a href="javascript:void(0)" ng-click="download(applyInfo.applyId,applyInfo.fileName)">{{applyInfo.fileName}}</a></td>
+                                        <td ng-if="applyInfo.applyType == 1">
+                                            <button type="button"  title="Edit Task" ng-click = "editApplyType(applyInfo.applyId,applyInfo.applyUser)"
+                                                    data-toggle = "modal" data-target = "#modalStatus"
+                                                    class="btn btn-link btn-simple-primary">
+                                                <i class="la la-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                                 </div>
+
+                                <div ng-show = "applyInfosForPf.length === 0">
+                                    <legend>
+                                        <div class="card-sub">
+                                            No one to apply for change Type
+                                        </div>
+                                    </legend>
+                                </div>
+                                <div ng-show = "applyInfosForPf.length > 0">
+                                    <div class="card-sub">
+                                        This is the  table view of  all applications for Changing type:
+                                    </div>
+                                    <table class="table mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#Status</th>
+                                            <th scope="col">Apply user</th>
+                                            <th scope="col">File name</th>
+                                            <th scope="col">Current Type</th>
+                                            <th scope="col">#Edit</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="applyInfo in applyInfosForPf">
+                                            <td ng-if="applyInfo.applyType == 1"><span style="color: #2e6da4">Review</span></td>
+                                            <td ng-if="applyInfo.applyType == 2"><span style="color: #1e7e34">Pass</span></td>
+                                            <td ng-if="applyInfo.applyType == 3"><span style="color: red">Reject</span></td>
+                                            <td>{{applyInfo.applyUser}}</td>
+                                            <td><a href="javascript:void(0)" ng-click="download(applyInfo.applyId,applyInfo.fileName)">{{applyInfo.fileName}}</a></td>
+                                            <td ng-repeat=" pfInfo in pfInfoList" ng-if="applyInfo.applyUser === pfInfo.pfName">
+                                                {{pfInfo.pfType}}
+                                            </td>
+                                            <td ng-if="applyInfo.applyType == 1">
+                                                <button type="button"  title="Edit Task" ng-click = "editApplyType(applyInfo.applyId,applyInfo.applyUser)"
+                                                        data-toggle = "modal" data-target = "#modalStatus"
+                                                        class="btn btn-link btn-simple-primary">
+                                                    <i class="la la-edit"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>

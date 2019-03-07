@@ -1,8 +1,10 @@
 MyApp
-    .controller('notifyController',['$scope', '$interval','notifyService','checkService','commonService', function ($scope,$interval,notifyService,checkService,commonService) {
+    .controller('notifyController',['$scope', '$interval','notifyService','checkService','commonService',
+        function ($scope,$interval,notifyService,checkService,commonService) {
         //get username from localStorage
         $scope.pageClass = 'notify';
         $scope.name = localStorage.getItem("data");
+        commonService.validateLogin($scope.name);
         $scope.notifyPageCount = 0;
 
 

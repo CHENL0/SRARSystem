@@ -1,19 +1,15 @@
 MyApp
-    .controller('checkController',['$scope', '$interval','notifyService', 'checkService', function ($scope,$interval,notifyService, checkService) {
+    .controller('checkController',['$scope', '$interval','notifyService', 'checkService', 'commonService',
+        function ($scope,$interval,notifyService, checkService,commonService) {
         //get username from localStorage
         $scope.pageClass = 'check';
         $scope.name = localStorage.getItem("data");
+        commonService.validateLogin($scope.name);
 
-        // checkService.getOnePfPjInfoListData($scope.name).then(
-        //     function (response) {
-        //         $scope.pjInfoList = response.onePfPjInfoList.sort(checkService.compare("pjStatus"));
-        //     }
-        // );
         $scope.getOnePfPjInfoListData = function (name){
             checkService.getOnePfPjInfoListData(name).then(
                 function (response) {
                     $scope.pjInfoList = response.onePfPjInfoList.sort(checkService.compare("pjStatus"));
-                    // $scope.pjInfoList = response.onePfPjInfoList;
                 }
             );
         };

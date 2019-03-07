@@ -2,12 +2,37 @@ MyApp
     .service('auditService',['$http', '$q',function ($http, $q) {
         var token = "Bearer "+localStorage.getItem("token");
         return {
-            getApplyInfoListData :function () {
+            getApplyInfoListDataForUser :function () {
                 var deferred = $q.defer();
                 // 向后台发送处理数据
                 var promise = $http({
                     method: 'GET',
-                    url: 'http://localhost:8080/apply/getAllApplyInfo',
+                    url: 'http://localhost:8080/apply/getAllApplyInfoForUser',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token},
+                    transformRequest: function(obj) {
+                        var str = [];
+                        for (var s in obj) {
+                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                        }
+                        return str.join("&");
+                    }
+                });
+                promise.then(function successCallback(response) {
+                    deferred.resolve(response.data);
+                },function errorCallback(response) {
+                    // 请求失败执行代码
+                    deferred.reject(response);
+                });
+                return deferred.promise;
+            },
+
+            getApplyInfoListDataForPf :function () {
+                var deferred = $q.defer();
+                // 向后台发送处理数据
+                var promise = $http({
+                    method: 'GET',
+                    url: 'http://localhost:8080/apply/getAllApplyInfoForPf',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
                         'Authorization' : token},
                     transformRequest: function(obj) {

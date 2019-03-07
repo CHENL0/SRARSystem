@@ -14,7 +14,13 @@ MyApp
             trim : function (str) {
                 var strnew=str.replace(/^\s*|\s*$/g, "");
                 return strnew;
-            }
+            },
 
+            validateLogin : function(name){
+            if(!name){
+                window.location.href = "loginSign.html";
+                return;
+            }return;
+            }
         };}]);
 

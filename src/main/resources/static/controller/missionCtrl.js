@@ -5,6 +5,7 @@ MyApp
         //get username from localStorage
         $scope.pageClass = 'mission';
         $scope.name = localStorage.getItem("data");
+            commonService.validateLogin($scope.name);
         $scope.taskPageCount = 0;
         $scope.taskInfoData = missionService.initTaskData();
         $scope.taskIdModal = '';

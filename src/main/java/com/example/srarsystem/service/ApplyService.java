@@ -17,5 +17,6 @@ public interface ApplyService {
     ApplyInfo getApplyInfoDataByApplyType();
     ApplyInfo getApplyInfoDataByApplyId(String applyId);
     ApplyInfo getApplyInfo();
-    List<ApplyInfo> getApplyInfos();
+    List<ApplyInfo> getApplyInfosForUser();
+    List<ApplyInfo> getApplyInfosForPf();
 }

@@ -143,12 +143,23 @@ public class ApplyController {
     }
 
 
-    @RequestMapping(value = "/getAllApplyInfo")
+    @RequestMapping(value = "/getAllApplyInfoForUser")
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
-    Object getAllApplyInfo (HttpServletResponse response){
+    Object getAllApplyInfoForUser (HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
-        List<ApplyInfo> applyInfos = applyService.getApplyInfos();
+        List<ApplyInfo> applyInfos = applyService.getApplyInfosForUser();
+        Map<String,List<ApplyInfo>> applyInfoMap = new HashMap<>();
+        applyInfoMap.put("applyInfos",applyInfos);
+        return applyInfoMap;
+    }
+
+    @RequestMapping(value = "/getAllApplyInfoForPf")
+    @PreAuthorize("hasRole('ADMIN')")
+    public @ResponseBody
+    Object getAllApplyInfoForPf (HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        List<ApplyInfo> applyInfos = applyService.getApplyInfosForPf();
         Map<String,List<ApplyInfo>> applyInfoMap = new HashMap<>();
         applyInfoMap.put("applyInfos",applyInfos);
         return applyInfoMap;

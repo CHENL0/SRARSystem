@@ -137,7 +137,10 @@ public class UserController {
             finishDataRequestMap.put("responseType","SUCCESS");
         }else {
             userService.finishUserInfoData(userInfo, userInfoMapper, file.getOriginalFilename());
-            String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/icon";
+            // 项目根目录
+//            String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/icon";
+            //本地目录
+            String localPath = "E:/pjStatic/icon";
             if(file.getOriginalFilename() != userInfo.getUserIconName()){
                 if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
                     //success

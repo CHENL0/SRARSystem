@@ -129,10 +129,12 @@
                                     <p class="form-control-static">{{pfInfo.pfName}}</p>
                                     <legend>Phone:</legend>
                                     <p class="form-control-static">{{pfInfo.pfPhone}}</p>
+                                    <legend>Type:</legend>
+                                    <p class="form-control-static">{{pfInfo.pfType}}</p>
                                 </div>
                                 <div class="form-group">
                                     <legend>Icon input</legend>
-                                    form-control-file
+                                    <!--form-control-file-->
                                     <input type="file" class=" a-upload" id="fileUploadForPf" ng-disabled="disabledInput" onchange="angular.element(this).scope().validateIconForPf()">
                                     <div style="color: #dc3545" ng-if="iconFromatError">Sorry,your icon's file type is not correct</div>
                                     <div style="color: #dc3545" ng-if="iconSizeError">Sorry,your icon's file size is too big</div>

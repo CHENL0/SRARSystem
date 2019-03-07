@@ -1,18 +1,37 @@
 MyApp
-    .controller('auditController',['$scope', '$interval','checkService', 'auditService','notifyService','applyService',
-        function ($scope,$interval, checkService,auditService,notifyService,applyService) {
+    .controller('auditController',['$scope', '$interval','checkService', 'auditService',
+        'notifyService','applyService','peopleService','commonService',
+        function ($scope,$interval, checkService,auditService,notifyService,applyService,peopleService,commonService) {
         //get username from localStorage
         $scope.pageClass = 'audit';
         $scope.name = localStorage.getItem("data");
+        commonService.validateLogin($scope.name);
 
-        $scope.getApplyInfos = function(){
-            auditService.getApplyInfoListData().then(
+        $scope.getApplyInfosForUser = function(){
+            auditService.getApplyInfoListDataForUser().then(
                 function (response) {
-                    $scope.applyInfos = response.applyInfos.sort(checkService.compare("applyType"));
+                    $scope.applyInfosForUser = response.applyInfos.sort(checkService.compare("applyType"));
                 }
             );
         };
-        $scope.getApplyInfos();
+        $scope.getApplyInfosForUser();
+
+        $scope.getApplyInfosForPf = function(){
+            auditService.getApplyInfoListDataForPf().then(
+                function (response) {
+                    $scope.applyInfosForPf = response.applyInfos.sort(checkService.compare("applyType"));
+                }
+            );
+        };
+        $scope.getApplyInfosForPf();
+
+       $scope.getAllPfForPjType = function (){
+            peopleService.getAllPfInfo().then(
+                function (value) {
+                    $scope.pfInfoList = value.pfInfoList;
+                }
+            );
+       };$scope.getAllPfForPjType();
 
         $scope.getApplyFileData = function(){
             applyService.getApplyFile().then(
@@ -114,7 +133,7 @@ MyApp
         $scope.changeApplyType = function (applyId,applyType,applyUser,selectedType) {
             auditService.changeApplyType(applyId,applyType).then(
                 function (response) {
-                    $scope.getApplyInfos();
+                    $scope.getApplyInfosForUser();
                     // var pjNameSplit = pjName.split(".")[0];
                     // notifyService.setNotify($scope.name,pjUser,"Project",pjStatus,pjNameSplit);
                 }

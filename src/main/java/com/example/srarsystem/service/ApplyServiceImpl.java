@@ -65,7 +65,12 @@ public class ApplyServiceImpl implements ApplyService {
     }
 
     @Override
-    public List<ApplyInfo> getApplyInfos() {
-        return applyRepository.findApplyInfos();
+    public List<ApplyInfo> getApplyInfosForUser() {
+        return applyRepository.findApplyInfosForUser("USER");
+    }
+
+    @Override
+    public List<ApplyInfo> getApplyInfosForPf() {
+        return applyRepository.findApplyInfosForPf("PROFESSOR");
     }
 }

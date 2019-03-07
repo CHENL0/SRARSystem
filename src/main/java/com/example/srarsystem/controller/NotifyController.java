@@ -30,7 +30,6 @@ public class NotifyController {
     }
 
     @RequestMapping(value = "/setNotifyDataForUser")
-//    @PreAuthorize("hasRole('USER') AND hasRole('ADMON') AND hasRole('PROFESSOR')")
     @Secured({ "USER", "ADMiN","PROFESSOR"})
     public @ResponseBody
     Object setNotifyDataForUser (String notifyBy,String notifyFor,String notifyType,

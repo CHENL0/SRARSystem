@@ -206,7 +206,10 @@ public class ProfessorController {
             finishDataRequestMap.put("responseType","SUCCESS");
         }else {
             professorService.finishProfessorInfoData(pfInfo, pfInfoMapper, file.getOriginalFilename());
-            String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/icon";
+            // 项目根目录
+//            String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/icon";
+            //本地目录
+            String localPath = "E:/pjStatic/icon";
             if(pfInfo.getPfPicture() != file.getOriginalFilename()){
                 if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
                     //success

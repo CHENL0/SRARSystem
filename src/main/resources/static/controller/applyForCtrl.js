@@ -3,7 +3,7 @@ MyApp
         $scope.pageClass = 'apply';
         //get username from localStorage
         $scope.name = localStorage.getItem("data");
-
+        commonService.validateLogin($scope.name);
         $scope.applyInfoData = applyService.getApplyInfoData();
         $scope.applyInfoData.applyUser = $scope.name;
         $scope.isOverCount = false;

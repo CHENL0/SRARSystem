@@ -1,10 +1,11 @@
 MyApp
     .controller('userProfileController',['$scope', '$interval', 'userProfileService',
-        'checkService','$sce','$compile',
-        function ($scope,$interval, userProfileService,checkService,$sce,$compile) {
+        'checkService','$sce','$compile','commonService',
+        function ($scope,$interval, userProfileService,checkService,$sce,$compile,commonService) {
         //get username from localStorage
         $scope.pageClass = 'userProfile';
         $scope.username = localStorage.getItem("data");
+            commonService.validateLogin($scope.username);
         $scope.disabledInput = true;
         // $scope.disabledSubmit = true;
         $scope.iconFromatError = false;
@@ -27,6 +28,7 @@ MyApp
         $scope.cPf = '';
         $scope.aPf = '';
         $scope.dPf = '';
+
 
         $scope.changeShowAddress = function (){
             if($scope.prefix ==="USER"){

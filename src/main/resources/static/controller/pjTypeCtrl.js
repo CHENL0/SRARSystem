@@ -1,9 +1,11 @@
 MyApp
-    .controller('pjTypeController',['$scope', '$interval', 'submitService','taskService','notifyService', 'pjTypeService','pjDetailService',
-        function ($scope,$interval, submitService,taskService,notifyService,pjTypeService,pjDetailService) {
+    .controller('pjTypeController',['$scope', '$interval', 'submitService','taskService',
+        'notifyService', 'pjTypeService','pjDetailService','commonService',
+        function ($scope,$interval, submitService,taskService,notifyService,pjTypeService,pjDetailService,commonService) {
         //get username from localStorage
         $scope.pageClass = 'pjType';
         $scope.username = localStorage.getItem("data");
+            commonService.validateLogin($scope.username);
         $scope.pageType = 'add';
         $scope.disabledSubmit = true;
         $scope.disabledInput = true;
