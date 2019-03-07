@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+<body ng-controller="Controller">
+<div>所属分类：
+    <select ng-model="selected1" ng-options="m.roleName for m in classification1"
+            ng-change="changeClassification(selected1)">
+        <option value="">-- 请选择 --</option>
+    </select>
+    <select ng-model="selected2" ng-options="m.roleName for m in classification2">
+        <option value="">-- 请选择 --</option>
+    </select>
+
+
+
+    <div class="col-md-6">
+        <div class="card card-tasks">
+            <div class="card-header ">
+                <h4 class="card-title">Tasks</h4>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
+                </label>
+            </div>
+            <div class="card-body ">
+                <div class="table-full-width">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input  select-all-checkbox"
+                                               type="checkbox" data-select="checkbox"
+                                               data-target=".task-select">
+                                        <span class="form-check-sign"></span>
+                                    </label>
+                                </div>
+                            </th>
+                            <th>TaskId</th>
+                            <th>Task</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="tasks in taskInfoList">
+                            <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input task-select" type="checkbox">
+                                        <span class="form-check-sign"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>{{tasks.taskId}}</td>
+                            <td>{{tasks.taskName}}</td>
+                            <td class="td-actions text-right">
+                                <div class="form-button-action">
+                                    <button type="button"  title="Edit Task" ng-click = "getTaskDetail(tasks.taskId)"
+                                            data-toggle = "modal" data-target = "#modalTask"
+                                            class="btn btn-link btn-simple-primary">
+                                        <i class="la la-edit"></i>
+                                    </button>
+                                    <button type="button" data-toggle="tooltip" title="Remove"
+                                            class="btn btn-link btn-simple-danger">
+                                        <i class="la la-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-footer ">
+                <div class="stats">
+                    <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var contantCroleList = [
+        {
+            "roleName": "软件开发", "roleId": "role1", "children": [
+                {"roleName": "软件AAA", "roleId": "role11", "children": []},
+                {"roleName": "软件BBB", "roleId": "role12", "children": []},
+                {"roleName": "软件CCC", "roleId": "role12", "children": []},
+                {"roleName": "软件DDD", "roleId": "role12", "children": []},
+                {"roleName": "软件EEE", "roleId": "role12", "children": []},
+                {"roleName": "软件FFF", "roleId": "role12", "children": []}
+            ]
+        },
+        {
+            "roleName": "硬件开发", "roleId": "role2", "children": [
+                {"roleName": "硬件AAA", "roleId": "role21", "children": []},
+                {"roleName": "硬件BBB", "roleId": "role22", "children": []},
+                {"roleName": "硬件CCC", "roleId": "role23", "children": []},
+                {"roleName": "硬件DDD", "roleId": "role24", "children": []},
+                {"roleName": "硬件EEE", "roleId": "role25", "children": []},
+                {"roleName": "硬件FFF", "roleId": "role26", "children": []}
+            ]
+        },
+        {
+            "roleName": "嵌入式开发", "roleId": "role3", "children": [
+                {"roleName": "嵌入式AAA", "roleId": "role31", "children": []},
+                {"roleName": "嵌入式BBB", "roleId": "role32", "children": []},
+                {"roleName": "嵌入式CCC", "roleId": "role33", "children": []},
+                {"roleName": "嵌入式DDD", "roleId": "role34", "children": []},
+                {"roleName": "嵌入式EEE", "roleId": "role35", "children": []},
+                {"roleName": "嵌入式FFF", "roleId": "role36", "children": []}
+            ]
+        }
+    ];
+
+    function Controller($scope) {
+        $scope.classification1 = contantCroleList;
+        $scope.changeClassification = function (selected1) {
+            $scope.classification2 = selected1.children;
+        };
+    }
+</script>
+</html>

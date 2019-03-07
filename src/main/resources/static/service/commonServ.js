@@ -1,0 +1,26 @@
+MyApp
+    .service('commonService',['$http', '$q',function ($http, $q) {
+        return {
+             sliceArr :function(array, size) {
+                var result = [];
+                for (var x = 0; x < Math.ceil(array.length / size); x++) {
+                    var start = x * size;
+                    var end = start + size;
+                    result.push(array.slice(start, end));
+                }
+                return result;
+            },
+
+            trim : function (str) {
+                var strnew=str.replace(/^\s*|\s*$/g, "");
+                return strnew;
+            },
+
+            validateLogin : function(name){
+            if(!name){
+                window.location.href = "loginSign.html";
+                return;
+            }return;
+            }
+        };}]);
+

@@ -1,0 +1,25 @@
+package com.example.srarsystem.repository;
+
+import com.example.srarsystem.entity.TaskInfo;
+import javafx.concurrent.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+/**
+ * @author Chen
+ * @createTime 20181004 16:16
+ * @description the repository of task
+ */
+public interface TaskRepository extends JpaRepository<TaskInfo, String> {
+    List<TaskInfo> findAllByPfNameAndDelFlagAudit (String pfName,int delFlagAudit);
+    List<TaskInfo> findAllByUserNameAndDelFlag(String username,int delFlag);
+    @Override
+    List<TaskInfo> findAll();
+    TaskInfo findOneByTaskId(String taskId);
+    List<TaskInfo> findAllByTaskStatusAndDelFlagAndUserName(int taskStatus,int delFlag,String userName);
+    TaskInfo findOneByTaskName (String taskName);
+    TaskInfo findOneByPjId (String pjId);
+
+}

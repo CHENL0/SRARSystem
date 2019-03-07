@@ -1,0 +1,283 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="author" content=""/>
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:title" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <meta property="og:site_name" content=""/>
+    <meta property="og:description" content=""/>
+    <meta name="twitter:title" content=""/>
+    <meta name="twitter:image" content=""/>
+    <meta name="twitter:url" content=""/>
+    <meta name="twitter:card" content=""/>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="assets/css/icomoon.css">
+    <!-- Themify Icons-->
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+
+    <!-- Owl Carousel  -->
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Modernizr JS -->
+    <script src="assets/js/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+    <script src="assets/js/respond.min.js"></script>
+    <!--angularjs-->
+    <!--<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>-->
+    <script src="assets/js/angular.min.js"></script>
+    <script src="controller/app.module.js"></script>
+    <script src="controller/loginCtrl.js"></script>
+    <![endif]-->
+
+</head>
+<body ng-app = "LoginApp" ng-controller = "loginSignController">
+
+
+<!--gtco-container-->
+<header id="gtco-header" class="gtco-cover" role="banner" style="background-image: url(assets/images/loginBackground.jpg)">
+    <div class="overlay"></div>
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-12 col-md-offset-0 text-left">
+
+
+                <div class="row ">
+                    <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+                        <span class="intro-text-small">Welcome to Scientific research and reporting systems</span>
+                        <h1>Science and technology change life.</h1>
+                    </div>
+                    <div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+                        <div class="form-wrap">
+                            <div class="tab">
+                                <ul class="tab-menu">
+                                    <li class="gtco-first"><a href="#" data-tab="signUp">Sign up</a></li>
+                                    <li class="gtco-second"><a href="#" data-tab="login">Login</a></li>
+                                    <li class="gtco-third"><a href="#" data-tab="forget">Forget password</a></li>
+                                    <li class="gtco-fourth active" ><a href="#" data-tab="how">How to do</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-content-inner " data-content="signUp">
+                                        <form action="#">
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" class="form-control" id="password" ng-blur="validatePw()" ng-model="password">
+                                                    <span color="red" >{{pswError}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label for="password2">Repeat Password</label>
+                                                    <input type="password" class="form-control" id="password2" ng-blur="validateRPw()" ng-model="password2">
+                                                    <span color="red" >{{pswError2}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label >Security Question</label>
+                                                    <input type="text" class="form-control" placeholder = "eg.what is my name?" ng-blur="validateQue()"  ng-model="question">
+                                                    <span color="red" >{{queError}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label >Security Answer</label>
+                                                    <input type="text" class="form-control" placeholder = "eg.CHEN"  ng-blur="validateAns()"  ng-model="answer">
+                                                    <span color="red" >{{ansError}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label for="password2">User phone</label>
+                                                    <input type="text" class="form-control" id="userPhone" ng-blur="validatePh()" ng-model="userPhone"><span color="red" >{{phoneError}}</span><br>
+                                                    <input type="text" class="col-xs-4" id="" ng-blur="validateCode()" ng-model="code">&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-default" id="btnSendCode" value="Get Code" ng-click="getCode()"/><br>
+                                                    <span color="red" >{{codeError}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <input type="submit" class="btn btn-primary" value="Sign up" ng-click="signUp()">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="tab-content-inner" data-content="login">
+                                        <form action="#">
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label >Username</label>
+                                                    <input type="text" class="form-control"  ng-model="username" ng-blur="validateUsername()">
+                                                    <span>{{usernameError}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" class="form-control"  ng-blur="validatePw()" ng-model="password">
+                                                    <span color="red" >{{pswError}}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <input type="submit" class="btn btn-primary" value="Login" ng-click="login()">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="tab-content-inner" data-content="forget">
+                                        <form action="#">
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label >Username</label>
+                                                    <input type="text" class="form-control" id="forgetName" ng-model="username" ng-blur="getQuestion()">
+                                                    <span>{{usernameError}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label >Your Question:</label><br>
+                                                    <!--<select class="combobox" data-style="btn-primary" g-model="question">-->
+                                                        <!--<option></option>-->
+                                                        <!--<option value="PA">Pennsylvania1111111111</option>-->
+                                                        <!--<option value="CT">Connecticut</option>-->
+                                                        <!--<option value="NY">New York</option>-->
+                                                        <!--<option value="MD">Maryland</option>-->
+                                                        <!--<option value="VA">Virginia</option>-->
+                                                    <!--</select>-->
+                                                    <span >{{forQuestion}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label >Answer</label>
+                                                    <input type="text" class="form-control"  ng-model="forAnswer" ng-blur="validateAnswer()">
+                                                    <span color="red" >{{ansError}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" class="form-control" id="newPassword" ng-blur="validatePw()" ng-model="password">
+                                                    <span color="red" >{{pswError}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label for="password2">Repeat Password</label>
+                                                    <input type="password" class="form-control" id="newPassword2" ng-blur="validateRPw()" ng-model="password2">
+                                                    <span color="red" >{{pswError2}}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <input type="submit" class="btn btn-primary" value="confirm" ng-click="updatePassword()">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="tab-content-inner active" data-content="how">
+                                        <form action="#">
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First of all, you should
+                                                    go through the "Sign up" for your personal account, register generates a userName,
+                                                    please do remember it!!!!!!<br><br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using the userName and password
+                                                    you can continue to log in.<br><br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you forget password, you can through setting the
+                                                    encrypted registration problem to reset your password.
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</header>
+
+<footer id="gtco-footer" role="contentinfo">
+    <div class="gtco-container">
+        <div class="row copyright">
+            <div class="col-md-12">
+                <p class="pull-left">
+                    <small class="block">Copyright &copy; 2016.Company name All rights reserved.<a target="_blank"
+                                                                                                   href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+                    </small>
+                </p>
+                <p class="pull-right">
+                <ul class="gtco-social-icons pull-right">
+                    <li><a href="#"><i class="icon-twitter"></i></a></li>
+                    <li><a href="#"><i class="icon-facebook"></i></a></li>
+                    <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                    <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</footer>
+</div>
+
+</div>
+
+<div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+</div>
+
+<!-- jQuery -->
+<script src="assets/js/jquery.min.js"></script>
+<!-- jQuery Easing -->
+<script src="assets/js/jquery.easing.1.3.js"></script>
+<!-- Bootstrap -->
+<script src="assets/js/bootstrap.min.js"></script>
+<!-- Waypoints -->
+<script src="assets/js/jquery.waypoints.min.js"></script>
+<!-- Carousel -->
+<script src="assets/js/owl.carousel.min.js"></script>
+<!-- countTo -->
+<script src="assets/js/jquery.countTo.js"></script>
+<!-- Magnific Popup -->
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/magnific-popup-options.js"></script>
+<!-- Main -->
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
+

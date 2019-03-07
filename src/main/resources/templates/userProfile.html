@@ -1,0 +1,343 @@
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="assets/css/bootstrap.css">-->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/css/ready.css">
+    <link rel="stylesheet" href="assets/css/demo.css">
+    <script src="assets/js/jquery.min.js" ></script>
+    <script src="assets/js/angular.min.js" ></script>
+    <script src="assets/js/ui-bootstrap-tpls-2.5.0.js" ></script>
+    <script src="assets/js/angular-animate.js" ></script>
+    <script src="assets/js/date.format.js" ></script>
+    <script src="controller/app.module.js" ></script>
+    <script src="controller/userProfileCtrl.js" ></script>
+    <script src="service/userProfileServ.js" ></script>
+    <style>
+        body{background:#ddd;font:14px/1.7 tahoma,'\5fae\8f6f\96c5\9ed1',sans-serif;}
+        h1,h2,h3{font-size:36px;line-height:1;}
+        h2{font-size:24px;}
+        h3{font-size:18px;}
+        fieldset{margin:2em 0;}
+        fieldset legend{font-weight:bold;font-size:16px;line-height:2;}
+        a{color:#06f;text-decoration:none;}
+        a:hover{color:#00f;}
+
+        .wrap{width:800px;margin:0 auto;padding:20px 40px;border-radius:8px;background:#fff;box-shadow:0 0 10px rgba(0,0,0,0.5);}
+    </style>
+
+    <div class="main-panel">
+        <div class="content" ng-if="showRole === 'user'">
+            <div class="container-fluid">
+                <h4 class="page-title">User profile</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">User profile</h4>
+                                <p class="card-category">Here is a user profile for this message</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        <span style="color: #4cae4c">
+                                            ps: if you want to complete your message , you can to the following Click on the modify button
+                                        </span>
+                                    </label>
+                                    <legend>Name:</legend>
+                                    <p class="form-control-static">{{userInfo.userName}}</p>
+                                    <legend>Phone:</legend>
+                                    <p class="form-control-static">{{userInfo.userPhone}}</p>
+                                </div>
+                                <div class="form-group">
+                                    <legend>Icon input</legend>
+                                    <!--form-control-file-->
+                                    <input type="file" class=" a-upload" id="fileUpload" ng-disabled="disabledInput" onchange="angular.element(this).scope().validateIcon()">
+                                    <div style="color: #dc3545" ng-if="iconFromatError">Sorry,your icon's file type is not correct</div>
+                                    <div style="color: #dc3545" ng-if="iconSizeError">Sorry,your icon's file size is too big</div>
+                                </div>
+
+                                <div class="form-check">
+                                    <legend>Gender</legend><br/>
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios"  ng-checked="checkMale"
+                                               ng-disabled="disabledInput">
+                                        <span class="form-radio-sign">Male</span>
+                                    </label>
+                                    <label class="form-radio-label ml-3">
+                                        <input class="form-radio-input" type="radio" name="optionsRadios"  ng-checked="checkFemale"
+                                               ng-disabled="disabledInput">
+                                        <span class="form-radio-sign">Female</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <legend>Address</legend>
+                                    <p class="form-control-static" ng-if="!userInfo.userAddress">Haven't you choose to address </p>
+                                    <p class="form-control-static">{{userInfo.userAddress}}</p> <input type="button" value="edit" ng-show="!disabledInput" ng-click="changeShowAddress()">
+                                    <form class="form-horizontal" ng-show ="ifShowChooseAddress">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label"><span class="text-muted">（Choose your address）</span></label>
+                                            <div id="inputAddressForUser" class="col-sm-6" >
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="form-group">
+                                    <legend>Nickname</legend>
+                                    <input type="text" class="form-control" id="disableinput" ng-model="userProfileData.userNickname" placeholder="{{userInfo.userNickname}}"
+                                        ng-disabled="disabledInput">
+                                </div>
+                                <div class="form-group">
+                                    <legend>Introduce yourself</legend>
+                                    <textarea class="form-control" id="comment" rows="5" ng-model="userProfileData.userIntroduce" ng-disabled="disabledInput">
+                                    </textarea>
+                                </div>
+                                <!--<div class="form-check">-->
+                                    <!--<label class="form-check-label">-->
+                                        <!--<input class="form-check-input" type="checkbox"  ng-click="changeDisabledForSubmit()" ng-disabled="disabledInput">-->
+                                        <!--<span class="form-check-sign">Agree with terms and conditions</span>-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            </div>
+                            <div class="card-action">
+                                <input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledSubmit" ng-click="submit()">
+                                <input type="button"  class="btn btn-danger" value="{{buttonValue}}" ng-click="modify()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content" ng-if="showRole === 'professor'">
+            <div class="container-fluid">
+                <h4 class="page-title">Professor profile</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Professor profile</h4>
+                                <p class="card-category">Here is a professor profile for this message</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        <span style="color: #4cae4c">
+                                            ps: if you want to complete your message , you can to the following Click on the modify button
+                                        </span>
+                                    </label>
+                                    <legend>Name:</legend>
+                                    <p class="form-control-static">{{pfInfo.pfName}}</p>
+                                    <legend>Phone:</legend>
+                                    <p class="form-control-static">{{pfInfo.pfPhone}}</p>
+                                    <legend>Type:</legend>
+                                    <p class="form-control-static">{{pfInfo.pfType}}</p>
+                                </div>
+                                <div class="form-group">
+                                    <legend>Icon input</legend>
+                                    <!--form-control-file-->
+                                    <input type="file" class=" a-upload" id="fileUploadForPf" ng-disabled="disabledInput" onchange="angular.element(this).scope().validateIconForPf()">
+                                    <div style="color: #dc3545" ng-if="iconFromatError">Sorry,your icon's file type is not correct</div>
+                                    <div style="color: #dc3545" ng-if="iconSizeError">Sorry,your icon's file size is too big</div>
+                                    <!--<div class="upload-button" type="file" capture="camera" ngf-select="uploadFiles()" ng-model="data.file" accept="image/jpeg,image/gif,image/png" ngf-max-height="1000" ngf-max-size="1MB">-->
+                                        <!--<img class="uploadpic img-rounded" src="{{imgSrc}}" ng-model="product.img" height="200" width="200" />-->
+                                        <!--<div class="glyphicon glyphicon-camera uploadpic-label">点击上传照片</div>-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="form-check">
+                                    <legend>Gender</legend><br/>
+                                    <label class="form-radio-label">
+                                        <input class="form-radio-input" type="radio" name="optionsRadiosForPf"  ng-checked="checkMale"
+                                               ng-disabled="disabledInput">
+                                        <span class="form-radio-sign">Male</span>
+                                    </label>
+                                    <label class="form-radio-label ml-3">
+                                        <input class="form-radio-input" type="radio" name="optionsRadiosForPf"  ng-checked="checkFemale"
+                                               ng-disabled="disabledInput">
+                                        <span class="form-radio-sign">Female</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <legend>Address</legend>
+                                    <p class="form-control-static" ng-if="!pfInfo.pfAddress">Haven't you choose to address </p>
+                                    <p class="form-control-static">{{pfInfo.pfAddress}}</p> <input type="button" value="edit" ng-show="!disabledInput" ng-click="changeShowAddress()">
+                                    <form class="form-horizontal" ng-show ="ifShowChooseAddress">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label"><span class="text-muted">（Choose your address）</span></label>
+                                            <div id="inputAddress" class="col-sm-6" >
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="form-group">
+                                    <legend>Nickname</legend>
+                                    <input type="text" class="form-control"  ng-model="pfProfileData.pfNickname" placeholder="{{pfInfo.pfNickname}}"
+                                           ng-disabled="disabledInput">
+                                </div>
+
+                                <div class="form-group">
+                                    <legend>Introduce yourself</legend>
+                                    <textarea class="form-control"  rows="5" ng-model="pfProfileData.pfIntroduce" ng-disabled="disabledInput">
+                                    </textarea>
+                                </div>
+                                <!--<div class="form-check">-->
+                                    <!--<label class="form-check-label">-->
+                                        <!--<input class="form-check-input" type="checkbox"  ng-click="changeDisabledForSubmit()" ng-disabled="disabledInput">-->
+                                        <!--<span class="form-check-sign">Agree with terms and conditions</span>-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            </div>
+                            <div class="card-action">
+                                <input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledInput" ng-click="submit()">
+                                <input type="button"  class="btn btn-danger" value="{{buttonValue}}" ng-click="modify()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalAddress" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> Update address</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <!--<form class="form-horizontal" ng-show ="ifShowChooseAddress">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-4 control-label"><span class="text-muted">（Choose your address）</span></label>-->
+                        <!--<div class="col-sm-6">-->
+                            <!--<input  select-address p="p" c="c" a="a" d="d" ng-model="xxx" placeholder="请选择所在地" type="text" class="form-control" />-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</form>-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/js/ready.min.js"></script>
+
+<!--<script src="assets/js/jquery.cxselect.js"></script>-->
+<script>
+    // (function() {
+    //     var urlChina = 'assets/js/cityData.min.json';
+    //     var urlGlobal = 'assets/js/globalData.min.json';
+    //     var dataCustom = [
+    //         {'v': '1', 'n': '第一级 >', 's': [
+    //                 {'v': '2', 'n': '第二级 >', 's': [
+    //                         {'v': '3', 'n': '第三级 >', 's': [
+    //                                 {'v': '4', 'n': '第四级 >', 's': [
+    //                                         {'v': '5', 'n': '第五级 >', 's': [
+    //                                                 {'v': '6', 'n': '第六级 >'}
+    //                                             ]}
+    //                                     ]}
+    //                             ]}
+    //                     ]}
+    //             ]},
+    //         {'v': 'test number', 'n': '测试数字', 's': [
+    //                 {'v': 'text', 'n': '文本类型', 's': [
+    //                         {'v': '4', 'n': '4'},
+    //                         {'v': '5', 'n': '5'},
+    //                         {'v': '6', 'n': '6'},
+    //                         {'v': '7', 'n': '7'},
+    //                         {'v': '8', 'n': '8'},
+    //                         {'v': '9', 'n': '9'},
+    //                         {'v': '10', 'n': '10'}
+    //                     ]},
+    //                 {'v': 'number', 'n': '数值类型', 's': [
+    //                         {'v': 11, 'n': 11},
+    //                         {'v': 12, 'n': 12},
+    //                         {'v': 13, 'n': 13},
+    //                         {'v': 14, 'n': 14},
+    //                         {'v': 15, 'n': 15},
+    //                         {'v': 16, 'n': 16},
+    //                         {'v': 17, 'n': 17}
+    //                     ]}
+    //             ]},
+    //         {'v': 'test boolean','n': '测试 Boolean 类型', 's': [
+    //                 {'v': true ,'n': true},
+    //                 {'v': false ,'n': false}
+    //             ]},
+    //         {v: 'test quotes', n: '测试属性不加引号', s: [
+    //                 {v: 'quotes', n: '引号'}
+    //             ]},
+    //         {v: 'test other', n: '测试奇怪的值', s: [
+    //                 {v: '[]', n: '数组（空）'},
+    //                 {v: [1,2,3], n: '数组（数值）'},
+    //                 {v: ['a','b','c'], n: '数组（文字）'},
+    //                 {v: new Date(), n: '日期'},
+    //                 {v: new RegExp('\\d+'), n: '正则对象'},
+    //                 {v: /\d+/, n: '正则直接量'},
+    //                 {v: {}, n: '对象'},
+    //                 {v: document.getElementById('custom_data'), n: 'DOM'},
+    //                 {v: null, n: 'Null'},
+    //                 {n: '未设置 value'}
+    //             ]},
+    //         {'v': '' , 'n': '无子级'}
+    //     ];
+    //
+    //     $.cxSelect.defaults.url = urlChina;
+    //
+    //     $('#city_china').cxSelect({
+    //         selects: ['province', 'city', 'area']
+    //     });
+    //
+    //     $('#city_china_val').cxSelect({
+    //         selects: ['province', 'city', 'area'],
+    //         nodata: 'none'
+    //     });
+    //
+    //     $('#global_location').cxSelect({
+    //         url: urlGlobal,
+    //         selects: ['country', 'state', 'city', 'region'],
+    //         nodata: 'none'
+    //     });
+    //
+    //     $('#custom_data').cxSelect({
+    //         selects: ['first', 'second', 'third', 'fourth', 'fifth'],
+    //         required: true,
+    //         jsonValue: 'v',
+    //         url: dataCustom
+    //     });
+    // })();
+
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
+    $(function () {
+        $("#slider").slider({
+            range: "min",
+            max: 100,
+            value: 40,
+        });
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 500,
+            values: [75, 300]
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,227 @@
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<!--<link rel="stylesheet" href="assets/css/bootstrap.css">-->
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+<link rel="stylesheet" href="assets/css/ready.css">
+<link rel="stylesheet" href="assets/css/demo.css">
+<style>
+    body{background:#ddd;font:14px/1.7 tahoma,'\5fae\8f6f\96c5\9ed1',sans-serif;}
+    h1,h2,h3{font-size:36px;line-height:1;}
+    h2{font-size:24px;}
+    h3{font-size:18px;}
+    fieldset{margin:2em 0;}
+    fieldset legend{font-weight:bold;font-size:16px;line-height:2;}
+    a{color:#06f;text-decoration:none;}
+    a:hover{color:#00f;}
+
+    .wrap{width:800px;margin:0 auto;padding:20px 40px;border-radius:8px;background:#fff;box-shadow:0 0 10px rgba(0,0,0,0.5);}
+</style>
+
+<div class="main-panel">
+    <div class="content">
+        <div class="container-fluid">
+            <h4 class="page-title">Submit your project or task</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Add new project type</h4>
+                            <p class="card-category">Here is a form for submitting your project or task</p>
+
+                            <label class="form-radio-label">
+                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="changeType('add')" checked>
+                                <span class="form-radio-sign">submit new pjType</span>
+                            </label>
+                            <label class="form-radio-label">
+                                <input class="form-radio-input" type="radio" name="optionsRadios" ng-click="changeType('update')">
+                                <span class="form-radio-sign">update pjType</span>
+                            </label>
+                        </div>
+                        <div>
+                            <div class="card-body" ng-show="pageType === 'add'">
+                                <div class="form-group">
+                                    <legend>Type:</legend>
+                                    <input type="text" style="width: 200px" class="form-control"   ng-model="projectTypeData.pjType">
+                                        </input>
+                                </div>
+
+                                <div class="form-group">
+                                    <legend>Type description</legend>
+                                    <textarea class="form-control"  rows="5" ng-model="projectTypeData.pjTypeDescription" >
+                                        </textarea>
+                                </div>
+                                <!--<div class="form-check" >-->
+                                    <!--<label class="form-check-label">-->
+                                        <!--<input class="form-check-input" type="checkbox" ng-model="checkAgree" ng-click="changeDisabledForSubmit(checkAgree)" >-->
+                                        <!--<span class="form-check-sign">Agree with terms and conditions</span>-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            </div>
+                            <div class="card-body" ng-show="pageType === 'update'">
+                                <div>
+                                    <div class="card-sub">
+                                        This is the  table view of  all type of project  :
+                                    </div>
+                                    <table class="table mt-3">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Number</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">#Edit</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                         <tr ng-repeat="pjTypeInfo in pjTypeInfoList">
+                                            <td ng-repeat=" pjTypeNumber in pjTypeNumbers" ng-if="pjTypeNumber.name === pjTypeInfo.pjType">
+                                                <span style="color: red">{{pjTypeNumber.number}}
+                                                </span>
+                                            </td>
+                                            <td>{{pjTypeInfo.pjType}}</td>
+                                            <td >
+                                                <button type="button"  title="Edit Task" ng-click = "editPjTypeInfo(pjTypeInfo.pjTypeId)"
+                                                        data-toggle = "modal" data-target = "#modalDetail"
+                                                        class="btn btn-link btn-simple-primary">
+                                                    <i class="la la-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-link btn-simple-danger"
+                                                        ng-click="deletePjTypeInfo(pjTypeInfo.pjTypeId,pjTypeInfo.pjType)">
+                                                    <i class="la la-times"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="card-action" ng-show="pageType === 'add'">
+                                <input type="button"  class="btn btn-success" value="Submit"  ng-click="submitPjTypeData()">
+                             </div>
+                        <div class="card-footer" ng-show="pageType === 'update'">
+                            <div class="stats">
+                                <ul class="pagination pg-primary">
+                                    <div >
+                                        <li class="page-item">
+                                            <a class="page-link"  aria-label="Previous" ng-click="pjTypePrePage()" >
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    </div>
+                                    <div >
+                                        <li class="page-item">
+                                            <a class="page-link" aria-label="Next" ng-click="pjTypeNextPage()" >
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> Under Development</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
+                <p>
+                    <b>We'll let you know when it's done</b></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> pjType profiles</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                    <table class="table table-striped">
+                        <tr>
+                            <td><h6>Type name  :</h6></td>
+                            <td>
+                                <input type="text" class="form-control" id="disableinput"
+                                       ng-model="pjTypeInfo.pjType"
+                                       ng-disabled="disabledInput">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><h6>Description  :</h6></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <textarea class="form-control" id="comment" rows="5"
+                                          ng-model="pjTypeInfo.pjTypeDescription" ng-disabled="disabledInput"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input id="updateBtn" type="button"  class="btn btn-success" value="{{changeBtnName}}" ng-click="updateAndChange(pjTypeInfo.pjTypeId,
+                pjTypeInfo.pjType,pjTypeInfo.pjTypeDescription)">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/js/ready.min.js"></script>
+<script src="assets/js/jquery.cxselect.js"></script>
+<script>
+
+    $(function () {
+        $("#slider").slider({
+            range: "min",
+            max: 100,
+            value: 40,
+        });
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 500,
+            values: [75, 300]
+        });
+    });
+</script>
+</html>

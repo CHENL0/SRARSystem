@@ -1,0 +1,293 @@
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="assets/css/bootstrap.css">-->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/css/ready.css">
+    <link rel="stylesheet" href="assets/css/demo.css">
+    <script src="assets/js/jquery.min.js" ></script>
+    <script src="assets/js/angular.min.js" ></script>
+    <script src="assets/js/ui-bootstrap-tpls-2.5.0.js" ></script>
+    <script src="assets/js/angular-animate.js" ></script>
+    <script src="assets/js/date.format.js" ></script>
+    <script src="controller/app.module.js" ></script>
+    <script src="controller/checkCtrl.js" ></script>
+    <script src="service/checkServ.js" ></script>
+    <style>
+        body{background:#ddd;font:14px/1.7 tahoma,'\5fae\8f6f\96c5\9ed1',sans-serif;}
+        h1,h2,h3{font-size:36px;line-height:1;}
+        h2{font-size:24px;}
+        h3{font-size:18px;}
+        fieldset{margin:2em 0;}
+        fieldset legend{font-weight:bold;font-size:16px;line-height:2;}
+        a{color:#06f;text-decoration:none;}
+        a:hover{color:#00f;}
+
+        .wrap{width:800px;margin:0 auto;padding:20px 40px;border-radius:8px;background:#fff;box-shadow:0 0 10px rgba(0,0,0,0.5);}
+    </style>
+
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+                <h4 class="page-title">Check project</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Check project</h4>
+                                <p class="card-category">Here is a table for this message</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Project Table</div>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div ng-show = "pjInfoList.length === 0">
+                                            <div class="card-sub">
+                                                You don't have a related project , you can improve your personal information what can attract people to commit you
+                                            </div>
+                                        </div>
+                                        <div ng-show = "pjInfoList.length > 0">
+                                            <div class="card-sub">
+                                                This is the  table view of your all project :
+                                            </div>
+                                            <table class="table mt-3">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">#Status</th>
+                                                <th scope="col">Project Title</th>
+                                                <th scope="col">Project Name</th>
+                                                <th scope="col">Project Type</th>
+                                                <th scope="col">UserName</th>
+                                                <th scope="col">#Edit</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="pj in pjInfoList">
+                                                <td ng-if="pj.pjStatus == 1"><span style="color: #2e6da4">Review</span></td>
+                                                <td ng-if="pj.pjStatus == 2"><span style="color: #1e7e34">Pass</span></td>
+                                                <td ng-if="pj.pjStatus == 3"><span style="color: red">Reject</span></td>
+                                                <td ng-if="pj.pjStatus == 4"><span style="color: #1e7e34">Finished</span></td>
+                                                <td ng-if="pj.pjStatus == 5"><span style="color: red">Break</span></td>
+                                                <td>
+                                                    <a  ng-click="getPjInfoModelData(pj.pjId)"
+                                                        data-toggle = "modal" data-target = "#modalPj"
+                                                        class="btn btn-link btn-simple-primary">
+                                                        {{pj.pjTitle | filterTilte}}
+                                                    </a>
+                                                </td>
+                                                <td><a href="javascript:void(0)" ng-click="download(pj.pjId,pj.pjName)">{{pj.pjName}}</a></td>
+                                                <td>{{pj.pjType}}</td>
+                                                <td>
+                                                    <a  ng-click="getUserDetail(pj.pjUser)"
+                                                       data-toggle = "modal" data-target = "#modalUser"
+                                                       class="btn btn-link btn-simple-primary">
+                                                        {{pj.pjUser |filterName}}
+                                                    </a>
+                                                </td>
+                                                <td ng-if="pj.pjStatus === 1">
+                                                    <button type="button"  title="Edit Task" ng-click = "editPjStatus(pj.pjId,pj.pjStatus)"
+                                                            data-toggle = "modal" data-target = "#modalStatus"
+                                                            class="btn btn-link btn-simple-primary">
+                                                        <i class="la la-edit"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h6 class="modal-title"><i class="la la-frown-o"></i> Under Development</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
+                <p>
+                    <b>We'll let you know when it's done</b></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!--filters  modalStatus   modalUser-->
+    <div class="modal fade" id="modalPj" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h6 class="modal-title"><i class="la la-frown-o"></i> Pj profiles</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                        <table class="table table-striped">
+                            <tr>
+                                <td><h6>CreateDate  :</h6></td>
+                                <td><h6 >{{pjInfoModel.pjCommitDate}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6>Description  :</h6></td>
+                                <td><h6 >{{pjInfoModel.pjDescription}}</h6></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalStatus" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="width: 680px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h6 class="modal-title"><i class="la la-frown-o"></i> User profiles</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                        <table class="table table-striped">
+                            <tr>
+                                <td><h6>pjName  :</h6></td>
+                                <td><h6 >{{onePjInfo.pjName}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6>pjStatus  :</h6></td>
+                                <td><h6 >{{pjStatusModel}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6>changeStatus:</h6></td>
+                                <td>
+                                    <select ng-model="selectedStatusCode">
+                                        <option ng-repeat="x in selectStatusData" value="{{x.code}}">{{x.status}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary"
+                            ng-click="changePjStatus(onePjInfo.pjId,selectedStatusCode,
+                            onePjInfo.pjUser,onePjInfo.pjName)" data-dismiss="modal">Change</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalUser" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h6 class="modal-title"><i class="la la-frown-o"></i> User profiles</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                        <table class="table table-striped">
+                            <tr>
+                                <td><h6>Username  :</h6></td>
+                                <td><h6 >{{userInfo.userName}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6>UserNickname  :</h6></td>
+                                <td><h6 >{{userInfo.userNickname}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6 >Gender  :</h6></td>
+                                <td><h6 >{{userInfo.userGender}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6 >Phone  :</h6></td>
+                                <td><h6 >{{userInfo.userPhone}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6>Address  :</h6></td>
+                                <td><h6 >{{userInfo.userAddress}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6>Introduce  :</h6></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><h6 >{{userInfo.userIntroduce}}</h6></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div></body>
+<script src="assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+<script src="assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="assets/js/ready.min.js"></script>
+<script src="assets/js/jquery.cxselect.js"></script>
+<script>
+
+
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
+    $(function () {
+        $("#slider").slider({
+            range: "min",
+            max: 100,
+            value: 40,
+        });
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 500,
+            values: [75, 300]
+        });
+    });
+</script>
+</html>
