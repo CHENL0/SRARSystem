@@ -1,5 +1,6 @@
 MyApp
     .service('pjTypeService',['$http', '$q',function ($http, $q) {
+        var token = "Bearer "+localStorage.getItem("token");
         return {
             getPjTypeInfoByPjTypeId : function(pjTypeId) {
                 var deferred = $q.defer();
@@ -10,7 +11,8 @@ MyApp
                     data: {
                         pjTypeId : pjTypeId
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -37,7 +39,8 @@ MyApp
                     data: {
                         pjTypeId : pjTypeId
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -65,7 +68,8 @@ MyApp
                     method: 'POST',
                     url: 'http://localhost:8080/pj/getPjTypeNumberForShow',
                     data: fd ,
-                    headers: { 'Content-Type': undefined  },
+                    headers: { 'Content-Type': undefined  ,
+                        'Authorization' : token},
                     transformRequest: angular.identity
                 })
                 promise.then(function successCallback(response) {
@@ -87,7 +91,8 @@ MyApp
                     method: 'POST',
                     url: 'http://localhost:8080/pj/addPjTypeInfoData',
                     data: form ,
-                    headers: {'Content-Type': undefined},
+                    headers: {'Content-Type': undefined,
+                        'Authorization' : token},
                     transformRequest: angular.identity
                 });
                 promise.then(function successCallback(response) {

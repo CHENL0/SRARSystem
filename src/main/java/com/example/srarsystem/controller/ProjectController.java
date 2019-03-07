@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +48,8 @@ public class ProjectController {
     }
 
     @GetMapping("/getPjInfoList")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @Secured({"ADMIN","USER","PROFESSOR"})
     public @ResponseBody
     Object getAllPjTypeInfos(HttpServletResponse response) {
         AccessUtils.getAccessAllow(response);
@@ -75,6 +78,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "/commitPjInfoData")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public @ResponseBody
     Object commitPjInfoData(MultipartFile file,String projectInfoData
             ,HttpServletResponse response) throws IOException {
@@ -110,6 +114,7 @@ public class ProjectController {
 
 
     @RequestMapping(value = "/queryPjTitle")
+    @Secured({"ADMIN","USER","PROFESSOR"})
     public @ResponseBody
     Object queryPjTitle (HttpServletResponse response,String pjTitle,String pjType){
         AccessUtils.getAccessAllow(response);

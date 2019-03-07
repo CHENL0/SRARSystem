@@ -7,6 +7,14 @@ MyApp
         $scope.pjPageCount =0;
         $scope.taskStatus = 0;
 
+        $scope.getPjInfoModelData = function(PjId) {
+            checkService.getOnePjInfoData(PjId).then(
+                function (response) {
+                    $scope.pjInfoModel = response.projectInfo;
+                }
+            )
+        };
+
         taskService.getTasksListData($scope.username).then(
             function (response) {
                 $scope.taskInfoSliceList = commonService.sliceArr(response.taskInfoList,6)

@@ -138,13 +138,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfo finishUserInfoData(UserInfo userInfo,UserInfo userInfoMapper,String fileName) {
+    public void finishUserInfoData(UserInfo userInfo,UserInfo userInfoMapper,String fileName) {
         userInfo.setUserNickname(userInfoMapper.getUserNickname());
         userInfo.setUserAddress(userInfoMapper.getUserAddress());
         userInfo.setUserIntroduce(userInfoMapper.getUserIntroduce());
         userInfo.setUserGender(userInfoMapper.getUserGender());
-        userInfo.setUserIconName(fileName);
-        return userInfo;
+        if(fileName != null){
+            userInfo.setUserIconName(fileName);
+        }
+        userRepository.save(userInfo);
     }
 
     @Override

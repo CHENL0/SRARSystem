@@ -70,6 +70,9 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 //        if(passwordEncoder.matches(password,password)){
             // Reload password post-security so we can generate token
+        if(username.contains("USER")){
+
+        }
             final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             final String token = jwtTokenUtil.generateToken(userDetails);
             return token;

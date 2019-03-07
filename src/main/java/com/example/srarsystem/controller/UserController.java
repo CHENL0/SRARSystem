@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,6 +62,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getUserInfo")
+    @Secured({"ADMIN","USER","PROFESSOR"})
     public @ResponseBody
     Object getUserInfo (String username, HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -71,6 +73,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getTaskInfo")
+//    @PreAuthorize("hasRole('USER')")
+    @Secured({"USER","PROFESSOR"})
     public  @ResponseBody
     Object getTaskInfo(String taskId, HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -93,6 +97,7 @@ public class UserController {
 
     @RequestMapping(value = "/getPFInfoListPage")
 //    @PreAuthorize("hasRole('USER')")
+    @Secured({"ADMIN","USER","PROFESSOR"})
     public @ResponseBody
     Object getPFInfoListPage (@RequestParam(name = "pfType", defaultValue = "基础研究")String pfType,
                               @RequestParam(name = "page", defaultValue = "0") int page,
@@ -106,6 +111,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getOneTypePFInfoList")
+    @Secured({"ADMIN","USER","PROFESSOR"})
     public  @ResponseBody
     Object getOneTypePFInfoList(@RequestParam(name = "pfType", defaultValue = "基础研究")String pfType,
                                 HttpServletResponse response){
@@ -117,31 +123,40 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userProfileSubmit")
+    @PreAuthorize("hasRole('USER')")
     public  @ResponseBody
     Object userProfileSubmit(MultipartFile file,String userProfileData,HttpServletResponse response) throws IOException {
         AccessUtils.getAccessAllow(response);
-
         Map<Object,Object> finishDataRequestMap = new HashMap<>();
-
-        String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/images";
-        if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
-            //success
-            ObjectMapper objectMapper = new ObjectMapper();
-            UserInfo userInfoMapper = objectMapper.readValue(userProfileData,UserInfo.class);
-            String userName = userInfoMapper.getUserName();
-            UserInfo userInfo = userService.findOneByUserName(userName);
-            UserInfo updataUserInfo = userService.finishUserInfoData(userInfo, userInfoMapper, file.getOriginalFilename());
-            userService.updateUserInfo(updataUserInfo);
+        ObjectMapper objectMapper = new ObjectMapper();
+        UserInfo userInfoMapper = objectMapper.readValue(userProfileData,UserInfo.class);
+        String userName = userInfoMapper.getUserName();
+        UserInfo userInfo = userService.findOneByUserName(userName);
+        if(file == null){
+            userService.finishUserInfoData(userInfo, userInfoMapper, null);
             finishDataRequestMap.put("responseType","SUCCESS");
         }else {
-            //error
-            finishDataRequestMap.put("responseType","ERROR");
+            userService.finishUserInfoData(userInfo, userInfoMapper, file.getOriginalFilename());
+            String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/icon";
+            if(file.getOriginalFilename() != userInfo.getUserIconName()){
+                if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
+                    //success
+                    finishDataRequestMap.put("responseType","SUCCESS");
+                }else {
+                    //error
+                    finishDataRequestMap.put("responseType","ERROR");
+                }
+            }else {
+                finishDataRequestMap.put("responseType","SUCCESS");
+            }
         }
+
         return finishDataRequestMap;
     }
 
 
     @RequestMapping(value = "/getAllPFInfoList")
+    @PreAuthorize("hasRole('USER')")
     public @ResponseBody
     Object getAllPFInfoList (){
         List<ProfessorInfo> professorInfoList = professorService.getAllPfInfoList();
@@ -151,6 +166,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/commitTaskInfoData")
+    @PreAuthorize("hasRole('USER')")
     public @ResponseBody
     Object commitTaskInfoData(MultipartFile file,String taskInfoData
             ,HttpServletResponse response) throws IOException {
@@ -176,6 +192,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getAllUserInfoForAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     Object getAllUserInfoForAdmin(HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -186,6 +203,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/updateDelFlagForAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     Object updateDelFlagForAdmin(HttpServletResponse response,String userId,int delFlag){
         AccessUtils.getAccessAllow(response);

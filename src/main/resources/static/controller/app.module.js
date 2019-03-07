@@ -1,5 +1,6 @@
+
 var LoginApp = angular.module('LoginApp', []);
-var MyApp = angular.module('MyApp', ['ngRoute','ngAnimate','ui.bootstrap']);
+var MyApp = angular.module('MyApp', ['ngRoute','ngAnimate','ui.bootstrap','selectAddress','ngFileUpload']);
 MyApp.config(function ($routeProvider) {
 
     $routeProvider

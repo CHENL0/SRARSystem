@@ -10,6 +10,8 @@ import com.example.srarsystem.service.ProfessorService;
 import com.example.srarsystem.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,7 @@ public class ApplyController {
     private ProfessorService professorService;
 
     @RequestMapping(value = "/submitApplyInfoData")
+    @PreAuthorize("hasRole('USER')")
     public @ResponseBody
     Object submitApplyInfoData(MultipartFile file, String applyInfoData
             ,HttpServletResponse response) throws IOException {
@@ -69,6 +72,8 @@ public class ApplyController {
      * @Return
      */
     @PostMapping("/downloadApplyFile")
+//    @PreAuthorize("hasRole('USER')")
+    @Secured({"USER","ADMIN"})
     public @ResponseBody
     String downloadApplyFile(HttpServletResponse response,String applyId) {
         AccessUtils.getAccessAllow(response);
@@ -126,6 +131,8 @@ public class ApplyController {
     }
 
     @RequestMapping(value = "/getApplyFile")
+//    @PreAuthorize("hasRole('USER')")
+    @Secured({"USER","ADMiN"})
     public @ResponseBody
     Object getApplyFile(HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -137,6 +144,7 @@ public class ApplyController {
 
 
     @RequestMapping(value = "/getAllApplyInfo")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     Object getAllApplyInfo (HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -147,6 +155,7 @@ public class ApplyController {
     }
 
     @RequestMapping(value = "/changeApplyType")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     Object changeApplyType (String applyId,String applyType,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -159,6 +168,7 @@ public class ApplyController {
     }
 
     @RequestMapping(value = "/createPfInfo")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     Object createPfInfo (String applyUser,String selectedType,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -170,6 +180,7 @@ public class ApplyController {
     }
 
     @RequestMapping(value = "/submitApplyFile")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     Object submitApplyFile (MultipartFile file,String applyType,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -186,5 +197,20 @@ public class ApplyController {
             finishDataRequestMap.put("responseType","ERROR");
         }
         return finishDataRequestMap;
+    }
+
+    @RequestMapping(value = "/ifApplyForUser")
+    @PreAuthorize("hasRole('USER')")
+    public @ResponseBody
+    Object ifApplyForUser (String userName,HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        Map<String,String> responseMap = new HashMap<>();
+        ApplyInfo applyInfo = applyService.getApplyInfoByUserNameAndApplyTpye(userName);
+        if(applyInfo !=null){
+            responseMap.put("responseType","ERROR");
+        }else {
+            responseMap.put("responseType","SUCCESS");
+        }
+        return responseMap;
     }
 }

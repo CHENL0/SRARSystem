@@ -22,6 +22,12 @@ public class ApplyServiceImpl implements ApplyService {
     }
 
     @Override
+    public ApplyInfo getApplyInfoByUserNameAndApplyTpye(String userName) {
+        ApplyInfo applyInfo = applyRepository.findApplyInfoByApplyUser(userName);
+        return applyInfo;
+    }
+
+    @Override
     public ApplyInfo setApplyInfoData(ApplyInfo applyInfoData, String fileName, String filePath) {
         applyInfoData.setApplyId(UUIDUtils.getUUID());
         applyInfoData.setApplyType("1");

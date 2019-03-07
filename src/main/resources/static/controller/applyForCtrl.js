@@ -6,6 +6,7 @@ MyApp
 
         $scope.applyInfoData = applyService.getApplyInfoData();
         $scope.applyInfoData.applyUser = $scope.name;
+        $scope.isOverCount = false;
 
         $scope.getApplyFileData = function(){
             applyService.getApplyFile().then(
@@ -15,6 +16,18 @@ MyApp
             )
         };
         $scope.getApplyFileData();
+
+        $scope.validateUserForApply = function(){
+            applyService.getUserInfoForApply($scope.name).then(
+                function (value) {
+                    if(value.responseType === 'SUCCESS'){
+                        $scope.isOverCount = false;
+                    }else if(value.responseType === 'ERROR'){
+                        $scope.isOverCount = true;
+                    }
+                }
+            )
+        };$scope.validateUserForApply();
 
         $scope.validateFiles = function () {
             var file = document.getElementById("fileUpload").files[0];
@@ -53,6 +66,7 @@ MyApp
                     function (response) {
                         if(response.responseType === "SUCCESS"){
                             alert("Congratulations, and your information submitted to success");
+                            window.location.href = "index.html#/";
                         }else {
                             alert("sorry,your information submitted to error")
                         }

@@ -1,5 +1,6 @@
 MyApp
     .service('submitService',['$http', '$q',function ($http, $q) {
+        var token = "Bearer "+localStorage.getItem("token");
         return {
             getUserInfoData : function(requestData) {
                 var deferred = $q.defer();
@@ -10,7 +11,9 @@ MyApp
                     data: {
                         username : requestData
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token
+                    },
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -34,7 +37,8 @@ MyApp
                 var promise = $http({
                     method: 'GET',
                     url: 'http://localhost:8080/user/getAllPFInfoList',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token },
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -58,7 +62,8 @@ MyApp
                 var promise = $http({
                     method: 'Get',
                     url: 'http://localhost:8080/pj/getPjInfoList',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token },
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -88,7 +93,8 @@ MyApp
                     method: 'POST',
                     url: 'http://localhost:8080/pj/commitPjInfoData',
                     data: form ,
-                    headers: {'Content-Type': undefined},
+                    headers: {'Content-Type': undefined,
+                            'Authorization' : token},
                     transformRequest: angular.identity
                 });
                 promise.then(function successCallback(response) {
@@ -112,7 +118,8 @@ MyApp
                     method: 'POST',
                     url: 'http://localhost:8080/user/commitTaskInfoData',
                     data: form ,
-                    headers: {'Content-Type': undefined},
+                    headers: {'Content-Type': undefined,
+                        'Authorization' : token},
                     transformRequest: angular.identity
                 });
                 promise.then(function successCallback(response) {
@@ -134,7 +141,8 @@ MyApp
                         userName : userName,
                         pfName : pfName
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token  },
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -176,7 +184,8 @@ MyApp
                     data:{
                         username : username
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {

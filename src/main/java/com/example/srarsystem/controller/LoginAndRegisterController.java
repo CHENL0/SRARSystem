@@ -194,7 +194,7 @@ public class LoginAndRegisterController {
         /*to get The time stamp*/
         String timestamp = DateUtils.getTimestamp();
         String userName = "USER_" + timestamp;
-        RoleInfo userRole = roleService.getRoleByRoleName("USER");
+        RoleInfo userRole = roleService.getRoleByRoleName("ROLE_USER");
         UserInfo userInfo = new UserInfo(UUIDUtils.getUUID(), userName, registerPassword, registerPhone,
                 urSecurityQuestion, urSecurityAnswer,Collections.singleton(userRole) );
         authService.register(userInfo);
@@ -202,6 +202,8 @@ public class LoginAndRegisterController {
         map.put("userName", userName);
         return map;
     }
+
+
 
     /**
      * @Description //TODO

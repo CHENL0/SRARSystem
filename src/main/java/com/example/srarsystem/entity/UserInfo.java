@@ -43,12 +43,14 @@ public class UserInfo {
     public UserInfo(String userId, String userName, String userPassword, String userPhone,
                     String urSecurityQuestion, String urSecurityAnswer,Set<RoleInfo> roles) {
         this.userId = userId;
-
         this.userName = userName;
         this.userPassword = userPassword;
         this.userPhone = userPhone;
         this.urSecurityQuestion = urSecurityQuestion;
         this.urSecurityAnswer = urSecurityAnswer;
         this.roles = roles;
+        this.userIconName = "noting.png";
+        this.userNickname = "懒人";
+        this.userIntroduce = "这个人不懂得怎么介绍自己";
     }
 }

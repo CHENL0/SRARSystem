@@ -10,6 +10,6 @@ import org.springframework.stereotype.Service;
  */
 public interface AdminService {
     boolean adminLogin(String adminName, String adminPassword);
-
+    void  saveAdmin(String adminName, String adminPassword);
     AdminInfo findOneByAdminName(String adminName);
 }

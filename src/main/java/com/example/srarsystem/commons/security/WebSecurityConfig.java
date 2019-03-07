@@ -86,6 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
+                        "/**/*.json",
                         "/**/*.png",
                         "/**/*.jpg",
                         "/**/*.woff",
@@ -94,15 +95,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 ).permitAll()
                 // 对于获取token的rest api要允许匿名访问
                 .antMatchers(
-                        "/loginIndex", "/login", "/getCode", "/verifyCode", "/verifyPhone", "/register", "/findUrSecurity", "/updatePassword", "/validateAnswer",
-                        //pj
-                        "/pj/getPjInfoList",
-                        "/pj/queryPjTitle",
-                        "/pf/getPfInfoData",
-                        //user
-                        "/user/getPFInfoListPage",
-                        "/user/getUserInfo",
-                        "/user/getOneTypePFInfoList"
+                        "/loginIndex", "/login", "/getCode", "/verifyCode",
+                        "/verifyPhone", "/register", "/findUrSecurity", "/updatePassword",
+                        "/validateAnswer","/registerForAdmin"
+//                        //pj
+//                        "/pj/getPjInfoList",
+//                        "/pj/queryPjTitle",
+//                        "/pf/getPfInfoData",
+//                        //user
+//                        "/user/getPFInfoListPage",
+//                        "/user/getUserInfo",
+//                        "/user/getOneTypePFInfoList"
 
                 ).permitAll()
 //                .antMatchers(

@@ -6,6 +6,7 @@ import com.example.srarsystem.entity.TaskInfo;
 import com.example.srarsystem.service.ProjectService;
 import com.example.srarsystem.service.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +35,7 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/deleteTaskInfoDataForUser")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public @ResponseBody
     Object deleteTaskInfoDataForUser(String taskId,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -44,6 +46,7 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/deleteTaskInfoDataForAudit")
+    @PreAuthorize("hasRole('PROFESSOR')")
     public @ResponseBody
     Object deleteTaskInfoDataForAudit(String taskId,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -54,6 +57,7 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/getTaskInfoListData")
+    @PreAuthorize("hasRole('PROFESSOR')")
     public @ResponseBody
     Object getTaskInfoListData (String pfName,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -71,6 +75,7 @@ public class TaskController {
      * @Return
      */
     @RequestMapping("/downloadTask")
+    @PreAuthorize("hasRole('PROFESSOR')")
     public @ResponseBody
     String downloadFile(HttpServletResponse response, String taskId) {
         AccessUtils.getAccessAllow(response);
@@ -123,6 +128,7 @@ public class TaskController {
     }
 
     @RequestMapping("/submitTaskInfoData")
+    @PreAuthorize("hasRole('PROFESSOR')")
     public @ResponseBody
     Object submitTaskInfoData (HttpServletResponse response,String taskInfo) throws IOException {
         AccessUtils.getAccessAllow(response);

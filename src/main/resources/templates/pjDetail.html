@@ -151,7 +151,7 @@
                                                     <a  ng-click="getPjInfoModelData(pj.pjId)"
                                                         data-toggle = "modal" data-target = "#modalPj"
                                                         class="btn btn-link btn-simple-primary">
-                                                        {{pj.pjTitle}}
+                                                        {{pj.pjTitle | filterTilte}}
                                                     </a>
                                                 </td>
                                                 <td width="100">{{pj.pjType}}</td>

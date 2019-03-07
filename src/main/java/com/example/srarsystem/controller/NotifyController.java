@@ -3,6 +3,8 @@ package com.example.srarsystem.controller;
 import com.example.srarsystem.commons.AccessUtils;
 import com.example.srarsystem.entity.NotifyInfo;
 import com.example.srarsystem.service.NotifyService;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +30,8 @@ public class NotifyController {
     }
 
     @RequestMapping(value = "/setNotifyDataForUser")
+//    @PreAuthorize("hasRole('USER') AND hasRole('ADMON') AND hasRole('PROFESSOR')")
+    @Secured({ "USER", "ADMiN","PROFESSOR"})
     public @ResponseBody
     Object setNotifyDataForUser (String notifyBy,String notifyFor,String notifyType,
                           int notifyStatus,String notifyMain,HttpServletResponse response){
@@ -95,6 +99,8 @@ public class NotifyController {
     }
 
     @RequestMapping(value = "/getNotifyDataForUser")
+//    @PreAuthorize("hasRole('USER')")
+    @Secured({ "USER", "ADMiN","PROFESSOR"})
     public @ResponseBody
     Object getNotifyDataForUser (String userName,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -105,6 +111,8 @@ public class NotifyController {
     }
 
     @RequestMapping(value = "/getNotifyDataForAudit")
+//    @PreAuthorize("hasRole('USER') AND hasRole('ADMON') AND hasRole('PROFESSOR')")
+    @Secured({ "USER", "ADMiN","PROFESSOR"})
     public @ResponseBody
     Object getNotifyDataForAudit (String userName,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -113,18 +121,12 @@ public class NotifyController {
         notifyInfoListMap.put("notifyInfoList",notifyInfoList);
         return notifyInfoListMap;
     }
-//    @RequestMapping(value = "/getNotifyListByStatus")
-//    public @ResponseBody
-//    Object getNotifyListByStatus (String userName,String notifyStatus, HttpServletResponse response){
-//        AccessUtils.getAccessAllow(response);
-//        List<NotifyInfo> oneStatusNotifyInfoList = notifyService.getNotifyListByUserNameAndNotifyId(userName,notifyStatus);
-//        Map<String,List<NotifyInfo>> oneStatusNotifyInfoListMap= new HashMap<>();
-//        oneStatusNotifyInfoListMap.put("oneStatusNotifyInfoList",oneStatusNotifyInfoList);
-//        return oneStatusNotifyInfoListMap;
-//    }
+
 
 
     @RequestMapping(value = "/changeNotifyInfo")
+//    @PreAuthorize("hasRole('USER') AND hasRole('ADMON') AND hasRole('PROFESSOR')")
+    @Secured({ "USER", "ADMiN","PROFESSOR"})
     public @ResponseBody
     void changeNotifyInfo (String notifyId,int notifyStatus,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -134,6 +136,8 @@ public class NotifyController {
     }
 
     @RequestMapping(value = "/getOneNotifyData")
+//    @PreAuthorize("hasRole('USER') AND hasRole('ADMiN') AND hasRole('PROFESSOR')")
+    @Secured({ "USER", "ADMiN","PROFESSOR"})
     public @ResponseBody
     Object getOneNotifyData (String notifyId,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -143,13 +147,4 @@ public class NotifyController {
         return notifyInfoMap;
     }
 
-//    @RequestMapping(value = "/deleteNotifyForUser")
-//    public @ResponseBody
-//    Object deleteNotifyForUser (String notifyId, HttpServletResponse response){
-//        AccessUtils.getAccessAllow(response);
-//        notifyService.deleteNotifyDataByTaskIdForUser(notifyId);
-//        Map<String,String> responseMap = new HashMap<>();
-//        responseMap.put("responseType","SUCCESS");
-//        return responseMap;
-//    }
 }

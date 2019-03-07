@@ -1,5 +1,6 @@
 MyApp
     .service('notifyService',['$http', '$q',function ($http, $q) {
+        var token = "Bearer "+localStorage.getItem("token");
         return {
             setNotify : function (notifyBy,notifyFor,type,status,notifyMain) {
                 var deferred = $q.defer();
@@ -14,7 +15,8 @@ MyApp
                         notifyStatus : status,
                         notifyMain : notifyMain
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -45,7 +47,8 @@ MyApp
                         notifyStatus : status,
                         notifyMain : pjName
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -72,7 +75,8 @@ MyApp
                     data:{
                         userName : name
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -100,7 +104,8 @@ MyApp
                         notifyId : notifyId,
                         notifyStatus : notifyStatus,
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -127,7 +132,8 @@ MyApp
                     data:{
                         notifyId : notifyId
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -154,7 +160,8 @@ MyApp
                     data:{
                         notifyId : notifyId
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
