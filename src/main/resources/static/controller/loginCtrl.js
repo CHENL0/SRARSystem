@@ -362,15 +362,16 @@ LoginApp
                         return str.join("&");
                     }
                 }).then(function successCallback(response) {
-                    console.log(response.data);
-                    if(response.data.responseType ==="success"){
-                        localStorage.setItem("data",$scope.username);
-                        window.location.href = "index.html";
-                        $scope.cleanAllMsg();
-                    }else if(response.data.responseType ==="false"){
+                    console.log(response.data.token);
+                    if(response.data.responseType ==="false"){
                         alert("Your username or password is wrong");
                     }else if(response.data.responseType ==="freeze"){
                         alert("Your account is frozen");
+                    }else{
+                        localStorage.setItem("token",response.data.token);
+                        localStorage.setItem("data",$scope.username);
+                        window.location.href = "index.html";
+                        $scope.cleanAllMsg();
                     }
                 }, function errorCallback(response) {
                     // 请求失败执行代码

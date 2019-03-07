@@ -4,12 +4,11 @@ MyApp
         $scope.pageClass = 'check';
         $scope.name = localStorage.getItem("data");
 
-        checkService.getOnePfPjInfoListData($scope.name).then(
-            function (response) {
-                $scope.pjInfoList = response.onePfPjInfoList.sort(checkService.compare("pjStatus"));
-            }
-        );
-        var name =  $scope.name;
+        // checkService.getOnePfPjInfoListData($scope.name).then(
+        //     function (response) {
+        //         $scope.pjInfoList = response.onePfPjInfoList.sort(checkService.compare("pjStatus"));
+        //     }
+        // );
         $scope.getOnePfPjInfoListData = function (name){
             checkService.getOnePfPjInfoListData(name).then(
                 function (response) {
@@ -18,6 +17,7 @@ MyApp
                 }
             );
         };
+        $scope.getOnePfPjInfoListData($scope.name);
 
        $scope.download = function (pjId, pjName) {
            checkService.downloadPj(pjId).then(
@@ -67,6 +67,13 @@ MyApp
             )
         };
 
+        $scope.getPjInfoModelData = function(PjId) {
+            checkService.getOnePjInfoData(PjId).then(
+                function (response) {
+                    $scope.pjInfoModel = response.projectInfo;
+                }
+            )
+        };
 
         $scope.changePjStatus = function (pjId,pjStatus,pjUser,pjName) {
             checkService.changeProjectStatus(pjId,pjStatus).then(

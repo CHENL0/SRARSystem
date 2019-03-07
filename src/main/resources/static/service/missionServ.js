@@ -1,5 +1,6 @@
 MyApp
     .service('missionService',['$http', '$q',function ($http, $q) {
+        var token = "Bearer "+localStorage.getItem("token");
         return {
             getTaskInfoListData :function (pfName) {
                 var deferred = $q.defer();
@@ -10,7 +11,8 @@ MyApp
                     data: {
                         pfName:pfName
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token },
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -39,7 +41,8 @@ MyApp
                     },
                     // responseType: "arraybuffer",
                     responseType: "blob",
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -66,7 +69,8 @@ MyApp
                     data:{
                         username : username
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token },
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -90,7 +94,8 @@ MyApp
                 var promise = $http({
                     method: 'Get',
                     url: 'http://localhost:8080/pj/getPjInfoList',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token },
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -131,7 +136,8 @@ MyApp
                     data:{
                         username : username
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token },
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -158,7 +164,8 @@ MyApp
                     data:{
                         pjId : pjId
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -186,7 +193,8 @@ MyApp
                     method: 'POST',
                     url: 'http://localhost:8080/task/submitTaskInfoData',
                     data: form,
-                    headers: {'Content-Type': undefined},
+                    headers: {'Content-Type': undefined,
+                        'Authorization' : token},
                     transformRequest: angular.identity
                 });
                 promise.then(function successCallback(response) {
@@ -207,7 +215,8 @@ MyApp
                     data: {
                         pfName : pfName
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token },
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -245,7 +254,8 @@ MyApp
                         taskId : taskId,
                         taskStatus : taskStatus
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -273,7 +283,8 @@ MyApp
                         pjReviewer : pjReviewer,
                         pjUser : pjUser
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -300,7 +311,8 @@ MyApp
                 data:{
                     taskId : taskId
                 },
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization' : token},
                 transformRequest: function(obj) {
                     var str = [];
                     for (var s in obj) {

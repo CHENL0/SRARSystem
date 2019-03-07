@@ -55,7 +55,7 @@ public interface UserService {
 
     boolean validateQuestion(String userName, String urSecurityAnswer);
 
-    UserInfo finishUserInfoData(UserInfo userInfo,UserInfo userInfoMapper,String fileName);
+    void finishUserInfoData(UserInfo userInfo,UserInfo userInfoMapper,String fileName);
 
     void  updateUserInfo (UserInfo userInfo);
 

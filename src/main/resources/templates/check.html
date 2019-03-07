@@ -57,6 +57,7 @@
                                             <thead>
                                             <tr>
                                                 <th scope="col">#Status</th>
+                                                <th scope="col">Project Title</th>
                                                 <th scope="col">Project Name</th>
                                                 <th scope="col">Project Type</th>
                                                 <th scope="col">UserName</th>
@@ -70,6 +71,13 @@
                                                 <td ng-if="pj.pjStatus == 3"><span style="color: red">Reject</span></td>
                                                 <td ng-if="pj.pjStatus == 4"><span style="color: #1e7e34">Finished</span></td>
                                                 <td ng-if="pj.pjStatus == 5"><span style="color: red">Break</span></td>
+                                                <td>
+                                                    <a  ng-click="getPjInfoModelData(pj.pjId)"
+                                                        data-toggle = "modal" data-target = "#modalPj"
+                                                        class="btn btn-link btn-simple-primary">
+                                                        {{pj.pjTitle | filterTilte}}
+                                                    </a>
+                                                </td>
                                                 <td><a href="javascript:void(0)" ng-click="download(pj.pjId,pj.pjName)">{{pj.pjName}}</a></td>
                                                 <td>{{pj.pjType}}</td>
                                                 <td>
@@ -127,6 +135,37 @@
 </div>
 
     <!--filters  modalStatus   modalUser-->
+    <div class="modal fade" id="modalPj" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h6 class="modal-title"><i class="la la-frown-o"></i> Pj profiles</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                        <table class="table table-striped">
+                            <tr>
+                                <td><h6>CreateDate  :</h6></td>
+                                <td><h6 >{{pjInfoModel.pjCommitDate}}</h6></td>
+                            </tr>
+                            <tr>
+                                <td><h6>Description  :</h6></td>
+                                <td><h6 >{{pjInfoModel.pjDescription}}</h6></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="modalStatus" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="width: 680px;" role="document">

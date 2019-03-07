@@ -1,14 +1,15 @@
 MyApp
     .service('peopleService',['$http', '$q',function ($http, $q) {
+        var token = "Bearer "+localStorage.getItem("token");
         return {
-
             getAllPfInfo : function() {
             var deferred = $q.defer();
             // 向后台发送处理数据
             var promise = $http({
                 method: 'GET',
                 url: 'http://localhost:8080/pf/getAllPfInfoForAdmin',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization' : token },
                 transformRequest: function(obj) {
                     var str = [];
                     for (var s in obj) {
@@ -32,7 +33,8 @@ MyApp
                 var promise = $http({
                     method: 'GET',
                     url: 'http://localhost:8080/user/getAllUserInfoForAdmin',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -60,7 +62,8 @@ MyApp
                         userId :userId,
                         delFlag: delFlag
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {
@@ -87,7 +90,8 @@ MyApp
                         pfId :pfId,
                         delFlag: delFlag
                     },
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
+                        'Authorization' : token},
                     transformRequest: function(obj) {
                         var str = [];
                         for (var s in obj) {

@@ -146,6 +146,7 @@ MyApp
         $scope.deleteTaskInfo = function (taskId) {
             taskService.removeTaskInfoDataForAudit(taskId).then(
                 function (value) {
+                    alert("delete success");
                     $scope.getTaskInfoData();
                 }
             )

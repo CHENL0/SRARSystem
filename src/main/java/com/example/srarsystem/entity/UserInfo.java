@@ -2,10 +2,9 @@ package com.example.srarsystem.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,23 +28,29 @@ public class UserInfo {
     private String userIconName;
     private String urSecurityQuestion;
     private String urSecurityAnswer;
-    private int pjStatus;
-    private String pjId;
     private int delFlag;
 
-    @Transient
-    private List<String> roles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<RoleInfo> roles = new HashSet<>();
+
     private Date lastPasswordResetDate;
     public UserInfo() {
     }
 
     public UserInfo(String userId, String userName, String userPassword, String userPhone,
-                    String urSecurityQuestion, String urSecurityAnswer) {
+                    String urSecurityQuestion, String urSecurityAnswer,Set<RoleInfo> roles) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userPhone = userPhone;
         this.urSecurityQuestion = urSecurityQuestion;
         this.urSecurityAnswer = urSecurityAnswer;
+        this.roles = roles;
+        this.userIconName = "noting.png";
+        this.userNickname = "懒人";
+        this.userIntroduce = "这个人不懂得怎么介绍自己";
     }
 }

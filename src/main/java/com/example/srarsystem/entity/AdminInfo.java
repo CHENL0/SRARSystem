@@ -3,8 +3,10 @@ package com.example.srarsystem.entity;
 import lombok.Data;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Chen
@@ -18,5 +20,10 @@ public class AdminInfo {
     private String adminId;
     private String adminName;
     private String adminPassword;
-
+    private Date lastPasswordResetDate;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<RoleInfo> roles = new HashSet<>();
 }

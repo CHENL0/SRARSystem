@@ -2,6 +2,7 @@ package com.example.srarsystem.controller;
 
 import com.example.srarsystem.commons.AccessUtils;
 import com.example.srarsystem.commons.DateUtils;
+import com.example.srarsystem.commons.FileUtils;
 import com.example.srarsystem.entity.ProfessorInfo;
 import com.example.srarsystem.entity.ProjectInfo;
 import com.example.srarsystem.entity.TaskInfo;
@@ -9,15 +10,19 @@ import com.example.srarsystem.service.ProfessorService;
 import com.example.srarsystem.service.ProjectService;
 import com.example.srarsystem.service.TaskService;
 import com.example.srarsystem.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -177,6 +182,7 @@ public class ProfessorController {
 
 
     @RequestMapping(value = "/getPfInfoData")
+    @Secured({"ADMIN","USER","PROFESSOR"})
     public @ResponseBody
     Object getPfInfoData(String pfName) {
         ProfessorInfo professorInfo = professorService.findOneByPfName(pfName);
@@ -184,6 +190,38 @@ public class ProfessorController {
         professorInfoMap.put("professorInfo", professorInfo);
         return professorInfoMap;
     }
+
+    @RequestMapping(value = "/pfProfileSubmit")
+    @PreAuthorize("hasRole('PROFESSOR')")
+    public  @ResponseBody
+    Object pfProfileSubmit(MultipartFile file, String pfProfileData, HttpServletResponse response) throws IOException {
+        AccessUtils.getAccessAllow(response);
+        Map<Object,Object> finishDataRequestMap = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProfessorInfo pfInfoMapper = objectMapper.readValue(pfProfileData,ProfessorInfo.class);
+        String pfName = pfInfoMapper.getPfName();
+        ProfessorInfo pfInfo = professorService.findOneByPfName(pfName);
+        if(file == null){
+            professorService.finishProfessorInfoData(pfInfo, pfInfoMapper, null);
+            finishDataRequestMap.put("responseType","SUCCESS");
+        }else {
+            professorService.finishProfessorInfoData(pfInfo, pfInfoMapper, file.getOriginalFilename());
+            String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/icon";
+            if(pfInfo.getPfPicture() != file.getOriginalFilename()){
+                if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
+                    //success
+                    finishDataRequestMap.put("responseType","SUCCESS");
+                }else {
+                    //error
+                    finishDataRequestMap.put("responseType","ERROR");
+                }
+            }else {
+                finishDataRequestMap.put("responseType","SUCCESS");
+            }
+        }
+        return finishDataRequestMap;
+    }
+
 
     /**
      * @Description  //TODO get pj by professorName for check pj
@@ -193,6 +231,7 @@ public class ProfessorController {
      * @Return
      */
     @RequestMapping(value = "/getPjInfoListByPfName")
+    @PreAuthorize("hasRole('PROFESSOR')")
     public @ResponseBody
     Object getPjInfoListByPfName (String pfName,HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -203,6 +242,7 @@ public class ProfessorController {
     }
 
     @RequestMapping(value = "/getAllPfInfoForAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     Object getAllPfInfoForAdmin(HttpServletResponse response){
         AccessUtils.getAccessAllow(response);
@@ -213,6 +253,7 @@ public class ProfessorController {
     }
 
     @RequestMapping(value = "/updateDelFlagForAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     Object updateDelFlagForAdmin(HttpServletResponse response,String pfId,int delFlag){
         AccessUtils.getAccessAllow(response);
@@ -223,6 +264,7 @@ public class ProfessorController {
     }
 
     @RequestMapping(value = "/validatePfInfo")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public @ResponseBody
     Object validatePfInfo(HttpServletResponse response,String pfName,String userName){
         AccessUtils.getAccessAllow(response);

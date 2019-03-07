@@ -10,6 +10,7 @@ import java.util.List;
  * @description
  */
 public interface ApplyService {
+    ApplyInfo getApplyInfoByUserNameAndApplyTpye(String userName);
     ApplyInfo setApplyInfoData(ApplyInfo applyInfoData,String fileName,String filePath);
     void submitApplyFile(String applyType,String fileName,String filePath);
     void saveApplyInfo(ApplyInfo applyInfo);

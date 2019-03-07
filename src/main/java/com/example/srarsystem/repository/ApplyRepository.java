@@ -16,4 +16,6 @@ public interface ApplyRepository extends JpaRepository<ApplyInfo,String> {
     ApplyInfo findByApplyId(String applyId);
     @Query("SELECT a FROM ApplyInfo a where  a.applyType in ('1','2','3') ")
     List<ApplyInfo> findApplyInfos();
+    @Query("SELECT a FROM ApplyInfo a where a.applyUser=?1 and a.applyType in ('1','2') ")
+    ApplyInfo findApplyInfoByApplyUser(String applyUser);
 }

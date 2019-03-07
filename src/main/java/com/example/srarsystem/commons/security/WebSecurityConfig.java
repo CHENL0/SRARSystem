@@ -1,11 +1,12 @@
-package dev.local.secruity;
+package com.example.srarsystem.commons.security;
 
-import com.example.srarsystem.commons.security.JwtAuthenticationEntryPoint;
-import com.example.srarsystem.commons.security.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,7 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    @Qualifier("jwtUserDetailsServiceImpl")
+    private  UserDetailsService userDetailsService;
+
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -44,6 +47,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Bean
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         return new JwtAuthenticationTokenFilter();
+//        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
+//        jwtAuthenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
+//        return jwtAuthenticationTokenFilter;
+    }
+
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -68,10 +85,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                         "/favicon.ico",
                         "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js"
+                        "/**/*.js",
+                        "/**/*.json",
+                        "/**/*.png",
+                        "/**/*.jpg",
+                        "/**/*.woff",
+                        "/**/*.woff2",
+                        "/assets/**"
                 ).permitAll()
                 // 对于获取token的rest api要允许匿名访问
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers(
+                        "/loginIndex", "/login", "/getCode", "/verifyCode",
+                        "/verifyPhone", "/register", "/findUrSecurity", "/updatePassword",
+                        "/validateAnswer","/registerForAdmin"
+//                        //pj
+//                        "/pj/getPjInfoList",
+//                        "/pj/queryPjTitle",
+//                        "/pf/getPfInfoData",
+//                        //user
+//                        "/user/getPFInfoListPage",
+//                        "/user/getUserInfo",
+//                        "/user/getOneTypePFInfoList"
+
+                ).permitAll()
+//                .antMatchers(
+//                        "/user/getTasks",
+//                        "/user/getOneStatusTaskList"
+//,                        "/pj/getPjInfoListByUsername"
+//                ).hasRole("USER")
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
 

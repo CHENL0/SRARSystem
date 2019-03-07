@@ -15,6 +15,7 @@ MyApp
                 pjTypeService.submitPjTypeData($scope.projectTypeData).then(
                     function (value) {
                         alert("submit success");
+                        $scope.projectTypeData = pjTypeService.setPjTypeInfoData();
                     }
                 )
             }else {

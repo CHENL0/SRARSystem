@@ -172,7 +172,7 @@ MyApp
                             function (response) {
                                 if(response.responseType === "SUCCESS"){
                                     alert("Congratulations, and your information submitted to success");
-                                    window.location.href = "index.html#/task";
+                                    window.location.href = "index.html#/tasks";
                                 }else {
                                     alert("sorry,your information submitted to error")
                                 }

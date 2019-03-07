@@ -5,13 +5,16 @@ import com.example.srarsystem.commons.AccessUtils;
 import com.example.srarsystem.commons.DateUtils;
 import com.example.srarsystem.commons.SendSmsUtils;
 import com.example.srarsystem.commons.UUIDUtils;
+import com.example.srarsystem.commons.security.JwtAuthenticationResponse;
 import com.example.srarsystem.entity.AdminInfo;
 import com.example.srarsystem.entity.ProfessorInfo;
+import com.example.srarsystem.entity.RoleInfo;
 import com.example.srarsystem.entity.UserInfo;
-import com.example.srarsystem.service.AdminService;
-import com.example.srarsystem.service.ProfessorService;
-import com.example.srarsystem.service.UserService;
+import com.example.srarsystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,18 +32,21 @@ import java.util.Map;
  * @createTime 20181020 11:26
  * @description the controller of login and register
  */
-@RestController
-@RequestMapping(value = "/index")
+@Controller
 public class LoginAndRegisterController {
     private final UserService userService;
     private final AdminService adminService;
     private final ProfessorService professorService;
+    private final RoleService roleService;
+    @Autowired
+    private AuthService authService;
     @Autowired
     public LoginAndRegisterController(UserService userService, AdminService adminService,
-                                      ProfessorService professorService) {
+                                      ProfessorService professorService, RoleService roleService) {
         this.userService = userService;
         this.adminService = adminService;
         this.professorService = professorService;
+        this.roleService = roleService;
     }
 
 
@@ -56,7 +63,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @PostMapping(value = "/login")
+    @RequestMapping(value = "/login")
     public @ResponseBody
     Object login(@RequestParam(value = "loginName") String loginName,
                  @RequestParam(value = "loginPassword") String loginPassword,
@@ -68,8 +75,13 @@ public class LoginAndRegisterController {
             if (adminService.adminLogin(trimLoginName, loginPassword)) {
                 AdminInfo adminInfo = adminService.findOneByAdminName(trimLoginName);
                 request.getSession().setAttribute("adminInfo", adminInfo);
-                responseType.put("responseType","success");
-                return responseType;
+                final String token = authService.login(loginName, loginPassword);
+                // Return the token
+//                if(!token.equals("false")){
+                    return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+//                }else {
+//                    responseType.put("responseType","false");
+//                }
             }
             responseType.put("responseType","false");
             return responseType;
@@ -78,8 +90,12 @@ public class LoginAndRegisterController {
                 ProfessorInfo professorInfo = professorService.findOneByPfName(trimLoginName);
                 if(professorInfo.getDelFlag()==0){
                     request.getSession().setAttribute("professorInfo", professorInfo);
-                    responseType.put("responseType","success");
-                    return responseType;
+                    final String token = authService.login(loginName, loginPassword);
+//                    if(!token.equals("false")){
+                        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+//                    }else {
+//                        responseType.put("responseType","false");
+//                    }
                 }else {
                     responseType.put("responseType","freeze");
                     return responseType;
@@ -92,8 +108,12 @@ public class LoginAndRegisterController {
                 UserInfo userInfo = userService.findOneByUserName(trimLoginName);
                 if(userInfo.getDelFlag()==0){
                     request.getSession().setAttribute("userInfo", userInfo);
-                    responseType.put("responseType","success");
-                    return responseType;
+                    final String token = authService.login(loginName, loginPassword);
+                    if(!token.equals("false")){
+                        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+                    }else {
+                        responseType.put("responseType","false");
+                    }
                 }else {
                     responseType.put("responseType","freeze");
                     return responseType;
@@ -113,7 +133,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @PostMapping(value = "/getCode")
+    @RequestMapping(value = "/getCode")
     public @ResponseBody
     Object getCode(String registerPhone,HttpServletResponse response, HttpServletRequest request) {
         AccessUtils.getAccessAllow(response);
@@ -130,7 +150,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @PostMapping("/verifyCode")
+    @RequestMapping("/verifyCode")
     public @ResponseBody
     Object verifyCode(String code, HttpServletRequest request,
                       HttpServletResponse response) {
@@ -149,7 +169,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @PostMapping("/verifyPhone")
+    @RequestMapping("/verifyPhone")
     public @ResponseBody
     Object verifyPhone(String registerPhone, HttpServletResponse response) {
         AccessUtils.getAccessAllow(response);
@@ -166,7 +186,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @PostMapping(value = "/register")
+    @RequestMapping(value = "/register")
     public @ResponseBody
     Object register(String registerPhone, String registerPassword,
                     String urSecurityQuestion, String urSecurityAnswer, HttpServletResponse response) {
@@ -174,13 +194,16 @@ public class LoginAndRegisterController {
         /*to get The time stamp*/
         String timestamp = DateUtils.getTimestamp();
         String userName = "USER_" + timestamp;
+        RoleInfo userRole = roleService.getRoleByRoleName("ROLE_USER");
         UserInfo userInfo = new UserInfo(UUIDUtils.getUUID(), userName, registerPassword, registerPhone,
-                urSecurityQuestion, urSecurityAnswer);
-        userService.registerUser(userInfo);
+                urSecurityQuestion, urSecurityAnswer,Collections.singleton(userRole) );
+        authService.register(userInfo);
         Map<String, String> map = new HashMap<>();
         map.put("userName", userName);
         return map;
     }
+
+
 
     /**
      * @Description //TODO
@@ -189,7 +212,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @PostMapping(value = "/findUrSecurity")
+    @RequestMapping(value = "/findUrSecurity")
     public @ResponseBody
     Object findUrSecurityQuestion(String userName, HttpServletResponse response) {
         AccessUtils.getAccessAllow(response);
@@ -206,7 +229,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @PostMapping(value = "/updatePassword")
+    @RequestMapping(value = "/updatePassword")
     public @ResponseBody
     Object findPassword(String userName, String urSecurityAnswer,
                         String newUserPassword, HttpServletResponse response) {
@@ -222,7 +245,7 @@ public class LoginAndRegisterController {
      * @Param
      * @Return
      */
-    @PostMapping(value = "/validateAnswer")
+    @RequestMapping(value = "/validateAnswer")
     public @ResponseBody
     Object validateAnswer(String userName, String urSecurityAnswer, HttpServletResponse response) {
         AccessUtils.getAccessAllow(response);

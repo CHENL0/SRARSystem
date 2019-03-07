@@ -1,11 +1,13 @@
 package com.example.srarsystem.commons.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,12 +21,14 @@ import java.io.IOException;
 /**
  * @author Chen
  * @createTime 26 23:41
- * @description
+ * @description UsernamePasswordAuthenticationFilter
  */
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Component
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class JwtAuthenticationTokenFilter extends OncePerRequestFilter  {
+
     @Autowired
+    @Qualifier("jwtUserDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -37,7 +41,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private String tokenHead;
 
     @Override
-    protected void doFilterInternal(
+    protected void doFilterInternal (
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain chain) throws ServletException, IOException {
@@ -47,12 +51,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             String username = jwtTokenUtil.getUsernameFromToken(authToken);
 
             logger.info("checking authentication " + username);
-
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+                    System.out.println(userDetails.getAuthorities());
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(

@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,8 +37,9 @@ public class ProfessorServiceImpl implements ProfessorService {
 
     @Override
     public boolean pfLogin(String pfName, String pfPassword) {
-        ProfessorInfo professorInfo = professorRepository.findByPfNameAndPfPassword(pfName, pfPassword);
-        if (professorInfo != null) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        ProfessorInfo professorInfo = professorRepository.findOneByPfName(pfName);
+        if (encoder.matches(pfPassword,professorInfo.getPfPassword())) {
             return true;
         }
         return false;
@@ -47,6 +49,19 @@ public class ProfessorServiceImpl implements ProfessorService {
     public ProfessorInfo findOneByPfName(String pfName) {
         return professorRepository.findOneByPfName(pfName);
     }
+
+    @Override
+    public void finishProfessorInfoData(ProfessorInfo pfInfo, ProfessorInfo pfInfoMapper, String fileName) {
+        pfInfo.setPfNickname(pfInfoMapper.getPfNickname());
+        pfInfo.setPfAddress(pfInfoMapper.getPfAddress());
+        pfInfo.setPfIntroduce(pfInfoMapper.getPfIntroduce());
+        pfInfo.setPfGender(pfInfoMapper.getPfGender());
+        if(fileName != null){
+            pfInfo.setPfPicture(fileName);
+        }
+        professorRepository.save(pfInfo);
+    }
+
 
     @Override
     public Page<ProfessorInfo> getPfInfoListByPage(int page, String pfType, int count, Sort sort) {
@@ -82,12 +97,15 @@ public class ProfessorServiceImpl implements ProfessorService {
 
     @Override
     public String createPfInfoAndSave(UserInfo userInfo,String selectedType) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         ProfessorInfo professorInfo = new ProfessorInfo();
         String timestamp = DateUtils.getTimestamp();
         String pfName = "PROFESSOR_" + timestamp;
         professorInfo.setPfId(UUIDUtils.getUUID());
         professorInfo.setPfName(pfName);
-        professorInfo.setPfPassword(userInfo.getUserPassword());
+        professorInfo.setPfAddress(userInfo.getUserAddress());
+        professorInfo.setPfGender(userInfo.getUserGender());
+        professorInfo.setPfPassword(encoder.encode(userInfo.getUserPassword()));
         professorInfo.setPfPhone(userInfo.getUserPhone());
         professorInfo.setPfSecurityQuestion(userInfo.getUrSecurityQuestion());
         professorInfo.setPfSecurityAnswer(userInfo.getUrSecurityAnswer());

@@ -30,7 +30,18 @@
                             <p class="card-category">Here is a form for submitting your document</p>
 
                         </div>
-                        <div>
+                        <div ng-show="isOverCount">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                                <span style="color: #bd2130">
+                                                    ps: sorry, You already have applied for
+                                                </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="!isOverCount">
                             <div class="card-body">
 
                                 <div class="form-group">
@@ -50,6 +61,7 @@
                                 </div>
 
                             </div>
+
                             <div class="card-action">
                             <input type="button"  class="btn btn-success" value="Submit"  ng-click="submit()">
                         </div>
