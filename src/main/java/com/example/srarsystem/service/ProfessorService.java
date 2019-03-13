@@ -31,6 +31,8 @@ public interface ProfessorService {
 
     void changePfSuccessCount (String pfName);
 
+    void changePfTypeByPfNameAndPfType(String pfName, String pfType);
+
     String createPfInfoAndSave (UserInfo userInfo,String selectedType);
 
     int projectTypeNumber (String pjType);

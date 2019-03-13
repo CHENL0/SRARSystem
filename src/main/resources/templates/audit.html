@@ -106,8 +106,8 @@
                                         <tbody>
                                         <tr ng-repeat="applyInfo in applyInfosForPf">
                                             <td ng-if="applyInfo.applyType == 1"><span style="color: #2e6da4">Review</span></td>
-                                            <td ng-if="applyInfo.applyType == 2"><span style="color: #1e7e34">Pass</span></td>
-                                            <td ng-if="applyInfo.applyType == 3"><span style="color: red">Reject</span></td>
+                                            <td ng-if="applyInfo.applyType == 4"><span style="color: #1e7e34">Pass</span></td>
+                                            <td ng-if="applyInfo.applyType == 5"><span style="color: red">Reject</span></td>
                                             <td>{{applyInfo.applyUser}}</td>
                                             <td><a href="javascript:void(0)" ng-click="download(applyInfo.applyId,applyInfo.fileName)">{{applyInfo.fileName}}</a></td>
                                             <td ng-repeat=" pfInfo in pfInfoList" ng-if="applyInfo.applyUser === pfInfo.pfName">
@@ -115,7 +115,7 @@
                                             </td>
                                             <td ng-if="applyInfo.applyType == 1">
                                                 <button type="button"  title="Edit Task" ng-click = "editApplyType(applyInfo.applyId,applyInfo.applyUser)"
-                                                        data-toggle = "modal" data-target = "#modalStatus"
+                                                        data-toggle = "modal" data-target = "#modalStatusForPf"
                                                         class="btn btn-link btn-simple-primary">
                                                     <i class="la la-edit"></i>
                                                 </button>
@@ -190,6 +190,42 @@
                             applyUserModal,selectedType)" data-dismiss="modal">Pass</button>
                     <button type="button" class="btn btn-secondary"
                             ng-click="changeApplyType(applyIdModal,'3',
+                            applyUserModal,'')"data-dismiss="modal">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalStatusForPf" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="width: 680px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h6 class="modal-title"><i class="la la-frown-o"></i> Review</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <!--<label class="control-label">taskId  :  {{taskInfo.taskId}}</label><br>-->
+                        <table class="table table-striped">
+                            <tr>
+                                <td><h6>Type:</h6></td>
+                                <td>
+                                    <select ng-model="selectedType">
+                                        <option ng-repeat="x in pjTypeInfoList" value="{{x.pjType}}">{{x.pjType}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary"
+                            ng-click="changeApplyType(applyIdModal,'4',
+                            applyUserModal,selectedType)" data-dismiss="modal">Pass</button>
+                    <button type="button" class="btn btn-secondary"
+                            ng-click="changeApplyType(applyIdModal,'5',
                             applyUserModal,'')"data-dismiss="modal">Reject</button>
                 </div>
             </div>

@@ -20,7 +20,7 @@ public interface ApplyRepository extends JpaRepository<ApplyInfo,String> {
     @Query("SELECT a FROM ApplyInfo a where  a.applyType in ('1','2','3') and a.applyUser LIKE CONCAT('%',:applyUser,'%')")
     List<ApplyInfo> findApplyInfosForUser(@Param("applyUser")String applyUser);
 
-    @Query("SELECT a FROM ApplyInfo a where  a.applyType in ('1','2','3') and a.applyUser LIKE CONCAT('%',:applyUser,'%')")
+    @Query("SELECT a FROM ApplyInfo a where  a.applyType in ('1','4','5') and a.applyUser LIKE CONCAT('%',:applyUser,'%')")
     List<ApplyInfo> findApplyInfosForPf(@Param("applyUser")String applyUser);
 
     @Query("SELECT a FROM ApplyInfo a where a.applyUser=?1 and a.applyType in ('1','2') ")

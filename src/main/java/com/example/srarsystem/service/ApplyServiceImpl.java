@@ -4,6 +4,7 @@ import com.example.srarsystem.commons.UUIDUtils;
 import com.example.srarsystem.entity.ApplyInfo;
 import com.example.srarsystem.repository.ApplyRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class ApplyServiceImpl implements ApplyService {
         return applyInfo;
     }
 
+
+
     @Override
     public ApplyInfo setApplyInfoData(ApplyInfo applyInfoData, String fileName, String filePath) {
         applyInfoData.setApplyId(UUIDUtils.getUUID());
@@ -36,6 +39,7 @@ public class ApplyServiceImpl implements ApplyService {
         return applyInfoData;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void submitApplyFile(String applyType, String fileName, String filePath) {
         ApplyInfo applyInfo = applyRepository.findApplyInfoByApplyType(applyType);

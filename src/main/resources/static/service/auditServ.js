@@ -136,35 +136,35 @@ MyApp
                 return deferred.promise;
             },
 
+            changePfType : function (pfName,pfType){
+                var deferred = $q.defer();
+                // 向后台发送处理数据
+                var promise = $http({
+                    method: 'POST',
+                    url: 'http://localhost:8080/pf/changePfTypeByAdmin',
+                    data:{
+                        pfName : pfName,
+                        pfType : pfType
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization' : token},
+                    transformRequest: function(obj) {
+                        var str = [];
+                        for (var s in obj) {
+                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                        }
+                        return str.join("&");
+                    }
+                });
+                promise.then(function successCallback(response) {
+                    deferred.resolve(response.data);
+                },function errorCallback(response) {
+                    // 请求失败执行代码
+                    deferred.reject(response);
+                });
+                return deferred.promise;
+            },
 
-
-            // getOneApplyInfoData : function (applyId) {
-            //     var deferred = $q.defer();
-            //     // 向后台发送处理数据
-            //     var promise = $http({
-            //         method: 'POST',
-            //         url: 'http://localhost:8080/apply/getOnePjInfoData',
-            //         data:{
-            //             applyId : applyId
-            //         },
-            //         headers: { 'Content-Type': 'application/x-www-form-urlencoded' ,
-            //             'Authorization' : token},
-            //         transformRequest: function(obj) {
-            //             var str = [];
-            //             for (var s in obj) {
-            //                 str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
-            //             }
-            //             return str.join("&");
-            //         }
-            //     });
-            //     promise.then(function successCallback(response) {
-            //         deferred.resolve(response.data);
-            //     },function errorCallback(response) {
-            //         // 请求失败执行代码
-            //         deferred.reject(response);
-            //     });
-            //     return deferred.promise;
-            // },
 
             changeApplyType : function (applyId,applyType) {
                 var deferred = $q.defer();

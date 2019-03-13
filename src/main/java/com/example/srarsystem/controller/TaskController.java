@@ -166,4 +166,15 @@ public class TaskController {
         responseMap.put("responseType","SUCCESS");
         return responseMap;
     }
+
+    @RequestMapping(value = "/getOneStatusTaskList")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public  @ResponseBody
+    Object getOneStatusPjList(int pjStatus,String pjUser, HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        List<ProjectInfo> oneStatusPjList = projectService.getAllPjInfoByPjStatusAndDelFlag(pjStatus,pjUser);
+        Map<String, List<ProjectInfo>> pjInfoMap = new HashMap<>();
+        pjInfoMap.put("oneStatusPjList", oneStatusPjList);
+        return pjInfoMap;
+    }
 }

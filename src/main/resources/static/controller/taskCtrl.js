@@ -47,13 +47,16 @@ MyApp
             }
         );
 
-        taskService.getOneUserPjInfoListData($scope.username).then(
-            function (response) {
-                $scope.pjInfoListSort = response.oneUserPjInfoList.sort(checkService.compare("pjStatus"));
-                $scope.pjInfoSliceList = commonService.sliceArr($scope.pjInfoListSort,6)
-                $scope.pjInfoList = $scope.pjInfoSliceList[$scope.pjPageCount];
-            }
-        );
+        $scope.getPjListData = function(){
+            taskService.getOneUserPjInfoListData($scope.username).then(
+                function (response) {
+                    $scope.pjInfoListSort = response.oneUserPjInfoList.sort(checkService.compare("pjStatus"));
+                    $scope.pjInfoSliceList = commonService.sliceArr($scope.pjInfoListSort,6)
+                    $scope.pjInfoList = $scope.pjInfoSliceList[$scope.pjPageCount];
+                }
+            );
+        };$scope.getPjListData();
+
 
         $scope.pjNextPage = function(){
             if($scope.pjPageCount >= $scope.pjInfoSliceList.length-1){
@@ -103,7 +106,18 @@ MyApp
                     $scope.taskInfoList = $scope.taskInfoSliceList[$scope.taskPageCount];
                 }
             )
-        }
+        };
+
+            $scope.getOneStatusPj = function (statusData) {
+                $scope.pjStatus = statusData;
+                taskService.getOneStatusPjList(statusData,$scope.username).then(
+                    function (response) {
+                        $scope.pjInfoSliceList = commonService.sliceArr(response.oneStatusPjList,6)
+                        $scope.pjInfoList = $scope.pjInfoSliceList[$scope.pjPageCount];
+                    }
+                )
+            };
+
         
         $scope.removeTaskInfoData = function (taskId) {
             taskService.removeTaskInfoData(taskId).then(

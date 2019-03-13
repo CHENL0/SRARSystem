@@ -13,7 +13,7 @@ MyApp
         $scope.pageMap=[1,2,3,4,5];
         $scope.currentType ="基础研究";
         $scope.queryData ="";
-
+        // $scope.ProjectDetail = "active";
 
 
 
@@ -241,30 +241,69 @@ MyApp
             )
         };
 
+        $scope.cleanAllActive = function (){
+            $scope.ProjectDetail = "";
+            $scope.TaskInfo = "";
+            $scope.Submit = "";
+            $scope.Mission = "";
+            $scope.Check = "";
+            $scope.People = "";
+            $scope.TaskInfo = "";
+            $scope.PjType = "";
+            $scope.Notifications = "";
+            $scope.Apply = "";
+        };
 
-        // $scope.clickCheck = function () {
-        //
-        // };
-        // var timer = $interval(function(){
-        //     var $ctrl = this;
-        //     $scope.getCheckCount();
-        // },10000);
+            $scope.clickToBright = function (title) {
+                switch(title)
+                {
+                    case 'ProjectDetail':
+                        $scope.cleanAllActive();
+                        $scope.ProjectDetail = "active";
+                        break;
+                    case 'TaskInfo':
+                        $scope.cleanAllActive();
+                        $scope.TaskInfo = "active";
+                        break;
+                    case 'Submit':
+                        $scope.cleanAllActive();
+                        $scope.Submit = "active";
+                        break;
+                    case 'Mission':
+                        $scope.cleanAllActive();
+                        $scope.Mission = "active";
+                        break;
+                    case 'Check':
+                        $scope.cleanAllActive();
+                        $scope.Check = "active";
+                        break;
+                    case 'People':
+                        $scope.cleanAllActive();
+                        $scope.People = "active";
+                        break;
+                    case 'Audit':
+                        $scope.cleanAllActive();
+                        $scope.TaskInfo = "active";
+                        break;
+                    case 'PjType':
+                        $scope.cleanAllActive();
+                        $scope.PjType = "active";
+                        break;
+                    case 'Notifications':
+                        $scope.cleanAllActive();
+                        $scope.Notifications = "active";
+                        break;
+                    case 'Apply':
+                        $scope.cleanAllActive();
+                        $scope.Apply = "active";
+                        break;
+
+
+                }
+        }
 
 
 
-        // $scope.getCheckCount = function () {
-        //     checkService.getOnePfPjInfoListData($scope.name).then(
-        //         function (value) {
-        //             var onePfPjInfoList = value.onePfPjInfoList;
-        //             $scope.checkCount = 0;
-        //             for(var i =0;i<onePfPjInfoList.length;i++){
-        //                 if(onePfPjInfoList[i].pjStatus === 1){
-        //                     $scope.checkCount =$scope.checkCount +1;
-        //                 }
-        //             }
-        //         }
-        //     )
-        // }
     }
     ]);
 

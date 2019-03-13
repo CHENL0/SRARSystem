@@ -4,6 +4,7 @@ MyApp
         //get username from localStorage
         $scope.name = localStorage.getItem("data");
         commonService.validateLogin($scope.name);
+        $scope.prefix = $scope.name.split("_")[0];
         $scope.applyInfoData = applyService.getApplyInfoData();
         $scope.applyInfoData.applyUser = $scope.name;
         $scope.isOverCount = false;
@@ -18,15 +19,28 @@ MyApp
         $scope.getApplyFileData();
 
         $scope.validateUserForApply = function(){
-            applyService.getUserInfoForApply($scope.name).then(
-                function (value) {
-                    if(value.responseType === 'SUCCESS'){
-                        $scope.isOverCount = false;
-                    }else if(value.responseType === 'ERROR'){
-                        $scope.isOverCount = true;
+            if($scope.prefix === 'USER'){
+                applyService.getUserInfoForApply($scope.name).then(
+                    function (value) {
+                        if(value.responseType === 'SUCCESS'){
+                            $scope.isOverCount = false;
+                        }else if(value.responseType === 'ERROR'){
+                            $scope.isOverCount = true;
+                        }
                     }
-                }
-            )
+                )
+            }else if($scope.prefix === 'PROFESSOR'){
+                applyService.getPfInfoForApply($scope.name).then(
+                    function (value) {
+                        if(value.responseType === 'SUCCESS'){
+                            $scope.isOverCount = false;
+                        }else if(value.responseType === 'ERROR'){
+                            $scope.isOverCount = true;
+                        }
+                    }
+                )
+            }
+
         };$scope.validateUserForApply();
 
         $scope.validateFiles = function () {

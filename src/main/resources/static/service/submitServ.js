@@ -162,6 +162,7 @@ MyApp
 
             setPjInfoData : function () {
                 return {
+                    "pjTitle" : "",
                     "pjDescription": "",
                     "pjReviewer": "",
                     "pjUser": "",

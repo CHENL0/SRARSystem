@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -94,7 +95,15 @@ public class ProfessorServiceImpl implements ProfessorService {
         professorInfo.setPfSuccessCount(professorInfo.getPfSuccessCount()+1);
         professorRepository.save(professorInfo);
     }
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void changePfTypeByPfNameAndPfType(String pfName, String pfType) {
+        ProfessorInfo professorInfo = professorRepository.findOneByPfName(pfName);
+        professorInfo.setPfType(pfType);
+        professorRepository.save(professorInfo);
+    }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String createPfInfoAndSave(UserInfo userInfo,String selectedType) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -125,6 +134,7 @@ public class ProfessorServiceImpl implements ProfessorService {
         return professorRepository.findAll();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateDelFlagByPfId(String pfId, int delFlag) {
         ProfessorInfo professorInfo = professorRepository.findOneByPfId(pfId);

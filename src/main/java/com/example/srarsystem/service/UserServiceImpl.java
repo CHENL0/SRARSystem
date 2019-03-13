@@ -6,6 +6,7 @@ import com.example.srarsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,7 +38,6 @@ public class UserServiceImpl implements UserService {
     public boolean userLogin(String userName, String userPassword) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         UserInfo userInfo = userRepository.findOneByUserName(userName);
-//        UserInfo userInfo = userRepository.findByUserNameAndUserPassword(userName, userPassword);
         if (encoder.matches(userPassword,userInfo.getUserPassword())) {
             return true;
         }
@@ -106,6 +106,7 @@ public class UserServiceImpl implements UserService {
      * @Param
      * @Return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateUserPassowrd(String userName, String urSecurityAnswer, String newUserPassword) {
         UserInfo userInfo = userRepository.findOneByUserName(userName);
@@ -137,6 +138,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void finishUserInfoData(UserInfo userInfo,UserInfo userInfoMapper,String fileName) {
         userInfo.setUserNickname(userInfoMapper.getUserNickname());
@@ -159,6 +161,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateDelFlagByUserId(String userId,int delFlag) {
         UserInfo userInfo = userRepository.getUserInfoByUserId(userId);

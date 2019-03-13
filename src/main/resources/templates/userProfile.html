@@ -100,7 +100,7 @@
                                 <!--</div>-->
                             </div>
                             <div class="card-action">
-                                <input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledSubmit" ng-click="submit()">
+                                <input type="button"  class="btn btn-success" value="Submit" ng-disabled="disabledInput" ng-click="submit()">
                                 <input type="button"  class="btn btn-danger" value="{{buttonValue}}" ng-click="modify()">
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                                     <legend>Phone:</legend>
                                     <p class="form-control-static">{{pfInfo.pfPhone}}</p>
                                     <legend>Type:</legend>
-                                    <p class="form-control-static">{{pfInfo.pfType}}</p>
+                                    <p class="form-control-static">{{pfInfo.pfType}}</p><input type="button" value="edit" ng-show="!disabledInput" ng-click="changeShowApply()">
                                 </div>
                                 <div class="form-group">
                                     <legend>Icon input</legend>

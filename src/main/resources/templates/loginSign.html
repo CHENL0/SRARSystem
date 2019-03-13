@@ -73,10 +73,10 @@
                         <div class="form-wrap">
                             <div class="tab">
                                 <ul class="tab-menu">
-                                    <li class="gtco-first"><a href="#" data-tab="signUp">Sign up</a></li>
-                                    <li class="gtco-second"><a href="#" data-tab="login">Login</a></li>
-                                    <li class="gtco-third"><a href="#" data-tab="forget">Forget password</a></li>
-                                    <li class="gtco-fourth active" ><a href="#" data-tab="how">How to do</a></li>
+                                    <li class="gtco-first"><a href="#" data-tab="signUp" ng-click="cleanAllMsg()">Sign up</a></li>
+                                    <li class="gtco-second"><a href="#" data-tab="login" ng-click="cleanAllMsg()">Login</a></li>
+                                    <li class="gtco-third"><a href="#" data-tab="forget" ng-click="cleanAllMsg()">Forget password</a></li>
+                                    <li class="gtco-fourth active" ><a href="#" data-tab="how" ng-click="cleanAllMsg()f">How to do</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-content-inner " data-content="signUp">
@@ -85,28 +85,28 @@
                                                 <div class="col-md-12">
                                                     <label for="password">Password</label>
                                                     <input type="password" class="form-control" id="password" ng-blur="validatePw()" ng-model="password">
-                                                    <span color="red" >{{pswError}}</span>
+                                                    <div style="color: #dc3545 ">{{pswError}}</div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="password2">Repeat Password</label>
                                                     <input type="password" class="form-control" id="password2" ng-blur="validateRPw()" ng-model="password2">
-                                                    <span color="red" >{{pswError2}}</span>
+                                                    <div style="color: #dc3545 "  >{{pswError2}}</div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label >Security Question</label>
                                                     <input type="text" class="form-control" placeholder = "eg.what is my name?" ng-blur="validateQue()"  ng-model="question">
-                                                    <span color="red" >{{queError}}</span>
+                                                    <div style="color: #dc3545 " >{{queError}}</div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label >Security Answer</label>
                                                     <input type="text" class="form-control" placeholder = "eg.CHEN"  ng-blur="validateAns()"  ng-model="answer">
-                                                    <span color="red" >{{ansError}}</span>
+                                                    <div style="color: #dc3545 " >{{ansError}}</div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -114,7 +114,7 @@
                                                     <label for="password2">User phone</label>
                                                     <input type="text" class="form-control" id="userPhone" ng-blur="validatePh()" ng-model="userPhone"><span color="red" >{{phoneError}}</span><br>
                                                     <input type="text" class="col-xs-4" id="" ng-blur="validateCode()" ng-model="code">&nbsp;&nbsp;&nbsp;<input type="button" class="btn btn-default" id="btnSendCode" value="Get Code" ng-click="getCode()"/><br>
-                                                    <span color="red" >{{codeError}}</span>
+                                                    <div style="color: #dc3545 " >{{codeError}}</div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -138,7 +138,7 @@
                                                 <div class="col-md-12">
                                                     <label for="password">Password</label>
                                                     <input type="password" class="form-control"  ng-blur="validatePw()" ng-model="password">
-                                                    <span color="red" >{{pswError}}</span>
+                                                    <div style="color: #dc3545 " >{{pswError}}</div>
                                                 </div>
                                             </div>
 
@@ -156,7 +156,7 @@
                                                 <div class="col-md-12">
                                                     <label >Username</label>
                                                     <input type="text" class="form-control" id="forgetName" ng-model="username" ng-blur="getQuestion()">
-                                                    <span>{{usernameError}}</span>
+                                                    <div style="color: #dc3545 ">{{usernameError}}</div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -177,21 +177,21 @@
                                                 <div class="col-md-12">
                                                     <label >Answer</label>
                                                     <input type="text" class="form-control"  ng-model="forAnswer" ng-blur="validateAnswer()">
-                                                    <span color="red" >{{ansError}}</span>
+                                                    <div style="color: #dc3545 " >{{ansError}}</div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="password">Password</label>
                                                     <input type="password" class="form-control" id="newPassword" ng-blur="validatePw()" ng-model="password">
-                                                    <span color="red" >{{pswError}}</span>
+                                                    <div style="color: #dc3545 ">{{pswError}}</div>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="password2">Repeat Password</label>
                                                     <input type="password" class="form-control" id="newPassword2" ng-blur="validateRPw()" ng-model="password2">
-                                                    <span color="red" >{{pswError2}}</span>
+                                                    <div style="color: #dc3545 ">{{pswError2}}</div>
                                                 </div>
                                             </div>
 

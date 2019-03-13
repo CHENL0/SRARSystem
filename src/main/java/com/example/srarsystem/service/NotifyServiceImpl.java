@@ -4,6 +4,7 @@ import com.example.srarsystem.commons.UUIDUtils;
 import com.example.srarsystem.entity.NotifyInfo;
 import com.example.srarsystem.repository.NotifyRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +24,7 @@ public class NotifyServiceImpl implements NotifyService{
         this.notifyRepository = notifyRepository;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void setNotifyDataForUser(String notifyBy, String notifyFor, String notifyType,
                                String message,String notifyMain) {

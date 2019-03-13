@@ -4,6 +4,7 @@ import com.example.srarsystem.entity.TaskInfo;
 import com.example.srarsystem.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskInfo setTaskInfoData(TaskInfo taskInfo, String file, String localPath) {
         taskInfo.setTaskFileName(file);
         taskInfo.setTaskPath(localPath);
-        taskInfo.setTaskStatus(5);
+        taskInfo.setTaskStatus(1);
         return taskInfo;
     }
 
@@ -105,6 +106,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findOneByPjId(pjId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteTaskInfoDataByTaskIdForUser(String taskId) {
         TaskInfo taskInfo = taskRepository.findOneByTaskId(taskId);
@@ -112,6 +114,7 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(taskInfo);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteTaskInfoDataByTaskIdForAudit(String taskId) {
         TaskInfo taskInfo = taskRepository.findOneByTaskId(taskId);

@@ -147,6 +147,16 @@ MyApp
                 )
             }else if(applyType ==="3"){
                 notifyService.setNotify($scope.name,applyUser,"Apply",applyType,'');
+            }else if(applyType ==="4"){
+                auditService.changePfType(applyUser,selectedType).then(
+                    function (value) {
+                        if(value.responseType==='SUCCESS'){
+                            notifyService.setNotify($scope.name,applyUser,"Apply",applyType,selectedType);
+                        }
+                    }
+                )
+            }else if(applyType === "5"){
+                notifyService.setNotify($scope.name,applyUser,"Apply",applyType,'');
             }
         };
     }

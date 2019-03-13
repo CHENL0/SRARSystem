@@ -37,5 +37,5 @@ public interface ProjectRepository extends JpaRepository<ProjectInfo, String> {
     @Query("SELECT distinct p FROM ProjectInfo p where p.pjReviewer=?1 and p.pjUser =?2 and p.pjStatus =2")
     List<ProjectInfo> findAllByPjReviewerAndPjUser(String pjReviewer,String pjUser);
 
-
+    List<ProjectInfo> findAllByPjUserAndDelFlagAndPjStatus(String pjUser,int delFlag,int pjstatus);
 }

@@ -106,6 +106,12 @@
                                     <div style="color: #dc3545" ng-if="fileSizeError">Sorry,your  file size is too big</div>
                                 </div>
                                 <div class="form-group" ng-if="submitType === 'submitProject'">
+                                    <legend>Project title</legend>
+                                    <input type="text" ng-model="projectData.pjTitle" ng-change="validateTitle()">
+                                    <div style="color: #dc3545" ng-if="titleSizeError">Sorry,your length of type is too long </div>
+                                    <div style="color: #dc3545" ng-if="titleFromatError">Sorry,your type should no be null</div>
+                                </div>
+                                <div class="form-group" ng-if="submitType === 'submitProject'">
                                     <legend>Project description</legend>
                                     <textarea class="form-control" id="comment" rows="5" ng-model="projectData.pjDescription" ng-disabled="disabledInput">
                                         </textarea>

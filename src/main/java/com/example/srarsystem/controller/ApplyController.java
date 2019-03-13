@@ -41,7 +41,7 @@ public class ApplyController {
     private ProfessorService professorService;
 
     @RequestMapping(value = "/submitApplyInfoData")
-    @PreAuthorize("hasRole('USER')")
+    @Secured({"USER","PROFESSOR"})
     public @ResponseBody
     Object submitApplyInfoData(MultipartFile file, String applyInfoData
             ,HttpServletResponse response) throws IOException {
@@ -217,6 +217,21 @@ public class ApplyController {
         AccessUtils.getAccessAllow(response);
         Map<String,String> responseMap = new HashMap<>();
         ApplyInfo applyInfo = applyService.getApplyInfoByUserNameAndApplyTpye(userName);
+        if(applyInfo !=null){
+            responseMap.put("responseType","ERROR");
+        }else {
+            responseMap.put("responseType","SUCCESS");
+        }
+        return responseMap;
+    }
+
+    @RequestMapping(value = "/ifApplyForPf")
+    @PreAuthorize("hasRole('PROFESSOR')")
+    public @ResponseBody
+    Object ifApplyForPf (String pfName,HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        Map<String,String> responseMap = new HashMap<>();
+        ApplyInfo applyInfo = applyService.getApplyInfoByUserNameAndApplyTpye(pfName);
         if(applyInfo !=null){
             responseMap.put("responseType","ERROR");
         }else {

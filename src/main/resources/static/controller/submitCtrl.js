@@ -234,6 +234,19 @@ MyApp
             )
         };
 
+        $scope.validateTitle = function(){
+            if(!$scope.projectData.pjTitle){
+                $scope.titleFromatError = true;
+                $scope.titleSizeError = false;
+            }else if($scope.projectData.pjTitle.length >20){
+                $scope.titleFromatError = false;
+                $scope.titleSizeError = true;
+            }else {
+                $scope.titleSizeError = false;
+                $scope.titleFromatError = false;
+            }
+        };
+
         $scope.validateAllDataForPj = function () {
             if(!$scope.projectData.pjReviewer){
                 alert("professor have not selected");
@@ -247,6 +260,13 @@ MyApp
             }
             if(!$scope.file){
                 alert("file message have not uploaded");
+                return false;
+            }
+            if(!$scope.projectData.pjTitle){
+                alert("pjTitle message should not be null");
+                return false;
+            }else if($scope.titleSizeError){
+                alert("pjTitle message have not correct");
                 return false;
             }
             if(!($scope.projectData.pjDescription.trim())){

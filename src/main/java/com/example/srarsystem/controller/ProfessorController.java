@@ -205,13 +205,14 @@ public class ProfessorController {
             professorService.finishProfessorInfoData(pfInfo, pfInfoMapper, null);
             finishDataRequestMap.put("responseType","SUCCESS");
         }else {
-            professorService.finishProfessorInfoData(pfInfo, pfInfoMapper, file.getOriginalFilename());
+
             // 项目根目录
 //            String localPath = "G:/idea/MyGitPros/SRARSystem/src/main/resources/static/assets/icon";
             //本地目录
             String localPath = "E:/pjStatic/icon";
             if(pfInfo.getPfPicture() != file.getOriginalFilename()){
                 if (FileUtils.upload(file, localPath, file.getOriginalFilename())){
+                    professorService.finishProfessorInfoData(pfInfo, pfInfoMapper, file.getOriginalFilename());
                     //success
                     finishDataRequestMap.put("responseType","SUCCESS");
                 }else {
@@ -274,6 +275,24 @@ public class ProfessorController {
         boolean IsStatus = professorService.validatePf(userName,pfName);
         Map<String,Boolean> responseMap = new HashMap<>();
         responseMap.put("responseType",IsStatus);
+        return responseMap;
+    }
+
+    /**
+     * @Description  //TODO get pj by professorName for check pj
+     * @Author Chen
+     * @DateTime 2019/1/19
+     * @Param
+     * @Return
+     */
+    @RequestMapping(value = "/changePfTypeByAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public @ResponseBody
+    Object changePfTypeByAdmin (String pfName,String pfType,HttpServletResponse response){
+        AccessUtils.getAccessAllow(response);
+        professorService.changePfTypeByPfNameAndPfType(pfName,pfType);
+        Map<String,String> responseMap = new HashMap<>();
+        responseMap.put("responseType","SUCCESS");
         return responseMap;
     }
 }

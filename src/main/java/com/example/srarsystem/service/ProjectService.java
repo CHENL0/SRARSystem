@@ -71,6 +71,8 @@ public interface ProjectService {
 
     List<ProjectInfo> getAllPjInfos(String pjType);
 
+    List<ProjectInfo> getAllPjInfoByPjStatusAndDelFlag (int pjStatus,String pjUser);
+
     List<ProjectInfo> getAllPjInfosByQuery(String pjTitle,String pjType);
 
     List<ProjectInfo> getDistinctPjUsersBypfReviewer (String pfReviewer);

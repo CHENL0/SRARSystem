@@ -63,7 +63,7 @@
                 <img ng-src="http://localhost:8080/icon/{{pfInfo.pfPicture}}" ng-if="prefixName === 'PROFESSOR'">
             </div>
             <div class="info">
-                <a class="" data-toggle="collapse" href="#/userProfile" aria-expanded="true">
+                <a ng-if="prefixName === 'USER' ||prefixName === 'PROFESSOR'" class="" data-toggle="collapse" href="#/userProfile" aria-expanded="true">
 								<span>
                                     <span ng-if="prefixName === 'USER'">{{userInfo.userNickname}}</span>
                                     <span ng-if="prefixName === 'PROFESSOR'">{{pfInfo.pfNickname}}</span>
@@ -73,13 +73,19 @@
 									<!--<span class="caret"></span>-->
 								</span>
                 </a>
+                <a ng-if="prefixName === 'ADMIN'" class="" data-toggle="collapse" aria-expanded="true">
+								<span>
+                                    <span class="user-level" ng-if="prefixName === 'ADMIN'">Admin</span>
+                                    <!--<span class="caret"></span>-->
+								</span>
+                </a>
                 <div class="clearfix"></div>
             </div>
         </div>
         <ul class="nav">
 
-            <li class="nav-item active">
-                <a href="#/">
+            <li class="nav-item" ng-class="ProjectDetail">
+                <a href="#/" id="ProjectDetail" ng-click="clickToBright('ProjectDetail')">
                     <i class="la la-dashboard"></i>
                     <p>ProjectDetail</p>
                     <!--<span class="badge badge-count">5</span>-->
@@ -87,8 +93,8 @@
             </li>
 
             <div ng-if="prefixName === 'USER'">
-                <li class="nav-item ">
-                    <a href="#/tasks">
+                <li class="nav-item" ng-class="TaskInfo">
+                    <a href="#/tasks" id="TaskInfo" ng-click="clickToBright('TaskInfo')">
                         <i class="la la-table"></i>
                         <p>TaskInfo</p>
                         <!--<span class="badge badge-count">14</span>-->
@@ -96,8 +102,8 @@
                 </li>
             </div>
             <div ng-if="prefixName === 'USER'">
-                <li class="nav-item">
-                    <a href="#/submit">
+                <li class="nav-item" ng-class="Submit">
+                    <a href="#/submit" id="Submit" ng-click="clickToBright('Submit')">
                         <i class="la la-keyboard-o"></i>
                         <p>Submit</p>
                         <!--<span class="badge badge-success">50</span>-->
@@ -105,8 +111,8 @@
                 </li>
             </div>
             <div ng-if="prefixName === 'PROFESSOR'">
-                <li class="nav-item">
-                    <a href="#/mission">
+                <li class="nav-item"  ng-class="Mission">
+                    <a href="#/mission" id="Mission" ng-click="clickToBright('Mission')">
                         <i class="la la-keyboard-o"></i>
                         <p>Mission</p>
                         <!--<span class="badge badge-count">50</span>-->
@@ -114,8 +120,8 @@
                 </li>
             </div>
             <div ng-if="prefixName === 'PROFESSOR'">
-                <li class="nav-item">
-                    <a href="#/check" ng-click="clickCheck()">
+                <li class="nav-item" ng-class="Check">
+                    <a href="#/check" id="Check" ng-click="clickToBright('Check')">
                         <i class="la la-keyboard-o"></i>
                         <p>Check</p>
                         <!--<span class="badge badge-success">{{checkCount}}</span>-->
@@ -123,8 +129,8 @@
                 </li>
             </div>
             <div ng-if="prefixName === 'ADMIN'">
-                <li class="nav-item ">
-                    <a href="#/people">
+                <li class="nav-item " ng-class="People">
+                    <a href="#/people" id="People" ng-click="clickToBright('People')">
                         <i class="la la-table"></i>
                         <p>People</p>
                         <!--<span class="badge badge-count">14</span>-->
@@ -132,8 +138,8 @@
                 </li>
             </div>
             <div ng-if="prefixName === 'ADMIN'">
-                <li class="nav-item">
-                    <a href="#/audit">
+                <li class="nav-item" ng-class="Audit">
+                    <a href="#/audit" id="Audit" ng-click="clickToBright('Audit')">
                         <i class="la la-keyboard-o"></i>
                         <p>Audit</p>
                         <!--<span class="badge badge-success">{{checkCount}}</span>-->
@@ -141,8 +147,8 @@
                 </li>
             </div>
             <div ng-if="prefixName === 'ADMIN' ">
-                <li class="nav-item">
-                    <a href="#/pjType">
+                <li class="nav-item" ng-class="PjType">
+                    <a href="#/pjType" id="PjType" ng-click="clickToBright('PjType')">
                         <i class="la la-th"></i>
                         <p>PjType</p>
                         <!--<span class="badge badge-count">6</span>-->
@@ -150,17 +156,17 @@
                 </li>
             </div>
             <div ng-if="prefixName === 'USER'||prefixName === 'PROFESSOR' ">
-                <li class="nav-item">
-                    <a href="#/notify" >
+                <li class="nav-item" ng-class="Notifications">
+                    <a href="#/notify" id="Notifications" ng-click="clickToBright('Notifications')">
                         <i class="la la-bell"></i>
                         <p>Notifications</p>
                         <!--<span class="badge badge-success">{{notifyCount}}</span>-->
                     </a>
                 </li>
             </div>
-            <div ng-if="prefixName === 'USER' ">
-                <li class="nav-item">
-                    <a href="#/apply">
+            <div ng-if="prefixName === 'USER'">
+                <li class="nav-item" ng-class="Apply">
+                    <a href="#/apply" id="Apply" ng-click="clickToBright('Apply')">
                         <i class="la la-th"></i>
                         <p>Apply</p>
                         <!--<span class="badge badge-count">6</span>-->
@@ -205,10 +211,20 @@
 <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="assets/js/ready.min.js"></script>
 <script>
-    window.onbeforeunload=function(){
-        localStorage.clear();
-        return "Confirm close?";
-        //这一句如果写了，会弹窗提示是否要关掉页面，如果没这个需求，可以不写
-    };
+    // window.onunload =function(){
+    //     localStorage.clear();
+    //     alert("Confirm close?") ;
+    //     //这一句如果写了，会弹窗提示是否要关掉页面，如果没这个需求，可以不写
+    // };
+    window.onbeforeunload   =   function(){
+        var   n   =   window.event.screenX   -   window.screenLeft;
+        var   b   =   n   >   document.documentElement.scrollWidth-20;
+        if(b   &&   window.event.clientY   <   0   ||   window.event.altKey)
+        {
+            localStorage.clear();
+        }else{
+            return;
+        }
+    }
 </script>
 </html>

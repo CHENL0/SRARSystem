@@ -63,6 +63,12 @@ public class NotifyController {
             }else if(notifyStatus == 3){
                 message = "   Hi, "+ notifyFor + ", i sorry to tell you that your apply has reject by "+ notifyBy
                         +" and your can continue to improve your message, best regard !!";
+            }else if(notifyStatus == 4){
+                message = "   Hi, "+ notifyFor + ", you are luck that your apply has passed by "+ notifyBy
+                        +" and your type was changed to <"+ notifyMain +">, best regard !!";
+            }else if(notifyStatus == 5){
+                message = "   Hi, "+ notifyFor + ", i sorry to tell you that your apply has reject by "+ notifyBy
+                        +" and your can continue to improve your message, best regard !!";
             }
         }
         notifyService.setNotifyDataForUser(notifyBy,notifyFor,notifyType,message, notifyMain);

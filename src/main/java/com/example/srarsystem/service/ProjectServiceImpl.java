@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -109,6 +110,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<ProjectInfo> getAllPjInfoByPjStatusAndDelFlag(int pjStatus,String pjUser) {
+        return projectRepository.findAllByPjUserAndDelFlagAndPjStatus(pjUser,0,pjStatus);
+    }
+
+    @Override
     public List<ProjectInfo> getAllPjInfosByQuery(String pjTitle,String pjType) {
         return projectRepository.findAllByPjStatusAndPjTitleContainingAndPjType(2,pjTitle,pjType);
     }
@@ -134,6 +140,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectTypeRepository.save(projectTypeInfo);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateProjectTypeInfo(ProjectTypeInfo projectTypeInfoMapper) {
         ProjectTypeInfo projectTypeInfo = projectTypeRepository.findOneByPjTypeId(projectTypeInfoMapper.getPjTypeId());
@@ -147,6 +154,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectTypeRepository.findOneByPjTypeId(pjTypeId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deletePjTypeInfoByPjTypeId(String pjTypeId) {
         ProjectTypeInfo projectTypeInfo = projectTypeRepository.findOneByPjTypeId(pjTypeId);

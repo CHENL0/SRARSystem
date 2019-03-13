@@ -29,6 +29,9 @@ MyApp
         $scope.aPf = '';
         $scope.dPf = '';
 
+        $scope.changeShowApply = function () {
+            window.location.href = "index.html#/apply";
+        };
 
         $scope.changeShowAddress = function (){
             if($scope.prefix ==="USER"){
